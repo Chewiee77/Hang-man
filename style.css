@@ -106,7 +106,46 @@ footer {
 
 @media screen and (max-width: 700px) {
     .hang_man_pic > svg {
-        width: 301px;
+        width: 401px;
         height: 400px;
+    }
+}
+@media screen and (max-width: 470px) {
+    .hang_man_pic > svg {
+        width: 251px;
+        height: 300px;
+    }
+}
+@media screen and (max-width: 310px) {
+    .hang_man_pic > svg {
+        width: 151px;
+        height: 200px;
+    }
+
+    #startGameBtn {
+        font-size:1em; 
+        border-radius:9px; 
+        cursor:pointer; 
+        background-color:rgb(150, 0, 204);
+        padding:0.5em;
+        margin-bottom: 0.5em;
+        color: white;
+    }
+    #letterButtons button {
+        font-size:1em; 
+        width:2em; 
+        height:2em; 
+        margin:4px; 
+        border-radius:10px; 
+        cursor:pointer; 
+        float:left;
+    }
+    header > h1 {
+        font-size: 15px;
+    }
+    
+    header > p {
+        margin-top: 1em;
+        font-size: 10px;
     }
 }
