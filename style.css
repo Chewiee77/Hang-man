@@ -6,17 +6,10 @@
     box-sizing: border-box;
 }
 
-.Hanging_man_picture {
-    width: 80%;
-   
-}
-
 .Hanging_man_words {
     width: 80%;
     margin-left:auto; margin-right:auto;
 }
-
-html, body, header, nav, main, footer, div {margin:0; padding:0;}
 
 body {
 	background-color:rgb(255, 252, 254); 
@@ -33,10 +26,15 @@ header {
 	 text-align: center;
 }
 
+header > p {
+    margin-top: 1em;
+}
+
 main {
 	padding:10px;
 	flex-wrap: wrap;
 }
+
 
 footer {
 	padding:5px 10px; 
@@ -52,12 +50,14 @@ footer {
 	font-size:1.5em; 
 	border-radius:9px; 
 	cursor:pointer; 
-	background-color:rgb(102, 255, 201);
+    background-color:rgb(150, 0, 204);
 	padding:0.5em;
-	
+	margin-bottom: 0.5em;
+    color: white;
 }
 #startGameBtn:hover {
 	background-color: rgb(13, 250, 13);
+    color: black; 
 }
 
 #gameBoard {
@@ -79,7 +79,6 @@ footer {
 	cursor:pointer; 
 	float:left;
 	
-
 }
 #letterButtons button:hover{
 	background-color: rgb(250, 192, 255);
@@ -103,4 +102,11 @@ footer {
 #message {
 	padding-top:20px; 
 	font-size:1.5em;
+}
+
+@media screen and (max-width: 700px) {
+    .hang_man_pic > svg {
+        width: 301px;
+        height: 400px;
+    }
 }
