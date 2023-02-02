@@ -5,4 +5,4 @@ const PVPBTN = document.querySelector(".pvp")
 const PLAYBTN = document.querySelector("#startGameBtn")
 
 
-let selectedWord = words[Math.floor(math.random()* words.lenght)];
+let selectedWord = words[Math.floor(Math.random()* words.lenght)];
