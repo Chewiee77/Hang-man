@@ -1,22 +1,106 @@
+@charset "UTF-8";
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    background-color: rgb(239, 160, 32);
-    display: flex;
-    flex-direction: column;
-}
-
 .Hanging_man_picture {
     width: 80%;
-    margin-left:auto; margin-right:auto;
-
+   
 }
 
 .Hanging_man_words {
     width: 80%;
     margin-left:auto; margin-right:auto;
+}
+
+html, body, header, nav, main, footer, div {margin:0; padding:0;}
+
+body {
+	background-color:rgb(255, 252, 254); 
+	font-family:Verdana, Geneva, sans-serif; 
+	font-size:12px; 
+	max-width:900px; 
+	margin:0 auto;
+}
+
+header {
+	background-color:rgb(150, 0, 204);
+	 color:#FFF; 
+	 padding:10px;
+	 text-align: center;
+}
+
+main {
+	padding:10px;
+	flex-wrap: wrap;
+}
+
+footer {
+	padding:5px 10px; 
+	border-top:1px solid #666;
+	margin-top:20px; 
+	color:#333; 
+	font-size:0.8em; 
+	font-style:italic;
+	text-align: end;
+}
+
+#startGameBtn {
+	font-size:1.5em; 
+	border-radius:9px; 
+	cursor:pointer; 
+	background-color:rgb(102, 255, 201);
+	padding:0.5em;
+	
+}
+#startGameBtn:hover {
+	background-color: rgb(13, 250, 13);
+}
+
+#gameBoard {
+	border-top:1px solid black; 
+	border-bottom:1px solid black; 
+	padding:10px 0;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#letterButtons {
+	width:54em;
+}
+#letterButtons button {
+	font-size:1.5em; 
+	width:3em; height:2em; 
+	margin:4px; 
+	border-radius:10px; 
+	cursor:pointer; 
+	float:left;
+	
+
+}
+#letterButtons button:hover{
+	background-color: rgb(250, 192, 255);
+}
+
+#letterBoxes {
+	clear:both; 
+	padding-top:20px;
+}
+#letterBoxes span {
+	display:inline-block; 
+	font-size:1.5em; 
+	width:2em; 
+	line-height:2em; 
+	margin:4px; 
+	border:1px solid #666; 
+	background-color:#FFF; 
+	text-align:center;
+}
+
+#message {
+	padding-top:20px; 
+	font-size:1.5em;
 }
