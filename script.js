@@ -1,5 +1,9 @@
 import words from "/svenska-ord.json" assert { type: "json" };
 
+const scoreBoardBtn = document.querySelector(".scoreboard");
+const pvpBtn = document.querySelector(".pvp");
+const playBtn = document.querySelector("#startGameBtn");
+
 let letterBoxes;
 let startGameBtn = document.querySelector("#startGameBtn");
 
