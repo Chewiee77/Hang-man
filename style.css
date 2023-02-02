@@ -112,14 +112,11 @@ footer {
 }
 @media screen and (max-width: 470px) {
     .hang_man_pic > svg {
+        width: 201px;
+        height: 300px;
+    }.hang_man_pic > svg {
         width: 251px;
         height: 300px;
-    }
-}
-@media screen and (max-width: 310px) {
-    .hang_man_pic > svg {
-        width: 151px;
-        height: 200px;
     }
 
     #startGameBtn {
@@ -148,4 +145,13 @@ footer {
         margin-top: 1em;
         font-size: 10px;
     }
+
 }
+	
+	@media screen and (max-width: 310px) {
+    .hang_man_pic > svg {
+        width: 151px;
+        height: 200px;
+    }
+
+ } 
