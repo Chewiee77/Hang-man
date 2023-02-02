@@ -30,6 +30,28 @@ header > p {
     margin-top: 1em;
 }
 
+.header_meny {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem 0.4rem;
+	border-bottom: 1px solid black;
+}
+
+.scoreboard, .pvp {
+	font-size:1.5em; 
+	border-radius:9px; 
+	cursor:pointer; 
+    background-color:rgb(150, 0, 204);
+	padding:0.5em;
+	margin-bottom: 0.5em;
+    color: white;
+}
+
+.scoreboard:hover, .pvp:hover {
+	background-color: rgb(13, 250, 13);
+    color: black;
+}
+
 main {
 	padding:10px;
 	flex-wrap: wrap;
