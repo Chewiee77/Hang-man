@@ -3,6 +3,7 @@ import words from "/svenska-ord.json" assert { type: "json" };
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 let letterBoxes;
+let letterButtons;
 let startGameBtn;
 let selectedWord;
 
@@ -19,9 +20,10 @@ console.log(finalWordList);
 function startGame() {
   pickAWord();
   showEmptyLetterBoxes();
+  changeButtonActivation(false);
 }
-startGameBtn = document.querySelector("#startGameBtn");
-document.querySelector("#startGameBtn").addEventListener("click", startGame);
+//startGameBtn = document.querySelector("#startGameBtn");
+//document.querySelector("#startGameBtn").addEventListener("click", startGame);
 
 function pickAWord() {
   selectedWord =
@@ -48,7 +50,47 @@ function showEmptyLetterBoxes() {
 }
 
 
+// Kod för figuren
+
+const ground = document.querySelector("#ground");
+const scaffold = document.querySelector("#scaffold");
+const head = document.querySelector("#head");
+const body = document.querySelector("#body");
+const arms = document.querySelector("#arms");
+const legs = document.querySelector("#legs");
+
+hangmanImg [
+  ground,
+  scaffold,
+  head,
+  body,
+  arms,
+  legs
+]
+
+let hangmanImgNr = hangmanImg[i] + 1;
+
+
 //Här börjar kod för att få knapparna at fungera.
+
+function init() {
+
+  startGameBtn = document.querySelector("#startGameBtn");
+  document.querySelector("#startGameBtn").addEventListener("click", startGame);
+
+    letterButtons = document.querySelector("#letterButtons").querySelector("button");
+    
+
+    for (let i = 0; i > letterButtons.length; i++)letterButtons[i].addEventListener("click", guessLetter);
+    
+
+    changeButtonActivation(true);
+}
+window.onload = init;
+
+
+
+
 
 function guessLetter() {
     this.disabled = true;
@@ -63,9 +105,9 @@ function guessLetter() {
 
     correctLettersCount = 0;
 
-    for (let i = 0; i < pickAWord.length; i++) {
+    for (let i = 0; i < selectedWord.length; i++) {
 
-        if (letter == pickAWord.charAt(i)) {
+        if (letter == selectedWord.charAt(i)) {
             letterFound = true;
 
             letterBoxes[i].innerHTML = letter;
@@ -79,7 +121,36 @@ function guessLetter() {
     if (letterFound = false) {
         hangmanImgNr++;
 
-        if (hangmanImgNr == 6)
+        if (hangmanImgNr == 6) {
+            endGame(true)
+        }
+    } else if (correctLettersCount == selectedWord.length) {
+        endGame(false)
     }
 
+}
+
+
+function endGame(hangedMan) {
+    if (hangedMan == true) {
+      //du har förlorat.
+    } else {
+      //du har vunnit
+    }
+}
+
+
+function changeButtonActivation(status) {
+  if (status == true) {
+    startGameBtn.disabled = false;
+
+    for (let i = 0; i < letterButtons.length; i++) {
+      letterButtons[i].disabled = true;
+    }
+  } else {
+    startGameBtn.disabled = true;
+  }
+  for (let i = 0; i < letterButtons.length; i++) {
+    letterButtons[i].disabled = false;
+  }
 }
