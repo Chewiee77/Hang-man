@@ -6,18 +6,15 @@ let letterBoxes;
 let startGameBtn;
 let selectedWord;
 
-<<<<<<< HEAD
-const GROUND = document.querySelector("#ground")
-const SCAFFOLD = document.querySelector("#scaffold")
-const HEAD = document.querySelector("#head")
-const BODY = document.querySelector("#body")
-const ARMS = document.querySelector("#arms")
-const LEGS = document.querySelector("#legs")
+const GROUND = document.querySelector("#ground");
+const SCAFFOLD = document.querySelector("#scaffold");
+const HEAD = document.querySelector("#head");
+const BODY = document.querySelector("#body");
+const ARMS = document.querySelector("#arms");
+const LEGS = document.querySelector("#legs");
 
+let selectedWord = words[Math.floor(Math.random() * words.length)];
 
-let selectedWord = words[Math.floor(Math.random()* words.length)];
-
-=======
 const improvedWordList = words.filter((word) => !word.includes(" "));
 console.log(improvedWordList);
 const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
@@ -58,4 +55,3 @@ function showEmptyLetterBoxes() {
 
   letterBoxes = document.querySelector(".gamespace").querySelector(".box");
 }
->>>>>>> dev
