@@ -1,5 +1,6 @@
 import words from "/svenska-ord.json" assert { type: "json" };
 
+// Variabels from DOM element 
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 let letterBoxes;
@@ -46,3 +47,4 @@ function showEmptyLetterBoxes() {
 
   letterBoxes = document.querySelector(".gamespace").querySelector(".box");
 }
+
