@@ -131,17 +131,17 @@ footer {
 }
 
 @media screen and (max-width: 700px) {
-  .hang_man_pic > svg {
+  .hangmanPic > svg {
     width: 401px;
     height: 400px;
   }
 }
 @media screen and (max-width: 470px) {
-  .hang_man_pic > svg {
+  .hangmanPic > svg {
     width: 201px;
     height: 300px;
   }
-  .hang_man_pic > svg {
+  .hangmanPic > svg {
     width: 251px;
     height: 300px;
   }
@@ -175,7 +175,7 @@ footer {
 }
 
 @media screen and (max-width: 310px) {
-  .hang_man_pic > svg {
+  .hangmanPic > svg {
     width: 151px;
     height: 200px;
   }

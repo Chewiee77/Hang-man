@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" type="module"></script>
+
     <title>The Hanging man Game</title>
   </head>
   <body>
@@ -25,7 +26,7 @@
 
     <section class="Hanging_man_words">
       <main>
-        <figure class="hang_man_pic">
+        <figure class="hangmanPic">
           <svg
             width="501"
             height="400"
@@ -85,7 +86,7 @@
         <p>
           <button type="button" id="startGameBtn">Starta spelet</button>
         </p>
-        <div id="gameBoard">
+        <div id="keyBoard">
           <div id="letterButtons">
             <button type="button" value="A">A</button>
             <button type="button" value="B">B</button>
@@ -122,14 +123,23 @@
 
           <!-- <img id="hangman" src="pics/h0.png" alt="Hängd gubbe"> -->
         </div>
-        <!-- End gameBoard -->
+        <!-- End keyBoard -->
         <div id="message"></div>
         <!-- Här skriver programmet meddelanden till användaren -->
       </main>
     </section>
 
+<!-- hur många ggr man gissar? -->
+    <div class="container">
+      <div class="float-right"> Antal gissningar 
+          <span id='mistakes'>0</span> av 
+          <span id='maxWrong'></span>
+      </div>
+    </div>
+  
+  
     <footer>Milad, Malin, Andreas</footer>
 
-    
+
   </body>
 </html>
