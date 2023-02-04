@@ -39,6 +39,7 @@ header > p {
 }
 
 .scoreboard,
+.nameH1Btn,
 .pvp {
   font-size: 1.5em;
   border-radius: 9px;
@@ -48,12 +49,21 @@ header > p {
   margin-bottom: 0.5em;
   color: white;
 }
-
 .scoreboard:hover,
+.nameH1Btn:hover,
 .pvp:hover {
   background-color: rgb(13, 250, 13);
   color: black;
 }
+input > checkbox{
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  color: white;
+}
+
 
 main {
   padding: 10px;
@@ -137,6 +147,15 @@ footer {
   }
 }
 @media screen and (max-width: 470px) {
+.scoreboard,
+.nameH1Btn,
+.pvp {
+  font-size: 1em;
+  border-radius: 9px;
+  margin: 0 0.2em 0 0;
+  padding: 0.3em;
+
+}
   .hangmanPic > svg {
     width: 201px;
     height: 300px;
@@ -179,4 +198,12 @@ footer {
     width: 151px;
     height: 200px;
   }
+ 
 }
+/* tilllagd med javascript */
+.invisible{
+
+  visibility: hidden;
+}
+
+
