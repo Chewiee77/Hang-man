@@ -3,7 +3,7 @@ import words from "/svenska-ord.json" assert { type: "json" };
 // Variabels from DOM element 
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
-let hangManFigure = document.querySelector("#hang_man_pic");
+const hangManPic = document.querySelector("#hang_man_pic");
 const letterButtons = document.querySelector("#letterButtons");
 let letterBoxes;
 let startGameBtn;
@@ -67,5 +67,9 @@ document.getElementById('maxWrong').innerHTML = maxWrong
 // ---------------------------------------------------------
 
 // Kod för figuren
+
+// Nytt malin --------------------------------------
+
+
 
 
