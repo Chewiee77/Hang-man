@@ -10,23 +10,27 @@
     <title>The Hanging man Game</title>
   </head>
   <body>
-    <header>
-      <h1>Välkommen till Hänga gubbe</h1>
-      <p>
-        Datorn väljer ett ord slumpmässigt och du gissar ordet genom att trycka
-        på bokstavsknapparna.
-      </p> 
+    <header id="remember" >
+        <h1>Välkommen</h1>
+        <h2> Till spelet hänga gubbe</h2>
+        <p>
+          Datorn väljer ett ord slumpmässigt och du gissar ordet genom att trycka
+          på bokstavsknapparna/tangentbordet.
+        </p> 
+        <input type="text" placeholder=" Skriv ditt namn här">
     </header>
-    <section class="header_meny">
+   
+
+    <section class="header_meny">   
       <button class="scoreboard">Scoreboard</button>
-      <button class ="nameH1Btn"> Name</button>
-
-     <input type ="checkbox" id="toggle-visibility"/> 
-      <label for="toggle-visibility"></label>
-      <lable id="toggle-visibility-text">Skriv ditt namn</lable> 
-
       <button class="pvp">Player vs Player mode</button>
     </section>
+    
+    <!-- fråga gruppen ifall dem vill ha det så här ist -->
+      <!-- <form>
+        <input type="text" id="fname" placeholder="Skriv ditt namn här" name="fname">
+        <input type="submit" class="nameBtn" value="Submit">
+      </form> -->
 
     <section class="Hanging_man_words">
       <main>
@@ -123,25 +127,13 @@
             <button type="button" value="Ö">Ö</button>
           </div>
           <div class="gamespace"></div>
-          <!-- Här lägger programmet en ruta per bokstav -->
-
-          <!-- <img id="hangman" src="pics/h0.png" alt="Hängd gubbe"> -->
-        </div>
+         </div>
         <!-- End keyBoard -->
         <div id="message"></div>
         <!-- Här skriver programmet meddelanden till användaren -->
       </main>
     </section>
 
-<!-- hur många ggr man gissar? -->
-    <div class="container">
-      <div class="float-right"> Antal gissningar 
-          <span id='mistakes'>0</span> av 
-          <span id='maxWrong'></span>
-      </div>
-    </div>
-  
-  
     <footer>Milad, Malin, Andreas</footer>
 
 
