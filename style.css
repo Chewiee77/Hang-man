@@ -95,29 +95,58 @@ footer {
   color: black;
 }
 
-#gameBoard {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  padding: 10px 0;
-  display: flex;
-  flex-wrap: wrap;
+
+#difficulty-container {
+  text-align: center;
 }
 
-#letterButtons {
-  text-align: center;
+#difficulty-container div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 1.2em 0em 2.4em 0em;
+}
+
+#difficulty-container button {
+  border-radius: 2px;
+}
+
+#difficulty-container button.disabled {
+  border-radius: 1px;
+}
+
+#difficulty-container button.active {
+  border-radius: 3px;
+}
+
+#letter-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6em;
 }
-#letterButtons button {
-  font-size: 1.5em;
-  width: 3em;
-  height: 2em;
-  margin: 4px;
-  border-radius: 10px;
+
+#letter-container button {
+  height: 2.4em;
+  width: 2.4em;
+  border-radius: 0.3em;
+  background-color: rgb(255, 255, 255);
   cursor: pointer;
 }
-#letterButtons button:hover {
-  background-color: rgb(250, 192, 255);
+
+.new-game-popup {
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 0.6em;
 }
 
 .gamespace {
@@ -136,10 +165,33 @@ footer {
   text-align: center;
 }
 
-#message {
-  padding-top: 20px;
-  font-size: 1.5em;
+.hide {
+  display: none;
 }
+
+#result-text h2 {
+  font-size: 1.8em;
+  text-align: center;
+}
+
+#result-text p {
+  font-size: 1.25em;
+  margin: 1em 0em 2em 0em;
+}
+
+#result-text span {
+  font-weight: 600;
+}
+
+.winmsg {
+  color: rgb(34, 34, 194);
+}
+
+.losemsg {
+  color: rgb(225, 18, 18);
+}
+
+
 
 @media screen and (max-width: 700px) {
   .hangmanPic > svg {

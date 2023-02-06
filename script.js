@@ -81,7 +81,7 @@ const LS_KEY = 'hangman_Key_toLocalStorage'
 // För att lägga namnet ifrån input och i H1 meningen
 remember.input.addEventListener('input', event => {
   const value = event.target.value
-  localStorage.setItem('LS_KEY', value)
+  localStorage.setItem(LS_KEY, value)
 
   renderRememnerHeading(value)
 });
@@ -97,6 +97,15 @@ if(savedName !== '' && savedName !== null ){
 }
 // ---------------------------------------------------------------
 // Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan 
+const letterContainer = document.querySelector("#letter-container");
+const difficultyContainer = document.querySelector("#difficulty-container");
+const newGameContainer = document.querySelector("#new-game-container");
+const resultText = document.querySelector("#result-text");
+
+
+
+
+
 
 
 
