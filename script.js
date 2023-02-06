@@ -101,36 +101,7 @@ if(savedName !== '' && savedName !== null ){
 
 
 
-// letters är en lista med DOM = element av typen <button> 
 
-
-
-const letterButton = "abcdefghijklmnopqrstuvwxyzåäö".split('').map(letter => {
-  const button = document.createElement('button')
-  button.className = 'letterButton' 
-
-  // classList.add/remove/toggle
-button.addEventListener('click', () => {
-    // använd loop-variabeln letter
-   guessLetter(letter)
- })
-  button.innerText = letter
-  return button
-})
-
-const keyboard = document.querySelector ('#keyboard')
-for (let i = 0 ; i < letterButton.length; i++){
-const button = letterbutton [i]
-keyboard.append(button)
-}
-
-
-function guessLetter() {
-  for (let i = 0; i < selectedWord.length; i++){
-    if (button.value == selectedWord[i].value)
-    letterBox.innertext (button.value)
-  }
-}
 
 
 
