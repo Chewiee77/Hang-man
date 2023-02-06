@@ -81,7 +81,7 @@ const LS_KEY = 'hangman_Key_toLocalStorage'
 // För att lägga namnet ifrån input och i H1 meningen
 remember.input.addEventListener('input', event => {
   const value = event.target.value
-  localStorage.setItem('LS_KEY', value)
+  localStorage.setItem(LS_KEY, value)
 
   renderRememnerHeading(value)
 });
