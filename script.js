@@ -138,8 +138,8 @@ if(matchIndex === -1 ){
   console.log('Ingen träff')
    
 }else{
-
-  showEmptyLetterBoxes(); 
+  guess(true)
+  //showEmptyLetterBoxes(); 
 }
 
 
@@ -153,3 +153,11 @@ if(matchIndex === -1 ){
 }
 // Om vinst anropa vinstfunktionen 
 // och om Förlust anropa förlustfunktionen. 
+
+function guess(status) {
+  if (status == true) {
+    showEmptyLetterBoxes.letterBox.innerText()
+  } else {
+    // skriv ordet så på wrong guess
+  }
+}
