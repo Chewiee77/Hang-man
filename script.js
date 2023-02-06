@@ -1,139 +1,120 @@
 import words from "/svenska-ord.json" assert { type: "json" };
 
+// Variabels from DOM element 
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
+const hangManPic = document.querySelector("#hang_man_pic");
+const letterButtons = document.querySelector("#letterButtons");
 let letterBoxes;
-let letterButtons;
 let startGameBtn;
 let selectedWord;
 
+// Sorterar bort ord som innehåller mellanslag och - 
+// Varför är inte detta en funktion?
 const improvedWordList = words.filter((word) => !word.includes(" "));
 console.log(improvedWordList);
 const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
-console.log(finalWordList);
+
 // let selectedWord = finalWordList[Math.floor(Math.random() * words.length)];
-// console.log(words);
-// console.log(words.length);
-// console.log(selectedWord);
-// console.log(selectedWord.includes("-"));
+
+console.log(finalWordList);
+console.log(words);
+console.log(words.length);
+console.log(selectedWord);
+// console.log(selectedWord.includes("-")); 
 
 function startGame() {
-  pickAWord();
-  showEmptyLetterBoxes();
-  changeButtonActivation(false);
+      pickAWord();
+      showEmptyLetterBoxes();
+      // changeButtonActivation(false);
 }
-//startGameBtn = document.querySelector("#startGameBtn");
-//document.querySelector("#startGameBtn").addEventListener("click", startGame);
+startGameBtn = document.querySelector("#startGameBtn");
+document.querySelector("#startGameBtn").addEventListener("click", startGame);
 
+
+// Genererar ett random ord i listan
 function pickAWord() {
-  selectedWord =
+  selectedWord = 
     finalWordList[Math.floor(Math.random() * finalWordList.length)];
 
-  // console.log(selectedWord);
+  console.log(selectedWord);
+  // alert(selectedWord)
 }
+pickAWord();
 
-// pickAWord();
 
 function showEmptyLetterBoxes() {
-  let letterBox = "";
+  let letterBox = " "; 
   console.log(selectedWord);
-  for (let i = 0; i < selectedWord.length; i++) {
+  for (let i = 0; i < selectedWord.length; i ++) {
     console.log(selectedWord);
     console.log(selectedWord.length);
     letterBox += '<span class="box">&nbsp;</span>';
     console.log(i);
+    console.log(pickAWord)
   }
 
   document.querySelector(".gamespace").innerHTML = letterBox;
 
   letterBoxes = document.querySelector(".gamespace").querySelector(".box");
 }
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-// Kod för figuren
 
-const ground = document.querySelector("#ground");
-const scaffold = document.querySelector("#scaffold");
-const head = document.querySelector("#head");
-const body = document.querySelector("#body");
-const arms = document.querySelector("#arms");
-const legs = document.querySelector("#legs");
 
-hangmanImg[(ground, scaffold, head, body, arms, legs)];
 
-let hangmanImgNr = hangmanImg[i] + 1;
+// Nytt från malin --------------------------------------
 
-//Här börjar kod för att få knapparna at fungera.
+// - jag vill ta emot ett namn
+// - sätta namnet i h1 taggen
+// - spara namnet i local storage 
 
-function init() {
-  startGameBtn = document.querySelector("#startGameBtn");
-  document.querySelector("#startGameBtn").addEventListener("click", startGame);
-
-  letterButtons = document
-    .querySelector("#letterButtons")
-    .querySelector("button");
-
-  for (let i = 0; i > letterButtons.length; i++)
-    letterButtons[i].addEventListener("click", guessLetter);
-
-  changeButtonActivation(true);
+//  H1 och input
+const remember = {
+  heading: document.querySelector('#remember > h1'), 
+  input: document.querySelector('#remember > input')
 }
-window.onload = init;
+// Key för Localstorage
+const LS_KEY = 'hangman_Key_toLocalStorage'
+// prata med gruppen om att byta namn på localStoragekey? 
 
-function guessLetter() {
-  this.disabled = true;
+// För att lägga namnet ifrån input och i H1 meningen
+remember.input.addEventListener('input', event => {
+  const value = event.target.value
+  localStorage.setItem('LS_KEY', value)
 
-  let letter;
-  let letterFound;
-  let correctLettersCount;
-
-  letter = this.value;
-
-  letterFound = false;
-
-  correctLettersCount = 0;
-
-  for (let i = 0; i < selectedWord.length; i++) {
-    if (letter == selectedWord.charAt(i)) {
-      letterFound = true;
-
-      letterBoxes[i].innerHTML = letter;
-    }
-
-    if ((letterBoxes[i].innerHTML = "&nbsp;")) {
-      correctLettersCount++;
-    }
-  }
-
-  if ((letterFound = false)) {
-    hangmanImgNr++;
-
-    if (hangmanImgNr == 6) {
-      endGame(true);
-    }
-  } else if (correctLettersCount == selectedWord.length) {
-    endGame(false);
-  }
+  renderRememnerHeading(value)
+});
+function renderRememnerHeading(value){
+  remember.heading.innerText = `Välkommen ${value}!`
 }
 
-function endGame(hangedMan) {
-  if (hangedMan == true) {
-    //du har förlorat.
-  } else {
-    //du har vunnit
-  }
+// När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
+const savedName = localStorage.getItem(LS_KEY)
+if(savedName !== '' && savedName !== null ){
+  renderRememnerHeading(savedName)
+  remember.input.value = savedName
 }
+// ---------------------------------------------------------------
+// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan 
 
-function changeButtonActivation(status) {
-  if (status == true) {
-    startGameBtn.disabled = false;
 
-    for (let i = 0; i < letterButtons.length; i++) {
-      letterButtons[i].disabled = true;
-    }
-  } else {
-    startGameBtn.disabled = true;
-  }
-  for (let i = 0; i < letterButtons.length; i++) {
-    letterButtons[i].disabled = false;
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

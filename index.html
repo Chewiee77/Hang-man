@@ -6,26 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" type="module"></script>
+
     <title>The Hanging man Game</title>
   </head>
   <body>
-    <header>
-      <h1>Välkommen till Hänga gubbe</h1>
-      <p>
-        Datorn väljer ett ord slumpmässigt och du gissar ordet genom att trycka
-        på bokstavsknapparna.
-      </p>
+    <header id="remember" >
+        <h1>Välkommen</h1>
+        <h2> Till spelet hänga gubbe</h2>
+        <p>
+          Datorn väljer ett ord slumpmässigt och du gissar ordet genom att trycka
+          på bokstavsknapparna/tangentbordet.
+        </p> 
+        <input type="text" placeholder=" Skriv ditt namn här">
     </header>
+   
 
-    <section class="header_meny">
+    <section class="header_meny">   
       <button class="scoreboard">Scoreboard</button>
-
       <button class="pvp">Player vs Player mode</button>
     </section>
+    
+    <!-- fråga gruppen ifall dem vill ha det så här ist -->
+      <!-- <form>
+        <input type="text" id="fname" placeholder="Skriv ditt namn här" name="fname">
+        <input type="submit" class="nameBtn" value="Submit">
+      </form> -->
 
     <section class="Hanging_man_words">
       <main>
-        <figure class="hang_man_pic">
+        <figure class="hangmanPic">
           <svg
             width="501"
             height="400"
@@ -85,7 +94,7 @@
         <p>
           <button type="button" id="startGameBtn">Starta spelet</button>
         </p>
-        <div id="gameBoard">
+        <div id="keyBoard">
           <div id="letterButtons">
             <button type="button" value="A">A</button>
             <button type="button" value="B">B</button>
@@ -118,16 +127,15 @@
             <button type="button" value="Ö">Ö</button>
           </div>
           <div class="gamespace"></div>
-          <!-- Här lägger programmet en ruta per bokstav -->
-
-          <!-- <img id="hangman" src="pics/h0.png" alt="Hängd gubbe"> -->
-        </div>
-        <!-- End gameBoard -->
+         </div>
+        <!-- End keyBoard -->
         <div id="message"></div>
         <!-- Här skriver programmet meddelanden till användaren -->
       </main>
     </section>
 
     <footer>Milad, Malin, Andreas</footer>
+
+
   </body>
 </html>
