@@ -42,6 +42,12 @@ header > p {
   font-size: 2em;
   padding: 0.5em;
   border-radius: 10px;
+  cursor: pointer;
+  margin:0.1em;
+}
+
+.letterButton:hover{
+  background-color: #b0a9a9;
 }
 
 .scoreboard,
@@ -108,23 +114,6 @@ footer {
   flex-wrap: wrap;
 }
 
-#letterButtons {
-  text-align: center;
-  display: flex;
-  flex-wrap: wrap;
-}
-#letterButtons button {
-  font-size: 1.5em;
-  width: 3em;
-  height: 2em;
-  margin: 4px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-#letterButtons button:hover {
-  background-color: rgb(250, 192, 255);
-}
-
 .gamespace {
   width: 100%;
   padding-top: 20px;
@@ -150,6 +139,13 @@ footer {
   .hangmanPic > svg {
     width: 401px;
     height: 400px;
+  }
+  .letterButton{
+    font-size: 1.5em;
+    padding: 0.5em;
+    border-radius: 7px;
+    cursor: pointer;
+    margin:0.1em;
   }
 }
 @media screen and (max-width: 470px) {
@@ -180,15 +176,7 @@ footer {
     margin-bottom: 0.5em;
     color: white;
   }
-  #letterButtons button {
-    font-size: 1em;
-    width: 2em;
-    height: 2em;
-    margin: 4px;
-    border-radius: 10px;
-    cursor: pointer;
-    float: left;
-  }
+
   header > h1 {
     font-size: 15px;
   }
@@ -205,11 +193,16 @@ footer {
     height: 200px;
   }
  
-}
-/* tilllagd med javascript */
-.invisible{
+  .letterButton{
+    font-size: 1em;
+    padding: 0.5em;
+    border-radius: 7px;
+    cursor: pointer;
+    margin:0.1em;
+  }
+  
 
-  visibility: hidden;
 }
+
 
 
