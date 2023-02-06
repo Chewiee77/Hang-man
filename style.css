@@ -38,6 +38,11 @@ header > p {
   border-bottom: 1px solid black;
 }
 
+.letterButton{
+  font-size: 2em;
+  padding: 0.5em;
+  border-radius: 10px;
+}
 
 .scoreboard,
 .nameH1Btn,
