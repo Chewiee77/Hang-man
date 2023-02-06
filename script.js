@@ -50,8 +50,9 @@ function showEmptyLetterBoxes() {
     console.log(selectedWord);
     console.log(selectedWord.length);
     letterBox += '<span class="box">&nbsp;</span>';
-    console.log(i);
-    console.log(pickAWord)
+    //console.log(i);
+    console.log(pickAWord);
+    console.log(letterBox)
   }
 
   document.querySelector(".gamespace").innerHTML = letterBox;
@@ -112,7 +113,7 @@ const letterButton = "abcdefghijklmnopqrstuvwxyzåäö".split('').map(letter => 
         // använd loop-variabeln letter
        guessLetter(letter)
      })
-      button.innerText = letter
+      button.innerText = letter;
       return button
 })
  
