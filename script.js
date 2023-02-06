@@ -9,7 +9,7 @@ let letterBoxes;
 let startGameBtn;
 let selectedWord;
 
-// Sorterar bor ord som innehåller mellanslag och - 
+// Sorterar bort ord som innehåller mellanslag och - 
 // Varför är inte detta en funktion?
 const improvedWordList = words.filter((word) => !word.includes(" "));
 console.log(improvedWordList);
