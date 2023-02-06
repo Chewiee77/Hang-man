@@ -100,25 +100,56 @@ if(savedName !== '' && savedName !== null ){
 
 
 
+// Bokstäver
+
+// letters är en lista med DOM = element av typen <button> 
+const letterButton = "abcdefghijklmnopqrstuvwxyzåäö".split('').map(letter => {
+      const button = document.createElement('button')
+      button.className = 'letterButton' 
+
+      // classList.add/remove/toggle
+  button.addEventListener('click', () => {
+        // använd loop-variabeln letter
+       guessLetter(letter)
+     })
+      button.innerText = letter
+      return button
+})
+ 
+const keyboard = document.querySelector ('#keyBoard')
+for (let i = 0 ; i < letterButton.length; i++){
+  const button = letterButton [i]
+  keyboard.append(button)
+}
+
+
+function guessLetter(letter) {
+// finns letter i selectedword?
+
+
+'abc'.search
+let matchIndex = selectedWord.search(letter)
+console.log(matchIndex)
+
+if(matchIndex === -1 ){
+  // sätt ut svg bild,  -- DOM  display:none
+  // visar upp vilken bokstav du valt, 
+  // och uppdatera antal gissningar.
+  console.log('Ingen träff')
+   
+}else{
+
+  showEmptyLetterBoxes(); 
+}
 
 
 
 
+// Om ja, sluta leta i listan och skriva ut bokstaven i rutan 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
+// Om vinst anropa vinstfunktionen 
+// och om Förlust anropa förlustfunktionen. 
