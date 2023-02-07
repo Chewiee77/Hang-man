@@ -147,6 +147,7 @@ footer {
 .block {
   background-color: black;
   color: #fff;
+  pointer-events: none;
 }
 
 #message {

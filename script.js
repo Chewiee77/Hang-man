@@ -16,7 +16,7 @@ let selectedWord;
 let wrongLetter = [];
 let correctLetter = [];
 let guesses = 0;
-const maxGuesses = 6;
+const maxGuesses = hangmanParts.length;
 
 // Sorterar bort ord som innehåller mellanslag och -
 // Varför är inte detta en funktion?
@@ -62,8 +62,14 @@ function clear() {
   letterBoxes.innerHTML = "";
   wrongLettersEl.innerHTML = "";
   wrongGuessesEl.innerHTML = "";
-  keyboard.querySelector(".letterButton").classList.remove("block");
+  resetButtons();
   displayHangman();
+}
+
+function resetButtons() {
+  document.querySelectorAll("#keyBoard > button").forEach((btn) => {
+    btn.classList.remove("block");
+  });
 }
 
 // Visa ordet och kolla om det är rätt......
@@ -143,6 +149,12 @@ const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
     button.addEventListener("click", () => {
       // använd loop-variabeln letter
       guessLetter(letter);
+      //Blockera knappen från att användas igen
+      if (correctLetter.includes(letter) || wrongLetter.includes(letter)) {
+        button.classList.add("block");
+      } else {
+        button.classList.remove("block"); // TODO Varför tar den bara bort på A?
+      }
     });
     button.innerText = letter;
     return button;
@@ -199,12 +211,6 @@ function guessLetter(letter) {
       // Här kollar vi om vi torskar!!!
       console.log(wrongLetter.length);
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
-    }
-
-    //Blockera knappen från att användas igen
-    if (correctLetter.includes(letter) || wrongLetter.includes(letter)) {
-      //TODO Varför blir bara a? Kan man använda foreach?
-      keyboard.querySelector(".letterButton").classList.add("block");
     }
 
     // Lite olika loggar bara.............
