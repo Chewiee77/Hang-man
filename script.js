@@ -177,7 +177,7 @@ function showEmptyLetterBoxes() {
 
   if (selectedWord === wordInLetterBoxes) {
     console.log("DU VANN!!! 😀🏆😀");
-    endMessage.innerText = "DU VANN!!! 😀🏆😀";
+    endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
   }
 }
@@ -236,7 +236,7 @@ function guessLetter(letter) {
       // Här kollar vi om vi torskar!!!
       console.log(wrongLetter.length);
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
-      endMessage.innerText = "DU FÖRLORADE!!! 💩💩💩💩";
+      endMessage.innerText = `DU FÖRLORADE!!! 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
     }
 
