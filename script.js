@@ -9,7 +9,7 @@ const wrongLettersEl = document.querySelector(".wrong-letter");
 const wrongGuessesEl = document.querySelector(".wrong-guesses");
 const hangmanParts = document.querySelectorAll(".hangman-part");
 let letterBoxes = document.querySelector(".gamespace");
-let startGameBtn;
+let startGameBtn = document.querySelector("#startGameBtn");
 let randomWord;
 let selectedWord;
 
@@ -36,11 +36,14 @@ function startGame() {
   pickAWord();
   displayHangman();
   showEmptyLetterBoxes();
+  console.log("TRYCKT IGEN PÅ STARTA SPEL");
+  console.log(correctLetter);
+  console.log(wrongLetter);
   // changeButtonActivation(false);
   // Lägg till rensa gissningar och fel bokstäver
 }
-startGameBtn = document.querySelector("#startGameBtn");
-document.querySelector("#startGameBtn").addEventListener("click", startGame);
+
+startGameBtn.addEventListener("click", startGame);
 
 // Genererar ett random ord i listan
 function pickAWord() {
@@ -54,8 +57,9 @@ function pickAWord() {
 }
 // Rensa gissningar och fel ord
 function clear() {
-  correctLetter.splice();
-  wrongLetter.splice();
+  correctLetter = [];
+  wrongLetter = [];
+  letterBoxes.innerHTML = "";
   wrongLettersEl.innerHTML = "";
   wrongGuessesEl.innerHTML = "";
   keyboard.querySelector(".letterButton").classList.remove("block");
