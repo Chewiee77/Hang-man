@@ -5,11 +5,16 @@ const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 const hangManPic = document.querySelector("#hang_man_pic");
 const letterButtons = document.querySelector(".letterButton");
+const popup = document.querySelector(".popup-container");
+const endMessage = document.querySelector(".end-message");
+const playAgainButton = document.querySelector(".play-again-btn");
 const wrongLettersEl = document.querySelector(".wrong-letter");
 const wrongGuessesEl = document.querySelector(".wrong-guesses");
 const hangmanParts = document.querySelectorAll(".hangman-part");
 let letterBoxes = document.querySelector(".gamespace");
-let startGameBtn = document.querySelector("#startGameBtn");
+let hardGameBtn = document.querySelector("#hardGameBtn");
+let mediumGameBtn = document.querySelector("#mediumGameBtn");
+let easyGameBtn = document.querySelector("#easyGameBtn");
 let randomWord;
 let selectedWord;
 
@@ -24,30 +29,64 @@ const improvedWordList = words.filter((word) => !word.includes(" "));
 // console.log(improvedWordList);
 const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
 // let selectedWord = finalWordList[Math.floor(Math.random() * words.length)];
-
+const easyList = finalWordList.filter((word) => {
+  return word.length >= 10;
+});
+console.log(easyList);
+const mediumList = finalWordList.filter((word) => {
+  return word.length > 5 && word.length < 10;
+});
+console.log(mediumList);
+const hardList = finalWordList.filter((word) => {
+  return word.length <= 5;
+});
+console.log(hardList);
 // console.log(finalWordList);
 // console.log(words);
 // console.log(words.length);
 // console.log(selectedWord);
 // console.log(selectedWord.includes("-"));
 
-function startGame() {
-  clear();
-  pickAWord();
+// --------------------- FUNKTIONER ----------------------------------
+
+function hardGame() {
+  pickAWord(hardList);
   displayHangman();
   showEmptyLetterBoxes();
+}
+function mediumGame() {
+  pickAWord(mediumList);
+  displayHangman();
+  showEmptyLetterBoxes();
+}
+function easyGame() {
+  pickAWord(easyList);
+  displayHangman();
+  showEmptyLetterBoxes();
+}
+
+function startGame() {
+  clear();
+  // pickAWord(hardList);
+  // displayHangman();
+  // showEmptyLetterBoxes();
   console.log("TRYCKT IGEN PÅ STARTA SPEL");
   console.log(correctLetter);
   console.log(wrongLetter);
+
   // changeButtonActivation(false);
   // Lägg till rensa gissningar och fel bokstäver
 }
 
-startGameBtn.addEventListener("click", startGame);
+hardGameBtn.addEventListener("click", hardGame);
+mediumGameBtn.addEventListener("click", mediumGame);
+easyGameBtn.addEventListener("click", easyGame);
+
+playAgainButton.addEventListener("click", startGame);
 
 // Genererar ett random ord i listan
-function pickAWord() {
-  randomWord = finalWordList[Math.floor(Math.random() * finalWordList.length)];
+function pickAWord(list) {
+  randomWord = list[Math.floor(Math.random() * list.length)];
 
   selectedWord = randomWord.toUpperCase();
 
@@ -55,15 +94,18 @@ function pickAWord() {
 
   // alert(selectedWord)
 }
+
 // Rensa gissningar och fel ord
 function clear() {
+  popup.style.display = "none";
   correctLetter = [];
   wrongLetter = [];
   letterBoxes.innerHTML = "";
   wrongLettersEl.innerHTML = "";
   wrongGuessesEl.innerHTML = "";
   resetButtons();
-  displayHangman();
+  showHangman();
+  // displayHangman();
 }
 
 function resetButtons() {
@@ -94,6 +136,8 @@ function showEmptyLetterBoxes() {
 
   if (selectedWord === wordInLetterBoxes) {
     console.log("DU VANN!!! 😀🏆😀");
+    endMessage.innerText = "DU VANN!!! 😀🏆😀";
+    popup.style.display = "flex";
   }
 }
 
@@ -152,8 +196,6 @@ const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
       //Blockera knappen från att användas igen
       if (correctLetter.includes(letter) || wrongLetter.includes(letter)) {
         button.classList.add("block");
-      } else {
-        button.classList.remove("block"); // TODO Varför tar den bara bort på A?
       }
     });
     button.innerText = letter;
@@ -180,11 +222,19 @@ function displayHangman() {
     // console.log("errors: " + errors);
   });
 }
+function showHangman() {
+  hangmanParts.forEach((part, index) => {
+    part.style.display = "block";
+
+    // console.log("index: " + index);
+    // console.log("errors: " + errors);
+  });
+}
 
 function guessLetter(letter) {
   // finns letter i selectedword?
 
-  "abc".search;
+  //"abc".search;
   let matchIndex = selectedWord.search(letter);
   console.log(matchIndex);
 
@@ -211,6 +261,8 @@ function guessLetter(letter) {
       // Här kollar vi om vi torskar!!!
       console.log(wrongLetter.length);
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
+      endMessage.innerText = "DU FÖRLORADE!!! 💩💩💩💩";
+      popup.style.display = "flex";
     }
 
     // Lite olika loggar bara.............
@@ -229,20 +281,15 @@ function guessLetter(letter) {
         console.log(correctLetter);
         showEmptyLetterBoxes();
       }
-
-      // showEmptyLetterBoxes();
-      //     letterBoxes.innerHTML = `
-      //   ${selectedWord
-      //     .split("")
-      //     .map(
-      //       (letter) => `
-      //         <span class="box">
-      //           ${correctLetter.includes(letter) ? letter : "&nbsp"}
-      //         </span>
-      //       `
-      //     )
-      //     .join("")}
-      // `;
     }
   }
 }
+
+// TODO Poängsystem?
+// Gissa rätt ger X poäng
+// Varje felgissning drar av Y poäng
+// Svårighetsgrad ger multiplier x1 x2 x3
+
+// Spara antal drag
+// Spara poäng
+// Sortera resultat
