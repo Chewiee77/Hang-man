@@ -32,10 +32,10 @@ const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
 // console.log(selectedWord.includes("-"));
 
 function startGame() {
-  pickAWord();
-  showEmptyLetterBoxes();
-  displayHangman();
   clear();
+  pickAWord();
+  displayHangman();
+  showEmptyLetterBoxes();
   // changeButtonActivation(false);
   // Lägg till rensa gissningar och fel bokstäver
 }
@@ -54,26 +54,39 @@ function pickAWord() {
 }
 // Rensa gissningar och fel ord
 function clear() {
+  correctLetter.splice();
+  wrongLetter.splice();
   wrongLettersEl.innerHTML = "";
   wrongGuessesEl.innerHTML = "";
-  correctLetter = [];
-  wrongLetter = [];
   keyboard.querySelector(".letterButton").classList.remove("block");
+  displayHangman();
 }
 
+// Visa ordet och kolla om det är rätt......
 function showEmptyLetterBoxes() {
-  let letterBox = " ";
-  // console.log(selectedWord);
-  for (let i = 0; i < selectedWord.length; i++) {
-    // console.log(selectedWord);
-    // console.log(selectedWord.length);
-    // let letter = selectedWord[i];
-    letterBox += '<span class="box">&nbsp</span>';
-    // console.log(i);
+  letterBoxes.innerHTML = `
+    ${selectedWord
+      .split("")
+      .map(
+        (letter) => `
+          <span class="box">
+            ${correctLetter.includes(letter) ? letter : "&nbsp"}
+          </span>
+        `
+      )
+      .join("")}
+  `;
+
+  const wordInLetterBoxes = letterBoxes.innerText.replace(/\s/g, "");
+
+  console.log(letterBoxes.innerText, wordInLetterBoxes);
+  // Om vinst anropa vinstfunktionen
+
+  if (selectedWord === wordInLetterBoxes) {
+    console.log("DU VANN!!! 😀🏆😀");
   }
-  document.querySelector(".gamespace").innerHTML = letterBox;
-  // letterBoxes = document.querySelector(".gamespace").querySelector(".box");
 }
+
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Nytt från malin --------------------------------------
@@ -138,7 +151,6 @@ for (let i = 0; i < letterButton.length; i++) {
 }
 
 // Funktion för att dölja och rita upp gubben
-// TODO Varför blir det en efter hela tiden....
 function displayHangman() {
   hangmanParts.forEach((part, index) => {
     const errors = wrongLetter.length;
@@ -148,8 +160,8 @@ function displayHangman() {
     } else {
       part.style.display = "none";
     }
-    console.log("index: " + index);
-    console.log("errors: " + errors);
+    // console.log("index: " + index);
+    // console.log("errors: " + errors);
   });
 }
 
@@ -162,11 +174,16 @@ function guessLetter(letter) {
 
   if (matchIndex === -1) {
     // visar upp vilken bokstav du valt,
-    wrongLetter.push(letter);
-    wrongLettersEl.innerHTML = ` ${
-      wrongLetter.length > 0 ? "<p>Wrong</p>" : " "
-    }
+    if (!wrongLetter.includes(letter)) {
+      // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
+      wrongLetter.push(letter);
+      wrongLettersEl.innerHTML = ` ${
+        wrongLetter.length > 0 ? "<p>Wrong</p>" : " "
+      }
     ${wrongLetter.map((letter) => `<span>${letter}</span>`)}`;
+      console.log(wrongLetter);
+    }
+
     // sätt ut svg bild,  -- DOM  display:none
 
     displayHangman();
@@ -187,36 +204,35 @@ function guessLetter(letter) {
     }
 
     // Lite olika loggar bara.............
-    console.log(guesses);
-    console.log("Ingen träff");
-    console.log("FEL" + " " + wrongLetter);
-    console.log("Längden på Array wrongLetter: " + wrongLetter.length);
-    console.log("Längden på hangmanParts: " + hangmanParts.length);
+    // console.log(guesses);
+    // console.log("Ingen träff");
+    // console.log("FEL" + " " + wrongLetter);
+    // console.log("Längden på Array wrongLetter: " + wrongLetter.length);
+    // console.log("Längden på hangmanParts: " + hangmanParts.length);
   } else {
     // Om ja, sluta leta i listan och skriva ut bokstaven i rutan
     if (selectedWord.includes(letter)) {
-      correctLetter.push(letter); // TODO Pushar bara en gång...
-      console.log("RÄTT" + " " + correctLetter);
-      letterBoxes.innerHTML = `
-    ${selectedWord
-      .split("")
-      .map(
-        (letter) => `
-          <span class="box">
-            ${correctLetter.includes(letter) ? letter : "&nbsp"}
-          </span>
-        `
-      )
-      .join("")}
-  `;
-    }
-    // Om vinst anropa vinstfunktionen
-    let checkWord = correctLetter.join("");
-    console.log(correctLetter);
-    console.log(checkWord);
-    if (selectedWord === checkWord) {
-      // TODO Sortera så att det kommer i rätt ordning
-      console.log("DU VANN!!! 😀🏆😀");
+      if (!correctLetter.includes(letter)) {
+        // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
+        console.log("RÄTT" + " " + correctLetter);
+        correctLetter.push(letter);
+        console.log(correctLetter);
+        showEmptyLetterBoxes();
+      }
+
+      // showEmptyLetterBoxes();
+      //     letterBoxes.innerHTML = `
+      //   ${selectedWord
+      //     .split("")
+      //     .map(
+      //       (letter) => `
+      //         <span class="box">
+      //           ${correctLetter.includes(letter) ? letter : "&nbsp"}
+      //         </span>
+      //       `
+      //     )
+      //     .join("")}
+      // `;
     }
   }
 }
