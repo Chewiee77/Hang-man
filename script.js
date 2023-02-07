@@ -15,6 +15,7 @@ let letterBoxes = document.querySelector(".gamespace");
 let hardGameBtn = document.querySelector("#hardGameBtn");
 let mediumGameBtn = document.querySelector("#mediumGameBtn");
 let easyGameBtn = document.querySelector("#easyGameBtn");
+let gameButtons = document.querySelector(".game-buttons");
 let randomWord;
 let selectedWord;
 
@@ -23,12 +24,12 @@ let correctLetter = [];
 let guesses = 0;
 const maxGuesses = hangmanParts.length;
 
-// Sorterar bort ord som innehåller mellanslag och -
-// Varför är inte detta en funktion?
+// Sorterar bort ord som innehåller mellanslag och - och 3 som skapar beroende på ordlängd
+
 const improvedWordList = words.filter((word) => !word.includes(" "));
-// console.log(improvedWordList);
+
 const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
-// let selectedWord = finalWordList[Math.floor(Math.random() * words.length)];
+
 const easyList = finalWordList.filter((word) => {
   return word.length >= 10;
 });
@@ -41,11 +42,42 @@ const hardList = finalWordList.filter((word) => {
   return word.length <= 5;
 });
 console.log(hardList);
-// console.log(finalWordList);
-// console.log(words);
-// console.log(words.length);
-// console.log(selectedWord);
-// console.log(selectedWord.includes("-"));
+
+// Skapa tangentbord
+const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
+  .toUpperCase() // Så det blir stor bokstav
+  .split("")
+  .map((letter) => {
+    const button = document.createElement("button");
+    button.classList.add("letterButton");
+    button.classList.add("block");
+    // lockButtons();
+
+    // classList.add/remove/toggle
+    button.addEventListener("click", () => {
+      // använd loop-variabeln letter
+      guessLetter(letter);
+      //Blockera knappen från att användas igen
+      if (correctLetter.includes(letter) || wrongLetter.includes(letter)) {
+        button.classList.add("block");
+      }
+    });
+    button.innerText = letter;
+    return button;
+  });
+
+const keyboard = document.querySelector("#keyBoard");
+for (let i = 0; i < letterButton.length; i++) {
+  const button = letterButton[i];
+  keyboard.append(button);
+}
+
+// ---------------------------- EVENT -----------------------------
+hardGameBtn.addEventListener("click", hardGame);
+mediumGameBtn.addEventListener("click", mediumGame);
+easyGameBtn.addEventListener("click", easyGame);
+
+playAgainButton.addEventListener("click", startGame);
 
 // --------------------- FUNKTIONER ----------------------------------
 
@@ -53,20 +85,24 @@ function hardGame() {
   pickAWord(hardList);
   displayHangman();
   showEmptyLetterBoxes();
+  resetButtons();
 }
 function mediumGame() {
   pickAWord(mediumList);
   displayHangman();
   showEmptyLetterBoxes();
+  resetButtons();
 }
 function easyGame() {
   pickAWord(easyList);
   displayHangman();
   showEmptyLetterBoxes();
+  resetButtons();
 }
 
 function startGame() {
   clear();
+  lockButtons();
   // pickAWord(hardList);
   // displayHangman();
   // showEmptyLetterBoxes();
@@ -77,12 +113,6 @@ function startGame() {
   // changeButtonActivation(false);
   // Lägg till rensa gissningar och fel bokstäver
 }
-
-hardGameBtn.addEventListener("click", hardGame);
-mediumGameBtn.addEventListener("click", mediumGame);
-easyGameBtn.addEventListener("click", easyGame);
-
-playAgainButton.addEventListener("click", startGame);
 
 // Genererar ett random ord i listan
 function pickAWord(list) {
@@ -98,12 +128,16 @@ function pickAWord(list) {
 // Rensa gissningar och fel ord
 function clear() {
   popup.style.display = "none";
+  letterBoxes.innerHTML = "";
+  selectedWord = "";
+  guesses = 0;
+  gameButtons.style.display = "flex";
+  letterBoxes.style.display = "none";
   correctLetter = [];
   wrongLetter = [];
-  letterBoxes.innerHTML = "";
   wrongLettersEl.innerHTML = "";
   wrongGuessesEl.innerHTML = "";
-  resetButtons();
+
   showHangman();
   // displayHangman();
 }
@@ -114,8 +148,16 @@ function resetButtons() {
   });
 }
 
+function lockButtons() {
+  document.querySelectorAll("#keyBoard > button").forEach((btn) => {
+    btn.classList.add("block");
+  });
+}
+
 // Visa ordet och kolla om det är rätt......
 function showEmptyLetterBoxes() {
+  gameButtons.style.display = "none";
+  letterBoxes.style.display = "block";
   letterBoxes.innerHTML = `
     ${selectedWord
       .split("")
@@ -141,73 +183,6 @@ function showEmptyLetterBoxes() {
   }
 }
 
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// Nytt från malin --------------------------------------
-
-// - jag vill ta emot ett namn
-// - sätta namnet i h1 taggen
-// - spara namnet i local storage
-
-//  H1 och input
-const remember = {
-  heading: document.querySelector("#remember > h1"),
-  input: document.querySelector("#remember > input"),
-};
-// Key för Localstorage
-const LS_KEY = "hangman_Key_toLocalStorage";
-// prata med gruppen om att byta namn på localStoragekey?
-
-// För att lägga namnet ifrån input och i H1 meningen
-remember.input.addEventListener("input", (event) => {
-  const value = event.target.value;
-  localStorage.setItem(LS_KEY, value);
-
-  renderRememnerHeading(value);
-});
-function renderRememnerHeading(value) {
-  remember.heading.innerText = `Välkommen ${value}!`;
-}
-
-// När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
-let savedName = localStorage.getItem(LS_KEY);
-if (savedName !== "" && savedName !== null) {
-  // remember.input.value = savedName;  // TODO Ska namnet stå kvar i inputfältet? Eller ska input vara borta då?
-  savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
-  renderRememnerHeading(savedName);
-}
-// ---------------------------------------------------------------
-// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
-
-// Bokstäver
-
-// letters är en lista med DOM = element av typen <button>
-const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
-  .toUpperCase() // Så det blir stor bokstav
-  .split("")
-  .map((letter) => {
-    const button = document.createElement("button");
-    button.classList.add("letterButton");
-
-    // classList.add/remove/toggle
-    button.addEventListener("click", () => {
-      // använd loop-variabeln letter
-      guessLetter(letter);
-      //Blockera knappen från att användas igen
-      if (correctLetter.includes(letter) || wrongLetter.includes(letter)) {
-        button.classList.add("block");
-      }
-    });
-    button.innerText = letter;
-    return button;
-  });
-
-const keyboard = document.querySelector("#keyBoard");
-for (let i = 0; i < letterButton.length; i++) {
-  const button = letterButton[i];
-  keyboard.append(button);
-}
-
 // Funktion för att dölja och rita upp gubben
 function displayHangman() {
   hangmanParts.forEach((part, index) => {
@@ -222,8 +197,9 @@ function displayHangman() {
     // console.log("errors: " + errors);
   });
 }
+// Function för att visa gubben igen när man väljer spela igen i popup
 function showHangman() {
-  hangmanParts.forEach((part, index) => {
+  hangmanParts.forEach((part) => {
     part.style.display = "block";
 
     // console.log("index: " + index);
@@ -284,6 +260,44 @@ function guessLetter(letter) {
     }
   }
 }
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Nytt från malin --------------------------------------
+
+// - jag vill ta emot ett namn
+// - sätta namnet i h1 taggen
+// - spara namnet i local storage
+
+//  H1 och input
+const remember = {
+  heading: document.querySelector("#remember > h1"),
+  input: document.querySelector("#remember > input"),
+};
+// Key för Localstorage
+const LS_KEY = "hangman_Key_toLocalStorage";
+// prata med gruppen om att byta namn på localStoragekey?
+
+// För att lägga namnet ifrån input och i H1 meningen
+remember.input.addEventListener("input", (event) => {
+  const value = event.target.value;
+  localStorage.setItem(LS_KEY, value);
+
+  renderRememnerHeading(value);
+});
+function renderRememnerHeading(value) {
+  remember.heading.innerText = `Välkommen ${value}!`;
+}
+
+// När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
+let savedName = localStorage.getItem(LS_KEY);
+if (savedName !== "" && savedName !== null) {
+  // remember.input.value = savedName;  // TODO Ska namnet stå kvar i inputfältet? Eller ska input vara borta då?
+  savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
+  renderRememnerHeading(savedName);
+}
+// ---------------------------------------------------------------
+// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
 
 // TODO Poängsystem?
 // Gissa rätt ger X poäng
