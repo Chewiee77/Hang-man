@@ -103,23 +103,37 @@
           <div class="wrong-guesses"></div>
         </div>
         <p>
-          <button type="button" id="startGameBtn">Starta spelet</button>
+          <button class="startGameBtn" type="button" id="hardGameBtn">
+            Starta Svår Omgång
+          </button>
+          <button class="startGameBtn" type="button" id="mediumGameBtn">
+            Starta Medelsvår Omgång
+          </button>
+          <button class="startGameBtn" type="button" id="easyGameBtn">
+            Starta Lätt Omgång
+          </button>
         </p>
         <div id="keyBoard"></div>
 
         <div class="gamespace"></div>
         <!-- End keyBoard -->
-        <div id="message"></div>
-        <!-- Här skriver programmet meddelanden till användaren -->
       </main>
     </section>
 
     <footer>Milad, Malin, Andreas</footer>
 
-    <div class="container">
-      <p id="wordSpotlight">The word to be guessed goes here</p>
-      <div id="keyboard"></div>
-      <button class="btn btn-info" onClick="reset()">Reset</button>
+    <div class="scoreboard-container">
+      <div class="scoreboard-popup">
+        <h2 class="scoreboard"></h2>
+        <ul></ul>
+      </div>
+    </div>
+
+    <div class="popup-container">
+      <div class="popup">
+        <h2 class="end-message"></h2>
+        <button class="play-again-btn">Spela Igen</button>
+      </div>
     </div>
   </body>
 </html>
