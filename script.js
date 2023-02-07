@@ -43,7 +43,7 @@ const hardList = finalWordList.filter((word) => {
 });
 console.log(hardList);
 
-// Skapa tangentbord
+// Skapa tangentbord med eventlyssnare
 const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
   .toUpperCase() // Så det blir stor bokstav
   .split("")
@@ -53,7 +53,6 @@ const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
     button.classList.add("block");
     // lockButtons();
 
-    // classList.add/remove/toggle
     button.addEventListener("click", () => {
       // använd loop-variabeln letter
       guessLetter(letter);

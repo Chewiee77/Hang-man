@@ -51,7 +51,10 @@ header > p {
 }
 .scoreboard:hover,
 .nameH1Btn:hover,
-.pvp:hover {
+.pvp:hover,
+.scoreboard:focus,
+.pvp:focus,
+.nameH1Btn:focus {
   background-color: rgb(13, 250, 13);
   color: black;
 }
@@ -101,7 +104,8 @@ footer {
   /* margin-bottom: 0.5em; */
   color: white;
 }
-.startGameBtn:hover {
+.startGameBtn:hover,
+.startGameBtn:focus {
   background-color: rgb(13, 250, 13);
   color: black;
 }
@@ -127,7 +131,8 @@ footer {
   border-radius: 10px;
   cursor: pointer;
 }
-.letterButton:hover {
+.letterButton:hover,
+.letterButton:focus {
   background-color: rgb(250, 192, 255);
 }
 
