@@ -287,7 +287,7 @@ function guessLetter(letter) {
 
 // TODO Poängsystem?
 // Gissa rätt ger X poäng
-// Varje felgissning drar av Y poäng
+// Varje felgissning drar av Y poäng ---
 // Svårighetsgrad ger multiplier x1 x2 x3
 
 // Spara antal drag
