@@ -1,6 +1,7 @@
 import words from "/svenska-ord.json" assert { type: "json" };
 
 // Variabels from DOM element
+const body = document.querySelector("body")
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 const hangManPic = document.querySelector("#hang_man_pic");
@@ -362,3 +363,38 @@ if (savedName !== "" && savedName !== null) {
 // Spara antal drag
 // Spara poäng
 // Sortera resultat
+
+// ---------------------------------------------
+
+// Här börjar kod för pvp.
+
+
+
+// när man trycker på pvp knappen så ska det komma upp en overlay/popup
+// i popupen ska det vara ett slumpat ordlista.
+// spelare 1 ska sedan få välja ett ord ur listan. 
+pvpBtn.addEventListener("click", () => {
+  console.log("knappen har klickats")
+  const pvpOverlay = document.createElement("div")
+  pvpOverlay.classList.add("pvpoverlay")
+  pvpOverlay.addEventListener("click", event => {
+    pvpOverlay.remove()
+  })
+
+  const pvpPopUp = document.createElement("div")
+  pvpPopUp.classList.add("pvppopup")
+  pvpPopUp.addEventListener("click", event => {
+    event.stopPropagation()
+  })
+
+  const pvpH2 = document.createElement("h2")
+  pvpH2.innerText = "Spelare 1: Välj ett ord som andra spelaren ska gissa"
+
+  const pvpWordlist = document.createElement("ul")
+  // när man har valt ett ord och tryckt på den så 
+
+  pvpPopUp.append(pvpWordlist)
+  body.append(pvpOverlay)
+  pvpPopUp.append(pvpH2)
+  pvpOverlay.append(pvpPopUp)
+})
