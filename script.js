@@ -328,10 +328,11 @@ function guessLetter(letter) {
 const remember = {
   heading: document.querySelector("#remember > h1"),
   input: document.querySelector("#remember > input"),
+  
 };
 // Key för Localstorage
 const LS_KEY = "hangman_Key_toLocalStorage";
-// prata med gruppen om att byta namn på localStoragekey?
+
 
 // För att lägga namnet ifrån input och i H1 meningen
 remember.input.addEventListener("input", (event) => {
@@ -409,4 +410,7 @@ scoreBoardBtn.addEventListener("click", () => {
   scorePopUp.append(scoreWrongGuessesContainer)
   scorePopUp.append(scoreWinLoseContainer)
 })
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------
 
