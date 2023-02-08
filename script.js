@@ -15,6 +15,7 @@ let letterBoxes = document.querySelector(".gamespace");
 let hardGameBtn = document.querySelector("#hardGameBtn");
 let mediumGameBtn = document.querySelector("#mediumGameBtn");
 let easyGameBtn = document.querySelector("#easyGameBtn");
+let gameButtons = document.querySelector(".game-buttons");
 let randomWord;
 let selectedWord;
 
@@ -23,66 +24,150 @@ let correctLetter = [];
 let guesses = 0;
 const maxGuesses = hangmanParts.length;
 
-// Sorterar bort ord som innehåller mellanslag och -
-// Varför är inte detta en funktion?
+// Sorterar bort ord som innehåller mellanslag och - och 3 som skapar beroende på ordlängd
+
 const improvedWordList = words.filter((word) => !word.includes(" "));
-// console.log(improvedWordList);
+
 const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
-// let selectedWord = finalWordList[Math.floor(Math.random() * words.length)];
+
 const easyList = finalWordList.filter((word) => {
   return word.length >= 10;
 });
-console.log(easyList);
+// console.log(easyList);
 const mediumList = finalWordList.filter((word) => {
   return word.length > 5 && word.length < 10;
 });
-console.log(mediumList);
+// console.log(mediumList);
 const hardList = finalWordList.filter((word) => {
   return word.length <= 5;
 });
-console.log(hardList);
-// console.log(finalWordList);
-// console.log(words);
-// console.log(words.length);
-// console.log(selectedWord);
-// console.log(selectedWord.includes("-"));
+// console.log(hardList);
+
+// Skapa tangentbord med eventlyssnare
+const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
+  .toUpperCase() // Så det blir stor bokstav
+  .split("")
+  .map((letter) => {
+    const button = document.createElement("button");
+    button.classList.add("letterButton");
+    button.classList.add("block");
+    // lockButtons();
+
+    button.addEventListener("click", () => {
+      // använd loop-variabeln letter
+      guessLetter(letter);
+      //Blockera knappen från att användas igen
+      if (correctLetter.includes(letter) || wrongLetter.includes(letter)) {
+        button.classList.add("block");
+      }
+    });
+    button.innerText = letter;
+    return button;
+  });
+
+const keyboard = document.querySelector("#keyBoard");
+for (let i = 0; i < letterButton.length; i++) {
+  const button = letterButton[i];
+  keyboard.append(button);
+}
+
+// ---------------------------- EVENT -----------------------------
+hardGameBtn.addEventListener("click", hardGame);
+mediumGameBtn.addEventListener("click", mediumGame);
+easyGameBtn.addEventListener("click", easyGame);
+
+playAgainButton.addEventListener("click", startGame);
+
+// -------- Användande av tangentbord ------------------------------
+const keyboardLetters = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+  "Å",
+  "Ä",
+  "Ö",
+];
+
+window.addEventListener("keypress", (e) => {
+  // const pressedLetter = document.createElement("pressedLetter");
+  let name = e.key.toUpperCase();
+  // let code = e.code;
+  // let condition = e.which;
+  // pressedLetter.textContent = `keyboardEvent; key='${name.toUpperCase()}' | code='${code}'`;
+  // console.log(name);
+  // console.log(e.which);
+
+  if (
+    keyboardLetters.includes(name)
+    // (condition >= 97 && condition <= 122) ||
+    // condition === 228 ||
+    // condition === 229 ||
+    // condition === 246
+  ) {
+    // console.log("DET FUNKADE!!!!!!!!!!!!!!!!!!!!");
+    guessLetter(name);
+  }
+  //Blockera knappen från att användas igen
+  if (correctLetter.includes(name) || wrongLetter.includes(name)) {
+    // TODO Går detta att fixa?
+    // button.classList.add("block");
+  }
+});
 
 // --------------------- FUNKTIONER ----------------------------------
 
 function hardGame() {
   pickAWord(hardList);
   displayHangman();
-  showEmptyLetterBoxes();
+  showWordOrBoxes();
+  resetButtons();
 }
 function mediumGame() {
   pickAWord(mediumList);
   displayHangman();
-  showEmptyLetterBoxes();
+  showWordOrBoxes();
+  resetButtons();
 }
 function easyGame() {
   pickAWord(easyList);
   displayHangman();
-  showEmptyLetterBoxes();
+  showWordOrBoxes();
+  resetButtons();
 }
 
 function startGame() {
   clear();
+  lockButtons();
   // pickAWord(hardList);
   // displayHangman();
-  // showEmptyLetterBoxes();
+  // showWordOrBoxes();
   console.log("TRYCKT IGEN PÅ STARTA SPEL");
   console.log(correctLetter);
   console.log(wrongLetter);
-
-  // changeButtonActivation(false);
-  // Lägg till rensa gissningar och fel bokstäver
 }
-
-hardGameBtn.addEventListener("click", hardGame);
-mediumGameBtn.addEventListener("click", mediumGame);
-easyGameBtn.addEventListener("click", easyGame);
-
-playAgainButton.addEventListener("click", startGame);
 
 // Genererar ett random ord i listan
 function pickAWord(list) {
@@ -98,12 +183,16 @@ function pickAWord(list) {
 // Rensa gissningar och fel ord
 function clear() {
   popup.style.display = "none";
+  letterBoxes.innerHTML = "";
+  selectedWord = "";
+  guesses = 0;
+  gameButtons.style.display = "flex";
+  letterBoxes.style.display = "none";
   correctLetter = [];
   wrongLetter = [];
-  letterBoxes.innerHTML = "";
   wrongLettersEl.innerHTML = "";
   wrongGuessesEl.innerHTML = "";
-  resetButtons();
+
   showHangman();
   // displayHangman();
 }
@@ -114,8 +203,16 @@ function resetButtons() {
   });
 }
 
+function lockButtons() {
+  document.querySelectorAll("#keyBoard > button").forEach((btn) => {
+    btn.classList.add("block");
+  });
+}
+
 // Visa ordet och kolla om det är rätt......
-function showEmptyLetterBoxes() {
+function showWordOrBoxes() {
+  gameButtons.style.display = "none";
+  letterBoxes.style.display = "block";
   letterBoxes.innerHTML = `
     ${selectedWord
       .split("")
@@ -136,8 +233,86 @@ function showEmptyLetterBoxes() {
 
   if (selectedWord === wordInLetterBoxes) {
     console.log("DU VANN!!! 😀🏆😀");
-    endMessage.innerText = "DU VANN!!! 😀🏆😀";
+    endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
+  }
+}
+
+// Funktion för att dölja och rita upp gubben
+function displayHangman() {
+  hangmanParts.forEach((part, index) => {
+    const errors = wrongLetter.length;
+
+    if (index < errors) {
+      part.style.display = "block";
+    } else {
+      part.style.display = "none";
+    }
+    // console.log("index: " + index);
+    // console.log("errors: " + errors);
+  });
+}
+// Function för att visa gubben igen när man väljer spela igen i popup
+function showHangman() {
+  hangmanParts.forEach((part) => {
+    part.style.display = "block";
+
+    // console.log("index: " + index);
+    // console.log("errors: " + errors);
+  });
+}
+
+function guessLetter(letter) {
+  // finns letter i selectedword?
+
+  // "abc".search;
+  let matchIndex = selectedWord.search(letter);
+  console.log(matchIndex);
+
+  if (matchIndex === -1) {
+    // visar upp vilken bokstav du valt,
+    if (!wrongLetter.includes(letter)) {
+      // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
+      wrongLetter.push(letter);
+      wrongLettersEl.innerHTML = ` ${
+        wrongLetter.length > 0 ? "<p>Wrong Letters:</p>" : " "
+      }
+    ${wrongLetter.map((letter) => `<span>${letter}</span>`)}`;
+      console.log(wrongLetter);
+      // och uppdatera antal gissningar.
+      guesses++;
+      wrongGuessesEl.innerHTML = `Wrong guesses: <br/> ${guesses} of ${maxGuesses} possible`;
+    }
+
+    // sätt ut svg bild,  -- DOM  display:none
+
+    displayHangman();
+
+    if (wrongLetter.length === hangmanParts.length) {
+      // Här kollar vi om vi torskar!!!
+      console.log(wrongLetter.length);
+      console.log("DU FÖRLORADE!!! 💩💩💩💩");
+      endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
+      popup.style.display = "flex";
+    }
+
+    // Lite olika loggar bara.............
+    // console.log(guesses);
+    // console.log("Ingen träff");
+    // console.log("FEL" + " " + wrongLetter);
+    // console.log("Längden på Array wrongLetter: " + wrongLetter.length);
+    // console.log("Längden på hangmanParts: " + hangmanParts.length);
+  } else {
+    // Om ja, sluta leta i listan och skriva ut bokstaven i rutan
+    if (selectedWord.includes(letter)) {
+      if (!correctLetter.includes(letter)) {
+        // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
+        console.log("RÄTT" + " " + correctLetter);
+        correctLetter.push(letter);
+        console.log(correctLetter);
+        showWordOrBoxes();
+      }
+    }
   }
 }
 
@@ -178,112 +353,6 @@ if (savedName !== "" && savedName !== null) {
 }
 // ---------------------------------------------------------------
 // Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
-
-// Bokstäver
-
-// letters är en lista med DOM = element av typen <button>
-const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
-  .toUpperCase() // Så det blir stor bokstav
-  .split("")
-  .map((letter) => {
-    const button = document.createElement("button");
-    button.classList.add("letterButton");
-
-    // classList.add/remove/toggle
-    button.addEventListener("click", () => {
-      // använd loop-variabeln letter
-      guessLetter(letter);
-      //Blockera knappen från att användas igen
-      if (correctLetter.includes(letter) || wrongLetter.includes(letter)) {
-        button.classList.add("block");
-      }
-    });
-    button.innerText = letter;
-    return button;
-  });
-
-const keyboard = document.querySelector("#keyBoard");
-for (let i = 0; i < letterButton.length; i++) {
-  const button = letterButton[i];
-  keyboard.append(button);
-}
-
-// Funktion för att dölja och rita upp gubben
-function displayHangman() {
-  hangmanParts.forEach((part, index) => {
-    const errors = wrongLetter.length;
-
-    if (index < errors) {
-      part.style.display = "block";
-    } else {
-      part.style.display = "none";
-    }
-    // console.log("index: " + index);
-    // console.log("errors: " + errors);
-  });
-}
-function showHangman() {
-  hangmanParts.forEach((part, index) => {
-    part.style.display = "block";
-
-    // console.log("index: " + index);
-    // console.log("errors: " + errors);
-  });
-}
-
-function guessLetter(letter) {
-  // finns letter i selectedword?
-
-  //"abc".search;
-  let matchIndex = selectedWord.search(letter);
-  console.log(matchIndex);
-
-  if (matchIndex === -1) {
-    // visar upp vilken bokstav du valt,
-    if (!wrongLetter.includes(letter)) {
-      // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
-      wrongLetter.push(letter);
-      wrongLettersEl.innerHTML = ` ${
-        wrongLetter.length > 0 ? "<p>Wrong</p>" : " "
-      }
-    ${wrongLetter.map((letter) => `<span>${letter}</span>`)}`;
-      console.log(wrongLetter);
-    }
-
-    // sätt ut svg bild,  -- DOM  display:none
-
-    displayHangman();
-    // och uppdatera antal gissningar.
-    guesses++;
-    wrongGuessesEl.innerHTML = `Wrong guesses ${guesses} of ${maxGuesses} possible`;
-    //om Förlust anropa förlustfunktionen.
-    if (wrongLetter.length === hangmanParts.length) {
-      // Här kollar vi om vi torskar!!!
-      console.log(wrongLetter.length);
-      console.log("DU FÖRLORADE!!! 💩💩💩💩");
-      endMessage.innerText = "DU FÖRLORADE!!! 💩💩💩💩";
-      popup.style.display = "flex";
-    }
-
-    // Lite olika loggar bara.............
-    // console.log(guesses);
-    // console.log("Ingen träff");
-    // console.log("FEL" + " " + wrongLetter);
-    // console.log("Längden på Array wrongLetter: " + wrongLetter.length);
-    // console.log("Längden på hangmanParts: " + hangmanParts.length);
-  } else {
-    // Om ja, sluta leta i listan och skriva ut bokstaven i rutan
-    if (selectedWord.includes(letter)) {
-      if (!correctLetter.includes(letter)) {
-        // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
-        console.log("RÄTT" + " " + correctLetter);
-        correctLetter.push(letter);
-        console.log(correctLetter);
-        showEmptyLetterBoxes();
-      }
-    }
-  }
-}
 
 // TODO Poängsystem?
 // Gissa rätt ger X poäng
