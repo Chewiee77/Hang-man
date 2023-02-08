@@ -188,7 +188,7 @@ function resetButtons() {
   });
 }
 
-function lockButtons(key) {
+function lockButtons() {
   document.querySelectorAll("#keyBoard > button").forEach((btn) => {
     btn.classList.add("block");
   });
