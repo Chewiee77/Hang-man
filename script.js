@@ -364,9 +364,12 @@ if (savedName !== "" && savedName !== null) {
 
 
 
-// när man trycker på pvp knappen så ska det komma upp en overlay/popup
+// när man trycker på pvp knappen så ska det komma upp en overlay/popup.
 // i popupen ska det vara ett slumpat ordlista.
 // spelare 1 ska sedan få välja ett ord ur listan. 
+
+
+
 pvpBtn.addEventListener("click", () => {
   console.log("knappen har klickats")
   const pvpOverlay = document.createElement("div")
