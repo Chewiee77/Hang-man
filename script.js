@@ -33,15 +33,15 @@ const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
 const easyList = finalWordList.filter((word) => {
   return word.length >= 10;
 });
-console.log(easyList);
+// console.log(easyList);
 const mediumList = finalWordList.filter((word) => {
   return word.length > 5 && word.length < 10;
 });
-console.log(mediumList);
+// console.log(mediumList);
 const hardList = finalWordList.filter((word) => {
   return word.length <= 5;
 });
-console.log(hardList);
+// console.log(hardList);
 
 // Skapa tangentbord med eventlyssnare
 const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
@@ -78,6 +78,65 @@ easyGameBtn.addEventListener("click", easyGame);
 
 playAgainButton.addEventListener("click", startGame);
 
+// -------- Användande av tangentbord ------------------------------
+const keyboardLetters = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+  "Å",
+  "Ä",
+  "Ö",
+];
+
+window.addEventListener("keypress", (e) => {
+  // const pressedLetter = document.createElement("pressedLetter");
+  let name = e.key.toUpperCase();
+  // let code = e.code;
+  // let condition = e.which;
+  // pressedLetter.textContent = `keyboardEvent; key='${name.toUpperCase()}' | code='${code}'`;
+  // console.log(name);
+  // console.log(e.which);
+
+  if (
+    keyboardLetters.includes(name)
+    // (condition >= 97 && condition <= 122) ||
+    // condition === 228 ||
+    // condition === 229 ||
+    // condition === 246
+  ) {
+    // console.log("DET FUNKADE!!!!!!!!!!!!!!!!!!!!");
+    guessLetter(name);
+  }
+  //Blockera knappen från att användas igen
+  if (correctLetter.includes(name) || wrongLetter.includes(name)) {
+    // TODO Går detta att fixa?
+    // button.classList.add("block");
+  }
+});
+
 // --------------------- FUNKTIONER ----------------------------------
 
 function hardGame() {
@@ -108,9 +167,6 @@ function startGame() {
   console.log("TRYCKT IGEN PÅ STARTA SPEL");
   console.log(correctLetter);
   console.log(wrongLetter);
-
-  // changeButtonActivation(false);
-  // Lägg till rensa gissningar och fel bokstäver
 }
 
 // Genererar ett random ord i listan
@@ -209,7 +265,7 @@ function showHangman() {
 function guessLetter(letter) {
   // finns letter i selectedword?
 
-  //"abc".search;
+  // "abc".search;
   let matchIndex = selectedWord.search(letter);
   console.log(matchIndex);
 
@@ -223,15 +279,15 @@ function guessLetter(letter) {
       }
     ${wrongLetter.map((letter) => `<span>${letter}</span>`)}`;
       console.log(wrongLetter);
+      // och uppdatera antal gissningar.
+      guesses++;
+      wrongGuessesEl.innerHTML = `Wrong guesses ${guesses} of ${maxGuesses} possible`;
     }
 
     // sätt ut svg bild,  -- DOM  display:none
 
     displayHangman();
-    // och uppdatera antal gissningar.
-    guesses++;
-    wrongGuessesEl.innerHTML = `Wrong guesses ${guesses} of ${maxGuesses} possible`;
-    //om Förlust anropa förlustfunktionen.
+
     if (wrongLetter.length === hangmanParts.length) {
       // Här kollar vi om vi torskar!!!
       console.log(wrongLetter.length);
