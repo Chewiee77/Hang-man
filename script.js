@@ -24,6 +24,37 @@ let wrongLetter = [];
 let correctLetter = [];
 let guesses = 0;
 const maxGuesses = hangmanParts.length;
+const keyboardLetters = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+  "Å",
+  "Ä",
+  "Ö",
+];
 
 // Sorterar bort ord som innehåller mellanslag och - och 3 som skapar beroende på ordlängd
 
@@ -79,91 +110,52 @@ easyGameBtn.addEventListener("click", easyGame);
 
 playAgainButton.addEventListener("click", startGame);
 
-// -------- Användande av tangentbord ------------------------------
-const keyboardLetters = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-  "Å",
-  "Ä",
-  "Ö",
-];
-
-window.addEventListener("keypress", (e) => {
-  let name = e.key.toUpperCase();
-  console.log(name);
-  //Blockera knappen från att användas igen // TODO
-  lockButtonsUsingKeyboard(name);
-
-  if (keyboardLetters.includes(name)) {
-    guessLetter(name);
-  }
-});
-
 // --------------------- FUNKTIONER ----------------------------------
+
+// -------- Användande av tangentbord ------------------------------
+function listenForKeys() {
+  window.addEventListener("keypress", (e) => {
+    let name = e.key.toUpperCase();
+    console.log(name);
+    //Blockera knappen från att användas igen // TODO
+    lockButtonsUsingKeyboard(name);
+
+    if (keyboardLetters.includes(name)) {
+      guessLetter(name);
+    }
+  });
+}
+
+// function stopKey() { // TODO Varför tar ej denna bort...
+//   window.removeEventListener("keypress", listenForKeys);
+// }
 
 function hardGame() {
   pickAWord(hardList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  listenForKeys();
 }
 function mediumGame() {
   pickAWord(mediumList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  listenForKeys();
 }
 function easyGame() {
   pickAWord(easyList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  listenForKeys();
 }
 
 function startGame() {
   clear();
   lockButtons();
-  // pickAWord(hardList);
-  // displayHangman();
-  // showWordOrBoxes();
-  // console.log("TRYCKT IGEN PÅ STARTA SPEL");
-  // console.log(correctLetter);
-  // console.log(wrongLetter);
-}
-
-// Genererar ett random ord i listan
-function pickAWord(list) {
-  randomWord = list[Math.floor(Math.random() * list.length)];
-
-  selectedWord = randomWord.toUpperCase();
-
-  console.log(selectedWord);
-
-  // alert(selectedWord)
+  stopKey();
 }
 
 // Rensa gissningar och fel ord
@@ -181,6 +173,17 @@ function clear() {
 
   showHangman();
   // displayHangman();
+}
+
+// Genererar ett random ord i listan
+function pickAWord(list) {
+  randomWord = list[Math.floor(Math.random() * list.length)];
+
+  selectedWord = randomWord.toUpperCase();
+
+  console.log(selectedWord);
+
+  // alert(selectedWord)
 }
 
 function resetButtons() {
@@ -230,6 +233,7 @@ function showWordOrBoxes() {
     // console.log("DU VANN!!! 😀🏆😀");
     endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
+    stopKey();
   }
 }
 
@@ -289,6 +293,7 @@ function guessLetter(letter) {
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
       endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
+      stopKey();
     }
 
     // Lite olika loggar bara.............
