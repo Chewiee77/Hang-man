@@ -1,6 +1,7 @@
 import words from "/svenska-ord.json" assert { type: "json" };
 
 // Variabels from DOM element
+const body = document.querySelector("body")
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 // const hangManPic = document.querySelector("#hang_man_pic"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
@@ -356,3 +357,51 @@ if (savedName !== "" && savedName !== null) {
 // Spara antal drag
 // Spara poäng
 // Sortera resultat
+
+
+// -------------------------------scoreboard
+
+// när man trycker på scoreboard-knappen ska det komma upp en popup overlay.
+// i popupen ska det finna 3 rubriker: namn, antal fel gissningar och om man har vunnit eller förlorar.
+// i under rubrikerna ska det sparade datan visas.
+// en filtrerings knapp ska finnas där man kan filterera mellan kronologisk ordning (namn i alfabetiskordning) / bäst resultat
+// knapp [stäng]
+
+
+scoreBoardBtn.addEventListener("click", () => {
+  let scoreOverlay = document.createElement("div")
+  scoreOverlay.classList.add("scoreoverlay")
+  scoreOverlay.addEventListener("click", () => {
+    scoreOverlay.remove()
+  })
+
+  let scorePopUp = document.createElement("div")
+  scorePopUp.classList.add("scorepopup")
+  scorePopUp.addEventListener("click", event => {
+    event.stopPropagation()
+  })
+
+  let scoreNameContainer = document.createElement("div")
+  let scoreWrongGuessesContainer = document.createElement("div")
+  let scoreWinLoseContainer = document.createElement("div")
+
+  let scoreHeadingName = document.createElement("h2")
+  scoreHeadingName.innerText = "Namn"
+  let scoreHeadingWrongGuesses = document.createElement("h2")
+  scoreHeadingWrongGuesses.innerText = "Felgissningar"
+  let scoreHeadingWinLose = document.createElement("h2")
+  scoreHeadingWinLose.innerText = "Vinst"
+
+
+
+
+  body.append(scoreOverlay)
+  scoreOverlay.append(scorePopUp)
+  scoreNameContainer.append(scoreHeadingName)
+  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses)
+  scoreWinLoseContainer.append(scoreHeadingWinLose)
+  scorePopUp.append(scoreNameContainer)
+  scorePopUp.append(scoreWrongGuessesContainer)
+  scorePopUp.append(scoreWinLoseContainer)
+})
+
