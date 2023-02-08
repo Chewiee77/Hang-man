@@ -4,8 +4,8 @@ import words from "/svenska-ord.json" assert { type: "json" };
 const body = document.querySelector("body")
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
-const hangManPic = document.querySelector("#hang_man_pic");
-const letterButtons = document.querySelector(".letterButton");
+// const hangManPic = document.querySelector("#hang_man_pic"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
+// const letterButtons = document.querySelector(".letterButton"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
 const popup = document.querySelector(".popup-container");
 const endMessage = document.querySelector(".end-message");
 const playAgainButton = document.querySelector(".play-again-btn");
@@ -113,28 +113,13 @@ const keyboardLetters = [
 ];
 
 window.addEventListener("keypress", (e) => {
-  // const pressedLetter = document.createElement("pressedLetter");
   let name = e.key.toUpperCase();
-  // let code = e.code;
-  // let condition = e.which;
-  // pressedLetter.textContent = `keyboardEvent; key='${name.toUpperCase()}' | code='${code}'`;
-  // console.log(name);
-  // console.log(e.which);
+  console.log(name);
+  //Blockera knappen från att användas igen // TODO
+  lockButtonsUsingKeyboard(name);
 
-  if (
-    keyboardLetters.includes(name)
-    // (condition >= 97 && condition <= 122) ||
-    // condition === 228 ||
-    // condition === 229 ||
-    // condition === 246
-  ) {
-    // console.log("DET FUNKADE!!!!!!!!!!!!!!!!!!!!");
+  if (keyboardLetters.includes(name)) {
     guessLetter(name);
-  }
-  //Blockera knappen från att användas igen
-  if (correctLetter.includes(name) || wrongLetter.includes(name)) {
-    // TODO Går detta att fixa?
-    // button.classList.add("block");
   }
 });
 
@@ -165,9 +150,9 @@ function startGame() {
   // pickAWord(hardList);
   // displayHangman();
   // showWordOrBoxes();
-  console.log("TRYCKT IGEN PÅ STARTA SPEL");
-  console.log(correctLetter);
-  console.log(wrongLetter);
+  // console.log("TRYCKT IGEN PÅ STARTA SPEL");
+  // console.log(correctLetter);
+  // console.log(wrongLetter);
 }
 
 // Genererar ett random ord i listan
@@ -209,6 +194,15 @@ function lockButtons() {
     btn.classList.add("block");
   });
 }
+function lockButtonsUsingKeyboard(letter) {
+  document.querySelectorAll("#keyBoard > button").forEach((key) => {
+    if (letter === key.innerHTML) {
+      console.log(key);
+      console.log(letter);
+      key.classList.add("block");
+    }
+  });
+}
 
 // Visa ordet och kolla om det är rätt......
 function showWordOrBoxes() {
@@ -229,11 +223,11 @@ function showWordOrBoxes() {
 
   const wordInLetterBoxes = letterBoxes.innerText.replace(/\s/g, "");
 
-  console.log(letterBoxes.innerText, wordInLetterBoxes);
+  // console.log(letterBoxes.innerText, wordInLetterBoxes); // Log för att förstå sambandet
   // Om vinst anropa vinstfunktionen
 
   if (selectedWord === wordInLetterBoxes) {
-    console.log("DU VANN!!! 😀🏆😀");
+    // console.log("DU VANN!!! 😀🏆😀");
     endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
   }
@@ -268,7 +262,7 @@ function guessLetter(letter) {
 
   // "abc".search;
   let matchIndex = selectedWord.search(letter);
-  console.log(matchIndex);
+  // console.log(matchIndex);
 
   if (matchIndex === -1) {
     // visar upp vilken bokstav du valt,
@@ -308,9 +302,9 @@ function guessLetter(letter) {
     if (selectedWord.includes(letter)) {
       if (!correctLetter.includes(letter)) {
         // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
-        console.log("RÄTT" + " " + correctLetter);
         correctLetter.push(letter);
-        console.log(correctLetter);
+        // console.log("RÄTT" + " " + correctLetter);
+        // console.log(correctLetter);
         showWordOrBoxes();
       }
     }
@@ -357,7 +351,7 @@ if (savedName !== "" && savedName !== null) {
 
 // TODO Poängsystem?
 // Gissa rätt ger X poäng
-// Varje felgissning drar av Y poäng
+// Varje felgissning drar av Y poäng ---
 // Svårighetsgrad ger multiplier x1 x2 x3
 
 // Spara antal drag
