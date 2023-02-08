@@ -1,9 +1,16 @@
 @charset "UTF-8";
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
+  box-sizing: inherit;
+}
+
+html {
   box-sizing: border-box;
+  font-size: 62.5%;
 }
 
 .Hanging_man_words {
@@ -51,7 +58,10 @@ header > p {
 }
 .scoreboard:hover,
 .nameH1Btn:hover,
-.pvp:hover {
+.pvp:hover,
+.scoreboard:focus,
+.pvp:focus,
+.nameH1Btn:focus {
   background-color: rgb(13, 250, 13);
   color: black;
 }
@@ -79,27 +89,41 @@ footer {
   text-align: end;
 }
 
+.game-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.hangmanPic {
+  grid-row: 1 / 3;
+}
+/* .hangman-container {
+  grid-row: 1 / 3;
+} */
+
 .startGameBtn {
   font-size: 1.5em;
   border-radius: 9px;
   cursor: pointer;
   background-color: rgb(150, 0, 204);
   padding: 0.5em;
-  margin-bottom: 0.5em;
+  /* margin-bottom: 0.5em; */
   color: white;
 }
-.startGameBtn:hover {
+.startGameBtn:hover,
+.startGameBtn:focus {
   background-color: rgb(13, 250, 13);
   color: black;
 }
 
-#gameBoard {
+/* #gameBoard {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   padding: 10px 0;
   display: flex;
   flex-wrap: wrap;
-}
+} */
 
 /* #letterButtons {
   text-align: center;
@@ -114,14 +138,17 @@ footer {
   border-radius: 10px;
   cursor: pointer;
 }
-.letterButton:hover {
+.letterButton:hover,
+.letterButton:focus {
   background-color: rgb(250, 192, 255);
 }
 
 .gamespace {
   width: 100%;
-  padding-top: 20px;
+  /* padding-top: 20px; */
   text-align: center;
+  display: none;
+  margin: 1rem 0;
 }
 .gamespace .box {
   display: inline-block;
@@ -134,14 +161,25 @@ footer {
   text-align: center;
 }
 
+.game-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+
 .wrong-letter-container {
-  background-color: hotpink;
-  height: 100px;
+  /* background-color: hotpink; */
+  border: 1px dotted rgb(250, 192, 255);
+  font-size: 1.6rem;
+  /* height: 100px; */
 }
 
 .wrong-guesses {
-  background-color: aqua;
-  height: 100px;
+  /* background-color: aqua; */
+  border: 1px dotted rgb(250, 192, 255);
+  border-top: none;
+  font-size: 1.6rem;
+  /* height: 100px; */
 }
 
 .block {
@@ -165,14 +203,14 @@ footer {
 .popup {
   background-color: #fff;
   color: black;
-  width: 30%;
-  height: 250px;
+  width: 50%;
+  height: 50%;
   text-align: center;
 }
 
 .end-message {
   padding-top: 1.5rem;
-  font-size: 1.7em;
+  font-size: 3rem;
 }
 
 .play-again-btn {
@@ -209,7 +247,7 @@ footer {
     height: 300px;
   }
 
-  #startGameBtn {
+  .startGameBtn {
     font-size: 1em;
     border-radius: 9px;
     cursor: pointer;
@@ -218,7 +256,7 @@ footer {
     margin-bottom: 0.5em;
     color: white;
   }
-  #letterButtons button {
+  .letterButtons button {
     font-size: 1em;
     width: 2em;
     height: 2em;
@@ -244,6 +282,6 @@ footer {
   }
 }
 /* tilllagd med javascript */
-.invisible {
+/* .invisible {
   visibility: hidden;
-}
+} */
