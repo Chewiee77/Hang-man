@@ -1,9 +1,16 @@
 @charset "UTF-8";
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
+  box-sizing: inherit;
+}
+
+html {
   box-sizing: border-box;
+  font-size: 62.5%;
 }
 
 .Hanging_man_words {
@@ -161,12 +168,17 @@ footer {
 }
 
 .wrong-letter-container {
-  background-color: hotpink;
+  /* background-color: hotpink; */
+  border: 1px dotted rgb(250, 192, 255);
+  font-size: 1.6rem;
   /* height: 100px; */
 }
 
 .wrong-guesses {
-  background-color: aqua;
+  /* background-color: aqua; */
+  border: 1px dotted rgb(250, 192, 255);
+  border-top: none;
+  font-size: 1.6rem;
   /* height: 100px; */
 }
 
@@ -191,14 +203,14 @@ footer {
 .popup {
   background-color: #fff;
   color: black;
-  width: 30%;
-  height: 250px;
+  width: 50%;
+  height: 50%;
   text-align: center;
 }
 
 .end-message {
   padding-top: 1.5rem;
-  font-size: 1.7em;
+  font-size: 3rem;
 }
 
 .play-again-btn {
@@ -235,7 +247,7 @@ footer {
     height: 300px;
   }
 
-  #startGameBtn {
+  .startGameBtn {
     font-size: 1em;
     border-radius: 9px;
     cursor: pointer;
@@ -244,7 +256,7 @@ footer {
     margin-bottom: 0.5em;
     color: white;
   }
-  #letterButtons button {
+  .letterButtons button {
     font-size: 1em;
     width: 2em;
     height: 2em;
@@ -270,6 +282,6 @@ footer {
   }
 }
 /* tilllagd med javascript */
-.invisible {
+/* .invisible {
   visibility: hidden;
-}
+} */

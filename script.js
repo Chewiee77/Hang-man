@@ -142,19 +142,19 @@ window.addEventListener("keypress", (e) => {
 function hardGame() {
   pickAWord(hardList);
   displayHangman();
-  showEmptyLetterBoxes();
+  showWordOrBoxes();
   resetButtons();
 }
 function mediumGame() {
   pickAWord(mediumList);
   displayHangman();
-  showEmptyLetterBoxes();
+  showWordOrBoxes();
   resetButtons();
 }
 function easyGame() {
   pickAWord(easyList);
   displayHangman();
-  showEmptyLetterBoxes();
+  showWordOrBoxes();
   resetButtons();
 }
 
@@ -163,7 +163,7 @@ function startGame() {
   lockButtons();
   // pickAWord(hardList);
   // displayHangman();
-  // showEmptyLetterBoxes();
+  // showWordOrBoxes();
   console.log("TRYCKT IGEN PÅ STARTA SPEL");
   console.log(correctLetter);
   console.log(wrongLetter);
@@ -210,7 +210,7 @@ function lockButtons() {
 }
 
 // Visa ordet och kolla om det är rätt......
-function showEmptyLetterBoxes() {
+function showWordOrBoxes() {
   gameButtons.style.display = "none";
   letterBoxes.style.display = "block";
   letterBoxes.innerHTML = `
@@ -275,13 +275,13 @@ function guessLetter(letter) {
       // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
       wrongLetter.push(letter);
       wrongLettersEl.innerHTML = ` ${
-        wrongLetter.length > 0 ? "<p>Wrong</p>" : " "
+        wrongLetter.length > 0 ? "<p>Wrong Letters:</p>" : " "
       }
     ${wrongLetter.map((letter) => `<span>${letter}</span>`)}`;
       console.log(wrongLetter);
       // och uppdatera antal gissningar.
       guesses++;
-      wrongGuessesEl.innerHTML = `Wrong guesses ${guesses} of ${maxGuesses} possible`;
+      wrongGuessesEl.innerHTML = `Wrong guesses: <br/> ${guesses} of ${maxGuesses} possible`;
     }
 
     // sätt ut svg bild,  -- DOM  display:none
@@ -292,7 +292,7 @@ function guessLetter(letter) {
       // Här kollar vi om vi torskar!!!
       console.log(wrongLetter.length);
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
-      endMessage.innerText = `DU FÖRLORADE!!! 💩💩💩💩 \n Ordet var ${selectedWord}`;
+      endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
     }
 
@@ -310,7 +310,7 @@ function guessLetter(letter) {
         console.log("RÄTT" + " " + correctLetter);
         correctLetter.push(letter);
         console.log(correctLetter);
-        showEmptyLetterBoxes();
+        showWordOrBoxes();
       }
     }
   }
