@@ -384,14 +384,25 @@ pvpBtn.addEventListener("click", () => {
     event.stopPropagation()
   })
 
+
   const pvpH2 = document.createElement("h2")
   pvpH2.innerText = "Spelare 1: Välj ett ord som andra spelaren ska gissa"
-
-  const pvpWordlist = document.createElement("ul")
-  // när man har valt ett ord och tryckt på den så 
-
-  pvpPopUp.append(pvpWordlist)
-  body.append(pvpOverlay)
   pvpPopUp.append(pvpH2)
+  let pvpWordUl = document.createElement("ul")
+  pvpWordUl.classList.add("pvpwords")
+
+  for (let i = 0; i < 90; i++) {
+    let pvpWord = pickAWord.selectedWord
+    console.log(pvpWord)
+    console.log(pickAWord)
+
+    let pvpWordList = document.createElement("li")
+    pvpWordList.innerText = pvpWord
+    pvpWordUl.append(pvpWordList)
+  }
+  
+
+  pvpPopUp.append(pvpWordUl)
+  body.append(pvpOverlay)
   pvpOverlay.append(pvpPopUp)
 })
