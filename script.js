@@ -26,14 +26,14 @@ let correctLetter = [];
 let guesses = 0;
 let wins = 0;
 let losses = 0;
-let name = '';
+let user = localStorage.getItem('user');
 //  Heading och input(namn), score (antal-gissningar), Vinst(win/lose) 
 // Objekt med string resultat i
 const remember = {
-  name: '',
-  wins: wins,
-  losses: losses,
-  guesses: 0
+  name: user.name,
+  wins: user.wins,
+  losses: user.losses,
+  guesses: user.guesses
 };
 const maxGuesses = hangmanParts.length;
 const keyboardLetters = [
@@ -246,7 +246,12 @@ function showWordOrBoxes() {
     endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
     wins++;
-    updateUserStat(name, 1, 0, guesses);
+    updateUserStat(1, 0, guesses);
+    let users = JSON.parse(localStorage.getItem('users'));
+    let currentUser = JSON.parse(localStorage.getItem('user'));
+    console.log(currentUser);
+    users.push(currentUser);
+    localStorage.setItem('users', JSON.stringify(users));
     // stopKey();
   }
 }
@@ -308,7 +313,12 @@ function guessLetter(letter) {
       endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
       losses++;
-      updateUserStat(name, 0, 1, guesses);
+      updateUserStat(0, 1, guesses);
+      let users = JSON.parse(localStorage.getItem('users'));
+      let currentUser = JSON.parse(localStorage.getItem('user'));
+      console.log(currentUser);
+      users.push(currentUser);
+      localStorage.setItem('users', JSON.stringify(users));
       // stopKey();
     }
 
@@ -363,10 +373,6 @@ scoreBoardBtn.addEventListener("click", () => {
   let scoreWinLoseContainer = document.createElement("div")
   scoreWinLoseContainer.classList.add('scoreboard-wins');
 
-  // ta in befintlig data
-  let data = checkLocalStorage();
-  console.log(data);
-
   let scoreHeadingName = document.createElement("h2")
   scoreHeadingName.innerText = "Namn"
 
@@ -406,9 +412,6 @@ scoreBoardBtn.addEventListener("click", () => {
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------
 
-// GÖra om stringvärdet till 
-let rememberScoreParseValue = JSON.stringify(remember);
-
 // Key för Localstorage
 const LS_KEY = "hangman_Key_toLocalStorage";
 
@@ -433,42 +436,14 @@ if (savedName !== "" && savedName !== null) {
   renderRememberHeading(savedName);
 }
 
-// kolla om local storage redan innehåller data:
-function checkLocalStorage() {
-  let data = localStorage.getItem('userStats');
-  data = JSON.parse(data);
-  if (data == null) {
-    data = remember;
-  }
-  return data;
-};
-
 // funktion för att uppdatera LS på användaren
-function updateUserStat(name, win, loss, guesses) {
-  let previousData = checkLocalStorage();
-  if (previousData !== null) {
+function updateUserStat(win, loss, guesses) {
+  let previousData = JSON.parse(localStorage.getItem('user'));
     let data = {
-      name: name,
+      name: previousData.name,
       wins: previousData.wins + win,
       losses: previousData.losses + loss,
       guesses: previousData.guesses + guesses
     };
-    localStorage.setItem('userStats', JSON.stringify(data));
-  } else {
-    let data = {
-      name: name,
-      wins: wins,
-      losses: losses,
-      guesses: guesses
-    };
-    localStorage.setItem('userStats', JSON.stringify(data));
-  }
+    localStorage.setItem('user', JSON.stringify(data));
 };
-
-// vid lägg till namn så vill vi ha data på användaren
-addNameBtn.addEventListener('click', () => {
-  console.log('du klickade');
-  let newName = document.querySelector('#name-input').value;
-  name = newName;
-  updateUserStat(newName, 0, 0, 0);
-});

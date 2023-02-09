@@ -1,4 +1,5 @@
 let players = 1;
+localStorage.setItem('users', '[]');
 document.querySelector('.one-player-btn').addEventListener('click', () => {
 	players = 1;
 	document.querySelector('.options').style.visibility = 'visible';
