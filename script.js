@@ -378,7 +378,6 @@ scoreBoardBtn.addEventListener("click", () => {
   body.append(scoreOverlay)
   scoreOverlay.append(scorePopUp)
   scoreNameContainer.append(scoreHeadingName);
-
   scorePopUp.append(scoreNameContainer)
   scorePopUp.append(scoreWrongGuessesContainer)
   scorePopUp.append(scoreWinLoseContainer)

@@ -1,0 +1,13 @@
+body {
+	background-color: rgb(38, 37, 37);
+	color: white;
+}
+.options {
+	visibility: hidden;
+}
+.one-player-chosen {
+	visibility: hidden;
+}
+.two-players-chosen {
+	visibility: hidden;
+}
