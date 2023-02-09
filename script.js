@@ -390,20 +390,20 @@ scoreBoardBtn.addEventListener("click", () => {
   
   // lägg till namn från LS
   let nameEl = document.createElement('p');
-  nameEl.innerText = data.name;
+  nameEl.innerText = user.name; //data.name? 
   scoreNameContainer.insertAdjacentElement('beforeend', nameEl);
   
   
   // lägg till felgissningar från LS
   let guessesEl = document.createElement('p');
-  guessesEl.inneText = data.guesses;
+  guessesEl.inneText = user.guesses;
   scoreWrongGuessesContainer.insertAdjacentElement('beforeend', guessesEl);
   
   scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses);
   // lägg till vinst? boolean? 
   
   let scoreEl = document.createElement('p'); 
-  scoreEl.inneText = data.wins;
+  scoreEl.inneText = user.wins;
   scoreHeadingWinLose.insertAdjacentElement('beforeend', scoreEl);
   
   scoreWinLoseContainer.append(scoreHeadingWinLose)
