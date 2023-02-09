@@ -17,12 +17,24 @@ let hardGameBtn = document.querySelector("#hardGameBtn");
 let mediumGameBtn = document.querySelector("#mediumGameBtn");
 let easyGameBtn = document.querySelector("#easyGameBtn");
 let gameButtons = document.querySelector(".game-buttons");
+let addNameBtn = document.querySelector('#add-name-btn');
 let randomWord;
 let selectedWord;
 
 let wrongLetter = [];
 let correctLetter = [];
 let guesses = 0;
+let wins = 0;
+let losses = 0;
+let name = '';
+//  Heading och input(namn), score (antal-gissningar), Vinst(win/lose) 
+// Objekt med string resultat i
+const remember = {
+  name: '',
+  wins: wins,
+  losses: losses,
+  guesses: 0
+};
 const maxGuesses = hangmanParts.length;
 const keyboardLetters = [
   "A",
@@ -155,7 +167,7 @@ function easyGame() {
 function startGame() {
   clear();
   lockButtons();
-  stopKey();
+  // stopKey();
 }
 
 // Rensa gissningar och fel ord
@@ -233,7 +245,9 @@ function showWordOrBoxes() {
     // console.log("DU VANN!!! 😀🏆😀");
     endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
-    stopKey();
+    wins++;
+    updateUserStat(name, 1, 0, guesses);
+    // stopKey();
   }
 }
 
@@ -293,7 +307,9 @@ function guessLetter(letter) {
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
       endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
-      stopKey();
+      losses++;
+      updateUserStat(name, 0, 1, guesses);
+      // stopKey();
     }
 
     // Lite olika loggar bara.............
@@ -315,55 +331,6 @@ function guessLetter(letter) {
     }
   }
 }
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// Nytt från malin --------------------------------------
-
-// - jag vill ta emot ett namn
-// - sätta namnet i h1 taggen
-// - spara namnet i local storage
-
-//  H1 och input
-const remember = {
-  heading: document.querySelector("#remember > h1"),
-  input: document.querySelector("#remember > input"),
-  
-};
-// Key för Localstorage
-const LS_KEY = "hangman_Key_toLocalStorage";
-
-
-// För att lägga namnet ifrån input och i H1 meningen
-remember.input.addEventListener("input", (event) => {
-  const value = event.target.value;
-  localStorage.setItem(LS_KEY, value);
-
-  renderRememnerHeading(value);
-});
-function renderRememnerHeading(value) {
-  remember.heading.innerText = `Välkommen ${value}!`;
-}
-
-// När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
-let savedName = localStorage.getItem(LS_KEY);
-if (savedName !== "" && savedName !== null) {
-  // remember.input.value = savedName;  // TODO Ska namnet stå kvar i inputfältet? Eller ska input vara borta då?
-  savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
-  renderRememnerHeading(savedName);
-}
-// ---------------------------------------------------------------
-// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
-
-// TODO Poängsystem?
-// Gissa rätt ger X poäng
-// Varje felgissning drar av Y poäng ---
-// Svårighetsgrad ger multiplier x1 x2 x3
-
-// Spara antal drag
-// Spara poäng
-// Sortera resultat
-
 
 // -------------------------------scoreboard
 
@@ -387,30 +354,123 @@ scoreBoardBtn.addEventListener("click", () => {
     event.stopPropagation()
   })
 
-  let scoreNameContainer = document.createElement("div")
+  let scoreNameContainer = document.createElement("div");
+  scoreNameContainer.classList.add('scoreboard-name');
+
   let scoreWrongGuessesContainer = document.createElement("div")
+  scoreWrongGuessesContainer.classList.add('scoreboard-guesses');
+
   let scoreWinLoseContainer = document.createElement("div")
+  scoreWinLoseContainer.classList.add('scoreboard-wins');
+
+  // ta in befintlig data
+  let data = checkLocalStorage();
+  console.log(data);
 
   let scoreHeadingName = document.createElement("h2")
   scoreHeadingName.innerText = "Namn"
+
   let scoreHeadingWrongGuesses = document.createElement("h2")
   scoreHeadingWrongGuesses.innerText = "Felgissningar"
   let scoreHeadingWinLose = document.createElement("h2")
   scoreHeadingWinLose.innerText = "Vinst"
 
 
-
-
+  
   body.append(scoreOverlay)
   scoreOverlay.append(scorePopUp)
-  scoreNameContainer.append(scoreHeadingName)
-  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses)
-  scoreWinLoseContainer.append(scoreHeadingWinLose)
+  scoreNameContainer.append(scoreHeadingName);
+
+  // lägg till namn från LS
+  let nameEl = document.createElement('p');
+  nameEl.innerText = data.name;
+  scoreNameContainer.insertAdjacentElement('beforeend', nameEl);
+
   scorePopUp.append(scoreNameContainer)
   scorePopUp.append(scoreWrongGuessesContainer)
   scorePopUp.append(scoreWinLoseContainer)
+  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses)
+
+  // lägg till felgissningar från LS
+  let guessesEl = document.createElement('p');
+  guessesEl.inneText = data.guesses;
+  scoreWrongGuessesContainer.insertAdjacentElement('beforeend', guessesEl);
+
+  // lägg till vinst? boolean? 
+  scoreWinLoseContainer.append(scoreHeadingWinLose)
+
+  let scoreEl = document.createElement('p'); 
+  scoreEl.inneText = data.wins;
+  scoreHeadingWinLose.insertAdjacentElement('beforeend', scoreEl)
+
 })
 
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------
 
+// GÖra om stringvärdet till 
+let rememberScoreParseValue = JSON.stringify(remember);
+
+// Key för Localstorage
+const LS_KEY = "hangman_Key_toLocalStorage";
+
+
+// För att lägga namnet ifrån input och i H1 meningen
+// remember.inputName.addEventListener("input", (event) => {
+//   const value = event.target.value;
+//   localStorage.setItem(LS_KEY, value);
+
+//   renderRememberHeading(value);
+//   updateUserStat(value, wins, losses, guesses);
+// });
+function renderRememberHeading(value) {
+  remember.heading.innerText = `Välkommen ${value}!`;
+}
+
+// När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
+let savedName = localStorage.getItem(LS_KEY);
+if (savedName !== "" && savedName !== null) {
+  // remember.input.value = savedName;  // TODO Ska namnet stå kvar i inputfältet? Eller ska input vara borta då?
+  savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
+  renderRememberHeading(savedName);
+}
+
+// kolla om local storage redan innehåller data:
+function checkLocalStorage() {
+  let data = localStorage.getItem('userStats');
+  data = JSON.parse(data);
+  if (data == null) {
+    data = remember;
+  }
+  return data;
+};
+
+// funktion för att uppdatera LS på användaren
+function updateUserStat(name, win, loss, guesses) {
+  let previousData = checkLocalStorage();
+  if (previousData !== null) {
+    let data = {
+      name: name,
+      wins: previousData.wins + win,
+      losses: previousData.losses + loss,
+      guesses: previousData.guesses + guesses
+    };
+    localStorage.setItem('userStats', JSON.stringify(data));
+  } else {
+    let data = {
+      name: name,
+      wins: wins,
+      losses: losses,
+      guesses: guesses
+    };
+    localStorage.setItem('userStats', JSON.stringify(data));
+  }
+};
+
+// vid lägg till namn så vill vi ha data på användaren
+addNameBtn.addEventListener('click', () => {
+  console.log('du klickade');
+  let newName = document.querySelector('#name-input').value;
+  name = newName;
+  updateUserStat(newName, 0, 0, 0);
+});
