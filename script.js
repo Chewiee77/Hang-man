@@ -375,34 +375,33 @@ scoreBoardBtn.addEventListener("click", () => {
   let scoreHeadingWinLose = document.createElement("h2")
   scoreHeadingWinLose.innerText = "Vinst"
 
-
-  
   body.append(scoreOverlay)
   scoreOverlay.append(scorePopUp)
   scoreNameContainer.append(scoreHeadingName);
 
+  scorePopUp.append(scoreNameContainer)
+  scorePopUp.append(scoreWrongGuessesContainer)
+  scorePopUp.append(scoreWinLoseContainer)
+  
   // lägg till namn från LS
   let nameEl = document.createElement('p');
   nameEl.innerText = data.name;
   scoreNameContainer.insertAdjacentElement('beforeend', nameEl);
-
-  scorePopUp.append(scoreNameContainer)
-  scorePopUp.append(scoreWrongGuessesContainer)
-  scorePopUp.append(scoreWinLoseContainer)
-  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses)
-
+  
+  
   // lägg till felgissningar från LS
   let guessesEl = document.createElement('p');
   guessesEl.inneText = data.guesses;
   scoreWrongGuessesContainer.insertAdjacentElement('beforeend', guessesEl);
-
+  
+  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses);
   // lägg till vinst? boolean? 
-  scoreWinLoseContainer.append(scoreHeadingWinLose)
-
+  
   let scoreEl = document.createElement('p'); 
   scoreEl.inneText = data.wins;
-  scoreHeadingWinLose.insertAdjacentElement('beforeend', scoreEl)
-
+  scoreHeadingWinLose.insertAdjacentElement('beforeend', scoreEl);
+  
+  scoreWinLoseContainer.append(scoreHeadingWinLose)
 })
 
 
