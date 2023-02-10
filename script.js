@@ -517,6 +517,7 @@ scoreBoardBtn.addEventListener("click", () => {
     scoreDisplayUserWin.remove();
   });
 
+  // Rensa stats från enskild person
   // Resetknapp aktuell användare
   const removeUserBtn = document.createElement("button");
   removeUserBtn.innerText = "Reset User";
@@ -586,5 +587,3 @@ scoreBoardBtn.addEventListener("click", () => {
 // Sortera namn i bokstavsordning
 // Sortera Felgissningar i antal
 // Sortera Vinster i true/false
-
-// Rensa stats från enskild person
