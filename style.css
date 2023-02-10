@@ -246,11 +246,11 @@ footer {
 .scorepopup {
   background-color: white;
   width: 80%;
-  height: 80%;
+  height: auto;
   border-radius: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 2fr 0.2fr;
+  grid-template-rows: max-content;
   text-align: center;
 }
 
@@ -269,12 +269,12 @@ footer {
 }
 
 .score-btn-div {
-  grid-column-start: 1;
-  grid-column-end: 4;
+  width: auto;
+  height: auto;
+  padding: 3rem;
+  grid-column: span 3;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 3rem;
+  justify-content: space-around;
 }
 
 .clear-all-btn {
@@ -285,7 +285,6 @@ footer {
   cursor: pointer;
   background-color: rgb(150, 0, 204);
   color: white;
-  margin-right: 2rem;
 }
 
 .clear-all-btn:hover {
@@ -304,32 +303,6 @@ footer {
 
 .remove-user-btn:hover {
   background-color: rgb(175, 34, 227);
-}
-
-.scoreoverlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 140%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.scorepopup {
-  background-color: white;
-  width: 80%;
-  height: 80%;
-  border-radius: 1.5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  text-align: center;
-}
-
-.scorepopup h2 {
-  padding: 1rem 0;
 }
 
 @media screen and (max-width: 770px) {
