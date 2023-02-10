@@ -491,8 +491,8 @@ scoreBoardBtn.addEventListener("click", () => {
   let scoreNameContainer = document.createElement("div");
   let scoreWrongGuessesContainer = document.createElement("div");
   let scoreWinLoseContainer = document.createElement("div");
-  let scoreBtnDiv = document.createElement("div")
-  scoreBtnDiv.classList.add("score-btn-div")
+  let scoreBtnDiv = document.createElement("div");
+  scoreBtnDiv.classList.add("score-btn-div");
   let body = document.querySelector("body");
   let scoreHeadingName = document.createElement("h2");
   scoreHeadingName.innerText = "Namn";
@@ -510,7 +510,7 @@ scoreBoardBtn.addEventListener("click", () => {
   scorePopUp.append(scoreNameContainer);
   scorePopUp.append(scoreWrongGuessesContainer);
   scorePopUp.append(scoreWinLoseContainer);
-  scorePopUp.append(scoreBtnDiv)
+  scorePopUp.append(scoreBtnDiv);
 
   scoreNameContainer.append(scoreHeadingName);
   scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses);
