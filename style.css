@@ -234,7 +234,7 @@ footer {
 .scoreoverlay {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  height: 140%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -246,10 +246,11 @@ footer {
 .scorepopup {
   background-color: white;
   width: 80%;
-  height: 80%;
+  height: auto;
   border-radius: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: max-content;
   text-align: center;
 }
 
@@ -265,6 +266,15 @@ footer {
   font-size: 1.5rem;
   color: black;
   border-bottom: 1px solid black;
+}
+
+.score-btn-div {
+  width: auto;
+  height: auto;
+  padding: 3rem;
+  grid-column: span 3;
+  display: flex;
+  justify-content: space-around;
 }
 
 .clear-all-btn {
@@ -293,32 +303,6 @@ footer {
 
 .remove-user-btn:hover {
   background-color: rgb(175, 34, 227);
-}
-
-.scoreoverlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 140%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.scorepopup {
-  background-color: white;
-  width: 80%;
-  height: 80%;
-  border-radius: 1.5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  text-align: center;
-}
-
-.scorepopup h2 {
-  padding: 1rem 0;
 }
 
 @media screen and (max-width: 770px) {
