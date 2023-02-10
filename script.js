@@ -19,6 +19,9 @@ let gameButtons = document.querySelector(".game-buttons");
 let randomWord;
 let selectedWord;
 
+let gameActive = false;
+let win = false;
+
 let wrongLetter = [];
 let correctLetter = [];
 let guesses = 0;
@@ -113,14 +116,17 @@ playAgainButton.addEventListener("click", startGame);
 
 // -------- Användande av tangentbord ------------------------------
 function listenForKeys() {
+  // if (gameActive) {
   window.addEventListener("keypress", (e) => {
-    let name = e.key.toUpperCase();
-    console.log(name);
-    //Blockera knappen från att användas igen // TODO
-    lockButtonsUsingKeyboard(name);
+    if (gameActive) {
+      let name = e.key.toUpperCase();
+      console.log(name);
+      //Blockera knappen från att användas igen // TODO
+      lockButtonsUsingKeyboard(name);
 
-    if (keyboardLetters.includes(name)) {
-      guessLetter(name);
+      if (keyboardLetters.includes(name)) {
+        guessLetter(name);
+      }
     }
   });
 }
@@ -135,6 +141,7 @@ function hardGame() {
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  gameActive = true;
   listenForKeys();
 }
 function mediumGame() {
@@ -142,6 +149,7 @@ function mediumGame() {
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  gameActive = true;
   listenForKeys();
 }
 function easyGame() {
@@ -149,6 +157,7 @@ function easyGame() {
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  gameActive = true;
   listenForKeys();
 }
 
@@ -160,6 +169,7 @@ function startGame() {
 
 // Rensa gissningar och fel ord
 function clear() {
+  gameActive = false;
   popup.style.display = "none";
   letterBoxes.innerHTML = "";
   selectedWord = "";
@@ -231,9 +241,12 @@ function showWordOrBoxes() {
 
   if (selectedWord === wordInLetterBoxes) {
     // console.log("DU VANN!!! 😀🏆😀");
+    // stopKey();
+    gameActive = false;
+    win = true;
+    saveHighScore(totalScore, scores);
     endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
-    stopKey();
   }
 }
 
@@ -289,11 +302,14 @@ function guessLetter(letter) {
 
     if (wrongLetter.length === hangmanParts.length) {
       // Här kollar vi om vi torskar!!!
+      // stopKey();
+      gameActive = false;
+      win = false;
+      saveHighScore(totalScore, scores);
       console.log(wrongLetter.length);
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
       endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
-      stopKey();
     }
 
     // Lite olika loggar bara.............
@@ -325,6 +341,45 @@ function guessLetter(letter) {
 // - spara namnet i local storage
 
 //  H1 och input
+// const remember = { // TODO Orginalkoden om det skiter sig
+
+//   heading: document.querySelector("#remember > h1"),
+//   input: document.querySelector("#remember > input"),
+// };
+// // Key för Localstorage
+// const LS_KEY = "hangman_Key_toLocalStorage";
+// // prata med gruppen om att byta namn på localStoragekey?
+
+// // För att lägga namnet ifrån input och i H1 meningen
+// remember.input.addEventListener("input", (event) => {
+//   const value = event.target.value;
+//   localStorage.setItem(LS_KEY, value);
+
+//   renderRememnerHeading(value);
+// });
+// function renderRememnerHeading(value) {
+//   remember.heading.innerText = `Välkommen ${value}!`;
+// }
+
+// // När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
+// let savedName = localStorage.getItem(LS_KEY);
+// if (savedName !== "" && savedName !== null) {
+//   // remember.input.value = savedName;  // TODO Ska namnet stå kvar i inputfältet? Eller ska input vara borta då?
+//   savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
+//   renderRememnerHeading(savedName);
+// }
+// ---------------------------------------------------------------
+// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
+
+// TODO Poängsystem?
+// Gissa rätt ger X poäng
+// Varje felgissning drar av Y poäng ---
+// Svårighetsgrad ger multiplier x1 x2 x3
+
+// Spara antal drag
+// Spara poäng
+// Sortera resultat
+
 const remember = {
   heading: document.querySelector("#remember > h1"),
   input: document.querySelector("#remember > input"),
@@ -351,14 +406,61 @@ if (savedName !== "" && savedName !== null) {
   savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
   renderRememnerHeading(savedName);
 }
-// ---------------------------------------------------------------
-// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
 
-// TODO Poängsystem?
-// Gissa rätt ger X poäng
-// Varje felgissning drar av Y poäng ---
-// Svårighetsgrad ger multiplier x1 x2 x3
+// Poäng och spara användaren
+const startScore = 100;
+const minusScore = guesses;
+const totalScore = 0;
 
-// Spara antal drag
-// Spara poäng
-// Sortera resultat
+const HIGH_SCORES = "scores";
+const scoreString = localStorage.getItem(HIGH_SCORES);
+const scores = JSON.parse(scoreString) ?? [];
+
+// saveHighScore(totalScore, scores); // TODO
+// showHighScores(); // TODO
+
+// //TODO ADDERA NAMNET
+// const user = localStorage.getItem(LS_KEY);
+// console.log(user);
+
+// const newScore = { user, totalScore, win };
+
+function saveHighScore(_, scores) {
+  const user = localStorage.getItem(LS_KEY);
+  if (!user) {
+    const user = prompt("Enter Name:");
+    localStorage.setItem(LS_KEY, user);
+    const newScore = { user, guesses, win };
+    scores.push(newScore);
+  } else {
+    // totalScore = startScore - minusScore;
+    // console.log(user);
+    // console.log(guesses);
+    // console.log(scores);
+    // console.log(startScore);
+    // console.log(minusScore);
+    // console.log(totalScore);
+    // console.log(newScore);
+    const newScore = { user, guesses, win }; // Addera vinst/förlust med win (true or false)
+    scores.push(newScore);
+  }
+  localStorage.setItem(HIGH_SCORES, JSON.stringify(scores));
+  console.log(scores);
+}
+
+const scoreBoard = document.querySelector(".scoreboard-container");
+function showHighScores() {
+  scoreBoard.innerHTML = scores
+    .map((score) => `<li>${score.user} - ${score.guesses} - ${score.win}</li>`)
+    .join("");
+}
+
+showHighScores();
+
+const clearAllBtn = document.querySelector(".clear-all-btn");
+
+clearAllBtn.addEventListener("click", () => {
+  localStorage.clear();
+  scoreBoard.innerHTML = "";
+  showHighScores();
+});
