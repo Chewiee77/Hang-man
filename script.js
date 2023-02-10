@@ -125,9 +125,10 @@ function listenForKeys() {
   });
 }
 
-// function stopKey() { // TODO Varför tar ej denna bort...
-//   window.removeEventListener("keypress", listenForKeys);
-// }
+function stopKey() {
+  // TODO Varför tar ej denna bort...
+  window.removeEventListener("keypress", listenForKeys);
+}
 
 function hardGame() {
   pickAWord(hardList);
