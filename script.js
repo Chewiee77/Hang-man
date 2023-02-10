@@ -1,6 +1,7 @@
 import words from "/svenska-ord.json" assert { type: "json" };
 
 // Variabels from DOM element
+const body = document.querySelector("body");
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 // const hangManPic = document.querySelector("#hang_man_pic"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
@@ -412,6 +413,18 @@ const startScore = 100;
 const minusScore = guesses;
 const totalScore = 0;
 
+// Spara antal drag
+// Spara poäng
+// Sortera resultat
+
+// -------------------------------scoreboard
+
+// när man trycker på scoreboard-knappen ska det komma upp en popup overlay.
+// i popupen ska det finna 3 rubriker: namn, antal fel gissningar och om man har vunnit eller förlorar.
+// i under rubrikerna ska det sparade datan visas.
+// en filtrerings knapp ska finnas där man kan filterera mellan kronologisk ordning (namn i alfabetiskordning) / bäst resultat
+// knapp [stäng]
+
 const HIGH_SCORES = "scores";
 const scoreString = localStorage.getItem(HIGH_SCORES);
 let scores = JSON.parse(scoreString) ?? [];
@@ -478,6 +491,8 @@ scoreBoardBtn.addEventListener("click", () => {
   let scoreNameContainer = document.createElement("div");
   let scoreWrongGuessesContainer = document.createElement("div");
   let scoreWinLoseContainer = document.createElement("div");
+  let scoreBtnDiv = document.createElement("div")
+  scoreBtnDiv.classList.add("score-btn-div")
   let body = document.querySelector("body");
   let scoreHeadingName = document.createElement("h2");
   scoreHeadingName.innerText = "Namn";
@@ -495,6 +510,7 @@ scoreBoardBtn.addEventListener("click", () => {
   scorePopUp.append(scoreNameContainer);
   scorePopUp.append(scoreWrongGuessesContainer);
   scorePopUp.append(scoreWinLoseContainer);
+  scorePopUp.append(scoreBtnDiv)
 
   scoreNameContainer.append(scoreHeadingName);
   scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses);
@@ -508,7 +524,7 @@ scoreBoardBtn.addEventListener("click", () => {
   const clearAllBtn = document.createElement("button");
   clearAllBtn.innerText = "Reset All";
   clearAllBtn.classList.add("clear-all-btn");
-  scorePopUp.append(clearAllBtn);
+  scoreBtnDiv.append(clearAllBtn);
 
   clearAllBtn.addEventListener("click", () => {
     localStorage.clear();
@@ -522,7 +538,7 @@ scoreBoardBtn.addEventListener("click", () => {
   const removeUserBtn = document.createElement("button");
   removeUserBtn.innerText = "Reset User";
   removeUserBtn.classList.add("remove-user-btn");
-  scorePopUp.append(removeUserBtn);
+  scoreBtnDiv.append(removeUserBtn);
 
   removeUserBtn.addEventListener("click", () => {
     // console.log(scores[0]);
