@@ -1,0 +1,418 @@
+@charset "UTF-8";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+.Hanging_man_words {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body {
+  background-color: rgb(255, 252, 254);
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: rgb(150, 0, 204);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+header > p {
+  margin: 1em;
+}
+
+.header_meny {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0.4rem;
+  border-bottom: 1px solid black;
+}
+
+.scoreboard,
+.nameH1Btn,
+.pvp {
+  font-size: 1.5em;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  color: white;
+}
+.scoreboard:hover,
+.nameH1Btn:hover,
+.pvp:hover,
+.scoreboard:focus,
+.pvp:focus,
+.nameH1Btn:focus {
+  background-color: rgb(13, 250, 13);
+  color: black;
+}
+input > checkbox {
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  color: white;
+}
+
+main {
+  padding: 10px;
+  flex-wrap: wrap;
+}
+
+footer {
+  padding: 5px 10px;
+  border-top: 1px solid #666;
+  margin-top: 20px;
+  color: #333;
+  font-size: 0.8em;
+  font-style: italic;
+  text-align: end;
+}
+
+.game-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.hangmanPic {
+  grid-row: 1 / 3;
+}
+/* .hangman-container {
+  grid-row: 1 / 3;
+} */
+
+.startGameBtn {
+  font-size: 1.5em;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  padding: 0.5em;
+  /* margin-bottom: 0.5em; */
+  color: white;
+}
+.startGameBtn:hover,
+.startGameBtn:focus {
+  background-color: rgb(13, 250, 13);
+  color: black;
+}
+
+#mediumGameBtn:hover {
+  background-color: orange;
+}
+#hardGameBtn:hover {
+  background-color: rgb(247, 0, 0);
+}
+
+/* #gameBoard {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+} */
+
+.letterButton {
+  font-size: 1.5em;
+  width: 3em;
+  height: 2em;
+  margin: 4px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.letterButton:hover,
+.letterButton:focus {
+  background-color: rgb(192, 166, 194);
+  color: #fff;
+}
+
+.gamespace {
+  width: 100%;
+  /* padding-top: 20px; */
+  text-align: center;
+  display: none;
+  margin: 1rem 0;
+}
+.gamespace .box {
+  display: inline-block;
+  font-size: 1.5em;
+  width: 2em;
+  line-height: 2em;
+  margin: 4px;
+  border: 1px solid #666;
+  background-color: #fff;
+  text-align: center;
+}
+
+.game-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+
+.wrong-letter-container {
+  /* background-color: hotpink; */
+  /* border: 1px dotted rgb(250, 192, 255); */
+  font-size: 1.6rem;
+  /* height: 100px; */
+}
+
+.wrong-guesses {
+  /* background-color: aqua; */
+  /* border: 1px dotted rgb(250, 192, 255); */
+  border-top: none;
+  font-size: 1.6rem;
+  /* height: 100px; */
+}
+
+.block {
+  background-color: black;
+  color: #fff;
+  pointer-events: none;
+}
+
+.popup-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  background-color: #282323d6;
+  color: rgb(246, 246, 246);
+  width: 50%;
+  height: 50%;
+  text-align: center;
+}
+
+.end-message {
+  padding-top: 1.5rem;
+  font-size: 3rem;
+}
+
+.play-again-btn {
+  font-size: 1.5em;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  padding: 0.5em;
+  margin-top: 4em;
+  margin-bottom: 0.5em;
+  color: white;
+}
+.play-again-btn:hover {
+  background-color: rgb(47, 255, 57);
+  color: #282323d6;
+}
+
+.scoreoverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 140%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scorepopup {
+  background-color: white;
+  width: 80%;
+  height: 80%;
+  border-radius: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: center;
+}
+
+.scorepopup h2 {
+  padding: 1.5rem 0;
+  font-size: 2rem;
+  color: rgb(150, 0, 204);
+}
+
+.score-list {
+  list-style: none;
+  padding: 1.4rem 0;
+  font-size: 1.5rem;
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+.clear-all-btn {
+  font-size: 1.5em;
+  height: 3rem;
+  width: 9rem;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  color: white;
+}
+
+.clear-all-btn:hover {
+  background-color: rgb(175, 34, 227);
+}
+
+.remove-user-btn {
+  font-size: 1.5em;
+  height: 3rem;
+  width: 13rem;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  color: white;
+}
+
+.remove-user-btn:hover {
+  background-color: rgb(175, 34, 227);
+}
+
+.scoreoverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 140%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scorepopup {
+  background-color: white;
+  width: 80%;
+  height: 80%;
+  border-radius: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: center;
+}
+
+.scorepopup h2 {
+  padding: 1rem 0;
+}
+
+@media screen and (max-width: 770px) {
+  .hangmanPic > svg {
+    width: 401px;
+    height: 400px;
+  }
+  .letterButton {
+    font-size: 1em;
+    padding: 0.5em;
+    border-radius: 7px;
+    cursor: pointer;
+    margin: 0.1em;
+  }
+  #easyGameBtn,
+  #hardGameBtn,
+  #mediumGameBtn {
+    font-size: 1em;
+    margin: 0 1px 0 0;
+  }
+  #mediumGameBtn:hover {
+    background-color: orange;
+  }
+  #hardGameBtn:hover {
+    background-color: rgb(247, 0, 0);
+  }
+  .gamespace .box {
+    display: inline-block;
+    font-size: 1em;
+  }
+}
+@media screen and (max-width: 540px) {
+  .scoreboard,
+  .nameH1Btn,
+  .pvp {
+    font-size: 1em;
+    border-radius: 9px;
+    margin: 0 0.2em 0 0;
+    padding: 0.3em;
+  }
+  .hangmanPic > svg {
+    width: 201px;
+    height: 300px;
+  }
+  .hangmanPic > svg {
+    width: 251px;
+    height: 300px;
+  }
+
+  .startGameBtn {
+    font-size: 1em;
+    border-radius: 9px;
+    cursor: pointer;
+    background-color: rgb(150, 0, 204);
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    color: white;
+  }
+
+  header > h1 {
+    font-size: 15px;
+  }
+
+  header > p {
+    margin-top: 1em;
+    font-size: 10px;
+  }
+  .end-message {
+    padding-top: 1.5rem;
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .hangmanPic > svg {
+    width: 200px;
+    height: 200px;
+  }
+  .wrong-guesses,
+  .wrong-letter {
+    font-size: 9px;
+  }
+  .end-message {
+    padding-top: 1rem;
+    font-size: 2rem;
+  }
+}
+/* tilllagd med javascript */
+.invisible {
+  visibility: hidden;
+}
+
+/* .scoreboard-container {
+  height: 400px;
+  background-color: hotpink;
+  margin-bottom: 100px;
+} */
