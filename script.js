@@ -1,7 +1,7 @@
 import words from "/svenska-ord.json" assert { type: "json" };
 
 // Variabels from DOM element
-const body = document.querySelector("body")
+const body = document.querySelector("body");
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 // const hangManPic = document.querySelector("#hang_man_pic"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
@@ -19,6 +19,9 @@ let easyGameBtn = document.querySelector("#easyGameBtn");
 let gameButtons = document.querySelector(".game-buttons");
 let randomWord;
 let selectedWord;
+
+let gameActive = false;
+let win = false;
 
 let wrongLetter = [];
 let correctLetter = [];
@@ -114,27 +117,32 @@ playAgainButton.addEventListener("click", startGame);
 
 // -------- Användande av tangentbord ------------------------------
 function listenForKeys() {
+  // if (gameActive) {
   window.addEventListener("keypress", (e) => {
-    let name = e.key.toUpperCase();
-    console.log(name);
-    //Blockera knappen från att användas igen // TODO
-    lockButtonsUsingKeyboard(name);
+    if (gameActive) {
+      let name = e.key.toUpperCase();
+      console.log(name);
+      //Blockera knappen från att användas igen // TODO
+      lockButtonsUsingKeyboard(name);
 
-    if (keyboardLetters.includes(name)) {
-      guessLetter(name);
+      if (keyboardLetters.includes(name)) {
+        guessLetter(name);
+      }
     }
   });
 }
 
-// function stopKey() { // TODO Varför tar ej denna bort...
-//   window.removeEventListener("keypress", listenForKeys);
-// }
+function stopKey() {
+  // TODO Varför tar ej denna bort...
+  window.removeEventListener("keypress", listenForKeys);
+}
 
 function hardGame() {
   pickAWord(hardList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  gameActive = true;
   listenForKeys();
 }
 function mediumGame() {
@@ -142,6 +150,7 @@ function mediumGame() {
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  gameActive = true;
   listenForKeys();
 }
 function easyGame() {
@@ -149,6 +158,7 @@ function easyGame() {
   displayHangman();
   showWordOrBoxes();
   resetButtons();
+  gameActive = true;
   listenForKeys();
 }
 
@@ -160,6 +170,7 @@ function startGame() {
 
 // Rensa gissningar och fel ord
 function clear() {
+  gameActive = false;
   popup.style.display = "none";
   letterBoxes.innerHTML = "";
   selectedWord = "";
@@ -231,9 +242,12 @@ function showWordOrBoxes() {
 
   if (selectedWord === wordInLetterBoxes) {
     // console.log("DU VANN!!! 😀🏆😀");
+    // stopKey();
+    gameActive = false;
+    win = true;
+    saveHighScore(totalScore, scores);
     endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
     popup.style.display = "flex";
-    stopKey();
   }
 }
 
@@ -289,11 +303,14 @@ function guessLetter(letter) {
 
     if (wrongLetter.length === hangmanParts.length) {
       // Här kollar vi om vi torskar!!!
+      // stopKey();
+      gameActive = false;
+      win = false;
+      saveHighScore(totalScore, scores);
       console.log(wrongLetter.length);
       console.log("DU FÖRLORADE!!! 💩💩💩💩");
       endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
-      stopKey();
     }
 
     // Lite olika loggar bara.............
@@ -325,6 +342,45 @@ function guessLetter(letter) {
 // - spara namnet i local storage
 
 //  H1 och input
+// const remember = { // TODO Orginalkoden om det skiter sig
+
+//   heading: document.querySelector("#remember > h1"),
+//   input: document.querySelector("#remember > input"),
+// };
+// // Key för Localstorage
+// const LS_KEY = "hangman_Key_toLocalStorage";
+// // prata med gruppen om att byta namn på localStoragekey?
+
+// // För att lägga namnet ifrån input och i H1 meningen
+// remember.input.addEventListener("input", (event) => {
+//   const value = event.target.value;
+//   localStorage.setItem(LS_KEY, value);
+
+//   renderRememnerHeading(value);
+// });
+// function renderRememnerHeading(value) {
+//   remember.heading.innerText = `Välkommen ${value}!`;
+// }
+
+// // När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
+// let savedName = localStorage.getItem(LS_KEY);
+// if (savedName !== "" && savedName !== null) {
+//   // remember.input.value = savedName;  // TODO Ska namnet stå kvar i inputfältet? Eller ska input vara borta då?
+//   savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
+//   renderRememnerHeading(savedName);
+// }
+// ---------------------------------------------------------------
+// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
+
+// TODO Poängsystem?
+// Gissa rätt ger X poäng
+// Varje felgissning drar av Y poäng ---
+// Svårighetsgrad ger multiplier x1 x2 x3
+
+// Spara antal drag
+// Spara poäng
+// Sortera resultat
+
 const remember = {
   heading: document.querySelector("#remember > h1"),
   input: document.querySelector("#remember > input"),
@@ -351,18 +407,15 @@ if (savedName !== "" && savedName !== null) {
   savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
   renderRememnerHeading(savedName);
 }
-// ---------------------------------------------------------------
-// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
 
-// TODO Poängsystem?
-// Gissa rätt ger X poäng
-// Varje felgissning drar av Y poäng ---
-// Svårighetsgrad ger multiplier x1 x2 x3
+// Poäng och spara användaren
+const startScore = 100;
+const minusScore = guesses;
+const totalScore = 0;
 
 // Spara antal drag
 // Spara poäng
 // Sortera resultat
-
 
 // -------------------------------scoreboard
 
@@ -372,41 +425,179 @@ if (savedName !== "" && savedName !== null) {
 // en filtrerings knapp ska finnas där man kan filterera mellan kronologisk ordning (namn i alfabetiskordning) / bäst resultat
 // knapp [stäng]
 
+const HIGH_SCORES = "scores";
+const scoreString = localStorage.getItem(HIGH_SCORES);
+let scores = JSON.parse(scoreString) ?? [];
+
+// saveHighScore(totalScore, scores); // TODO
+// showHighScores(); // TODO
+
+// //TODO ADDERA NAMNET
+// const user = localStorage.getItem(LS_KEY);
+// console.log(user);
+
+// const newScore = { user, totalScore, win };
+
+function saveHighScore(_, scores) {
+  const user = localStorage.getItem(LS_KEY);
+  if (!user) {
+    const user = prompt("Enter Name:");
+    localStorage.setItem(LS_KEY, user);
+    const newScore = { user, guesses, win };
+    scores.push(newScore);
+  } else {
+    // totalScore = startScore - minusScore;
+    // console.log(user);
+    // console.log(guesses);
+    // console.log(scores);
+    // console.log(startScore);
+    // console.log(minusScore);
+    // console.log(totalScore);
+    // console.log(newScore);
+    const newScore = { user, guesses, win }; // Addera vinst/förlust med win (true or false)
+    scores.push(newScore);
+  }
+  localStorage.setItem(HIGH_SCORES, JSON.stringify(scores));
+  console.log(scores);
+}
+
+// const scoreBoard = document.querySelector(".scoreboard-container");
+// function showHighScores() {
+//   scoreBoard.innerHTML = scores
+//     .map((score) => `<li>${score.user} - ${score.guesses} - ${score.win}</li>`)
+//     .join("");
+
+//   // scorePopUp.append(scores);
+// }
+
+// showHighScores();
+
+// Scoreboard Popup
 
 scoreBoardBtn.addEventListener("click", () => {
-  let scoreOverlay = document.createElement("div")
-  scoreOverlay.classList.add("scoreoverlay")
+  let scoreOverlay = document.createElement("div");
+  scoreOverlay.classList.add("scoreoverlay");
   scoreOverlay.addEventListener("click", () => {
-    scoreOverlay.remove()
-  })
+    scoreOverlay.remove();
+    location.reload();
+  });
 
-  let scorePopUp = document.createElement("div")
-  scorePopUp.classList.add("scorepopup")
-  scorePopUp.addEventListener("click", event => {
-    event.stopPropagation()
-  })
+  let scorePopUp = document.createElement("div");
+  scorePopUp.classList.add("scorepopup");
+  scorePopUp.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 
-  let scoreNameContainer = document.createElement("div")
-  let scoreWrongGuessesContainer = document.createElement("div")
-  let scoreWinLoseContainer = document.createElement("div")
+  let scoreNameContainer = document.createElement("div");
+  let scoreWrongGuessesContainer = document.createElement("div");
+  let scoreWinLoseContainer = document.createElement("div");
+  let body = document.querySelector("body");
+  let scoreHeadingName = document.createElement("h2");
+  scoreHeadingName.innerText = "Namn";
+  let scoreDisplayUserName = document.createElement("p");
+  let scoreHeadingWrongGuesses = document.createElement("h2");
+  scoreHeadingWrongGuesses.innerText = "Felgissningar";
+  let scoreDisplayUserGuesses = document.createElement("p");
+  let scoreHeadingWinLose = document.createElement("h2");
+  scoreHeadingWinLose.innerText = "Resultat";
+  let scoreDisplayUserWin = document.createElement("p");
 
-  let scoreHeadingName = document.createElement("h2")
-  scoreHeadingName.innerText = "Namn"
-  let scoreHeadingWrongGuesses = document.createElement("h2")
-  scoreHeadingWrongGuesses.innerText = "Felgissningar"
-  let scoreHeadingWinLose = document.createElement("h2")
-  scoreHeadingWinLose.innerText = "Vinst"
+  body.append(scoreOverlay);
+  scoreOverlay.append(scorePopUp);
 
+  scorePopUp.append(scoreNameContainer);
+  scorePopUp.append(scoreWrongGuessesContainer);
+  scorePopUp.append(scoreWinLoseContainer);
 
+  scoreNameContainer.append(scoreHeadingName);
+  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses);
+  scoreWinLoseContainer.append(scoreHeadingWinLose);
 
+  scoreHeadingName.append(scoreDisplayUserName);
+  scoreHeadingWrongGuesses.append(scoreDisplayUserGuesses);
+  scoreHeadingWinLose.append(scoreDisplayUserWin);
 
-  body.append(scoreOverlay)
-  scoreOverlay.append(scorePopUp)
-  scoreNameContainer.append(scoreHeadingName)
-  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses)
-  scoreWinLoseContainer.append(scoreHeadingWinLose)
-  scorePopUp.append(scoreNameContainer)
-  scorePopUp.append(scoreWrongGuessesContainer)
-  scorePopUp.append(scoreWinLoseContainer)
-})
+  // Resetknapp alldata
+  const clearAllBtn = document.createElement("button");
+  clearAllBtn.innerText = "Reset All";
+  clearAllBtn.classList.add("clear-all-btn");
+  scorePopUp.append(clearAllBtn);
 
+  clearAllBtn.addEventListener("click", () => {
+    localStorage.clear();
+    scoreDisplayUserName.remove();
+    scoreDisplayUserGuesses.remove();
+    scoreDisplayUserWin.remove();
+  });
+
+  // Resetknapp aktuell användare
+  const removeUserBtn = document.createElement("button");
+  removeUserBtn.innerText = "Reset User";
+  removeUserBtn.classList.add("remove-user-btn");
+  scorePopUp.append(removeUserBtn);
+
+  removeUserBtn.addEventListener("click", () => {
+    // console.log(scores[0]);
+    // console.log(...scores);
+    // console.log(...scores);
+    // console.log(JSON.parse(localStorage.getItem("scores")));
+    // console.log(JSON.parse(localStorage.getItem("scores")));
+    // scores.forEach((user) => {
+    //   console.log(user);
+    //   console.log(user.user);
+    //   console.log(localStorage.getItem(LS_KEY));
+    const userCheck = localStorage.getItem(LS_KEY);
+    //   console.log(user.user === userCheck);
+    const user = [...scores];
+
+    for (let i = 0; i < user.length; i++) {
+      // console.log([i]);
+      // console.log(user);
+      // console.log(user[i].user);
+      // console.log(userCheck);
+      // console.log(test);
+      // console.log(user.user);
+      // console.log(typeof user.user);
+      // console.log(typeof userCheck);
+      if (user[i].user === userCheck) {
+        // console.log(user[i].user === userCheck);
+        scores.forEach(() => {
+          scores.splice(i, 1);
+          localStorage.setItem(HIGH_SCORES, JSON.stringify(scores));
+          console.log(user);
+          console.log(scores);
+          console.log(scores);
+          showHighScores();
+        });
+        // scores.splice(i, 1);
+      }
+    }
+    // });
+
+    // scoreDisplayUserName.remove();
+    // scoreDisplayUserGuesses.remove();
+    // scoreDisplayUserWin.remove();
+  });
+
+  function showHighScores() {
+    scoreDisplayUserName.innerHTML = scores // TODO
+      .map((score) => `<li class="score-list">${score.user}</li>`)
+      .join("");
+    scoreDisplayUserGuesses.innerHTML = scores // TODO
+      .map((score) => `<li class="score-list">${score.guesses}</li>`)
+      .join("");
+    scoreDisplayUserWin.innerHTML = scores // TODO
+      .map(
+        (score) =>
+          `<li class="score-list">${score.win ? "Vinst" : "Förlust"}</li>`
+      )
+      .join("");
+  }
+  showHighScores();
+});
+
+// Sortera namn i bokstavsordning
+// Sortera Felgissningar i antal
+// Sortera Vinster i true/false
+
+// Rensa stats från enskild person

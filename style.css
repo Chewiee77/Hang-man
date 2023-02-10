@@ -117,10 +117,10 @@ footer {
   color: black;
 }
 
-#mediumGameBtn:hover{
+#mediumGameBtn:hover {
   background-color: orange;
 }
-#hardGameBtn:hover{
+#hardGameBtn:hover {
   background-color: rgb(247, 0, 0);
 }
 
@@ -139,12 +139,11 @@ footer {
   margin: 4px;
   border-radius: 10px;
   cursor: pointer;
-
 }
 .letterButton:hover,
 .letterButton:focus {
   background-color: rgb(192, 166, 194);
-  color:#fff;
+  color: #fff;
 }
 
 .gamespace {
@@ -210,7 +209,6 @@ footer {
   width: 50%;
   height: 50%;
   text-align: center;
-  
 }
 
 .end-message {
@@ -228,9 +226,73 @@ footer {
   margin-bottom: 0.5em;
   color: white;
 }
-.play-again-btn:hover{
+.play-again-btn:hover {
   background-color: rgb(47, 255, 57);
-  color:#282323d6;
+  color: #282323d6;
+}
+
+.scoreoverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 140%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scorepopup {
+  background-color: white;
+  width: 80%;
+  height: 80%;
+  border-radius: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: center;
+}
+
+.scorepopup h2 {
+  padding: 1.5rem 0;
+  font-size: 2rem;
+  color: rgb(150, 0, 204);
+}
+
+.score-list {
+  list-style: none;
+  padding: 1.4rem 0;
+  font-size: 1.5rem;
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+.clear-all-btn {
+  font-size: 1.5em;
+  height: 3rem;
+  width: 9rem;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  color: white;
+}
+
+.clear-all-btn:hover {
+  background-color: rgb(175, 34, 227);
+}
+
+.remove-user-btn {
+  font-size: 1.5em;
+  height: 3rem;
+  width: 13rem;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  color: white;
+}
+
+.remove-user-btn:hover {
+  background-color: rgb(175, 34, 227);
 }
 
 .scoreoverlay {
@@ -264,32 +326,29 @@ footer {
     width: 401px;
     height: 400px;
   }
-  .letterButton{
+  .letterButton {
     font-size: 1em;
     padding: 0.5em;
     border-radius: 7px;
     cursor: pointer;
-    margin:0.1em;
+    margin: 0.1em;
   }
   #easyGameBtn,
   #hardGameBtn,
-  #mediumGameBtn{
+  #mediumGameBtn {
     font-size: 1em;
-    margin: 0 1px 0 0 ; 
+    margin: 0 1px 0 0;
   }
-#mediumGameBtn:hover{
-  background-color: orange;
-  
-}
-#hardGameBtn:hover{
-  background-color: rgb(247, 0, 0);
-}
-.gamespace .box {
-  display: inline-block;
-  font-size: 1em;
- 
-}
-
+  #mediumGameBtn:hover {
+    background-color: orange;
+  }
+  #hardGameBtn:hover {
+    background-color: rgb(247, 0, 0);
+  }
+  .gamespace .box {
+    display: inline-block;
+    font-size: 1em;
+  }
 }
 @media screen and (max-width: 540px) {
   .scoreboard,
@@ -331,7 +390,6 @@ footer {
     padding-top: 1.5rem;
     font-size: 2rem;
   }
-  
 }
 
 @media screen and (max-width: 410px) {
@@ -340,16 +398,21 @@ footer {
     height: 200px;
   }
   .wrong-guesses,
-  .wrong-letter{ 
+  .wrong-letter {
     font-size: 9px;
   }
   .end-message {
     padding-top: 1rem;
     font-size: 2rem;
   }
-  
 }
 /* tilllagd med javascript */
 .invisible {
   visibility: hidden;
 }
+
+/* .scoreboard-container {
+  height: 400px;
+  background-color: hotpink;
+  margin-bottom: 100px;
+} */
