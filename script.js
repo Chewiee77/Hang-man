@@ -414,7 +414,7 @@ const totalScore = 0;
 
 const HIGH_SCORES = "scores";
 const scoreString = localStorage.getItem(HIGH_SCORES);
-const scores = JSON.parse(scoreString) ?? [];
+let scores = JSON.parse(scoreString) ?? [];
 
 // saveHighScore(totalScore, scores); // TODO
 // showHighScores(); // TODO
@@ -448,19 +448,143 @@ function saveHighScore(_, scores) {
   console.log(scores);
 }
 
-const scoreBoard = document.querySelector(".scoreboard-container");
-function showHighScores() {
-  scoreBoard.innerHTML = scores
-    .map((score) => `<li>${score.user} - ${score.guesses} - ${score.win}</li>`)
-    .join("");
-}
+// const scoreBoard = document.querySelector(".scoreboard-container");
+// function showHighScores() {
+//   scoreBoard.innerHTML = scores
+//     .map((score) => `<li>${score.user} - ${score.guesses} - ${score.win}</li>`)
+//     .join("");
 
-showHighScores();
+//   // scorePopUp.append(scores);
+// }
 
-const clearAllBtn = document.querySelector(".clear-all-btn");
+// showHighScores();
 
-clearAllBtn.addEventListener("click", () => {
-  localStorage.clear();
-  scoreBoard.innerHTML = "";
+// Scoreboard Popup
+
+scoreBoardBtn.addEventListener("click", () => {
+  let scoreOverlay = document.createElement("div");
+  scoreOverlay.classList.add("scoreoverlay");
+  scoreOverlay.addEventListener("click", () => {
+    scoreOverlay.remove();
+    location.reload();
+  });
+
+  let scorePopUp = document.createElement("div");
+  scorePopUp.classList.add("scorepopup");
+  scorePopUp.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
+  let scoreNameContainer = document.createElement("div");
+  let scoreWrongGuessesContainer = document.createElement("div");
+  let scoreWinLoseContainer = document.createElement("div");
+  let body = document.querySelector("body");
+  let scoreHeadingName = document.createElement("h2");
+  scoreHeadingName.innerText = "Namn";
+  let scoreDisplayUserName = document.createElement("p");
+  let scoreHeadingWrongGuesses = document.createElement("h2");
+  scoreHeadingWrongGuesses.innerText = "Felgissningar";
+  let scoreDisplayUserGuesses = document.createElement("p");
+  let scoreHeadingWinLose = document.createElement("h2");
+  scoreHeadingWinLose.innerText = "Resultat";
+  let scoreDisplayUserWin = document.createElement("p");
+
+  body.append(scoreOverlay);
+  scoreOverlay.append(scorePopUp);
+
+  scorePopUp.append(scoreNameContainer);
+  scorePopUp.append(scoreWrongGuessesContainer);
+  scorePopUp.append(scoreWinLoseContainer);
+
+  scoreNameContainer.append(scoreHeadingName);
+  scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses);
+  scoreWinLoseContainer.append(scoreHeadingWinLose);
+
+  scoreHeadingName.append(scoreDisplayUserName);
+  scoreHeadingWrongGuesses.append(scoreDisplayUserGuesses);
+  scoreHeadingWinLose.append(scoreDisplayUserWin);
+
+  // Resetknapp alldata
+  const clearAllBtn = document.createElement("button");
+  clearAllBtn.innerText = "Reset All";
+  clearAllBtn.classList.add("clear-all-btn");
+  scorePopUp.append(clearAllBtn);
+
+  clearAllBtn.addEventListener("click", () => {
+    localStorage.clear();
+    scoreDisplayUserName.remove();
+    scoreDisplayUserGuesses.remove();
+    scoreDisplayUserWin.remove();
+  });
+
+  // Resetknapp aktuell användare
+  const removeUserBtn = document.createElement("button");
+  removeUserBtn.innerText = "Reset User";
+  removeUserBtn.classList.add("remove-user-btn");
+  scorePopUp.append(removeUserBtn);
+
+  removeUserBtn.addEventListener("click", () => {
+    // console.log(scores[0]);
+    // console.log(...scores);
+    // console.log(...scores);
+    // console.log(JSON.parse(localStorage.getItem("scores")));
+    // console.log(JSON.parse(localStorage.getItem("scores")));
+    // scores.forEach((user) => {
+    //   console.log(user);
+    //   console.log(user.user);
+    //   console.log(localStorage.getItem(LS_KEY));
+    const userCheck = localStorage.getItem(LS_KEY);
+    //   console.log(user.user === userCheck);
+    const user = [...scores];
+
+    for (let i = 0; i < user.length; i++) {
+      // console.log([i]);
+      // console.log(user);
+      // console.log(user[i].user);
+      // console.log(userCheck);
+      // console.log(test);
+      // console.log(user.user);
+      // console.log(typeof user.user);
+      // console.log(typeof userCheck);
+      if (user[i].user === userCheck) {
+        // console.log(user[i].user === userCheck);
+        scores.forEach(() => {
+          scores.splice(i, 1);
+          localStorage.setItem(HIGH_SCORES, JSON.stringify(scores));
+          console.log(user);
+          console.log(scores);
+          console.log(scores);
+          showHighScores();
+        });
+        // scores.splice(i, 1);
+      }
+    }
+    // });
+
+    // scoreDisplayUserName.remove();
+    // scoreDisplayUserGuesses.remove();
+    // scoreDisplayUserWin.remove();
+  });
+
+  function showHighScores() {
+    scoreDisplayUserName.innerHTML = scores // TODO
+      .map((score) => `<li class="score-list">${score.user}</li>`)
+      .join("");
+    scoreDisplayUserGuesses.innerHTML = scores // TODO
+      .map((score) => `<li class="score-list">${score.guesses}</li>`)
+      .join("");
+    scoreDisplayUserWin.innerHTML = scores // TODO
+      .map(
+        (score) =>
+          `<li class="score-list">${score.win ? "Vinst" : "Förlust"}</li>`
+      )
+      .join("");
+  }
   showHighScores();
 });
+
+// Sortera namn i bokstavsordning
+// Sortera Felgissningar i antal
+// Sortera Vinster i true/false
+
+// Rensa stats från enskild person

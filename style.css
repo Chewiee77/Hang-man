@@ -231,6 +231,70 @@ footer {
   color: #282323d6;
 }
 
+.scoreoverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 140%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scorepopup {
+  background-color: white;
+  width: 80%;
+  height: 80%;
+  border-radius: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: center;
+}
+
+.scorepopup h2 {
+  padding: 1.5rem 0;
+  font-size: 2rem;
+  color: rgb(150, 0, 204);
+}
+
+.score-list {
+  list-style: none;
+  padding: 1.4rem 0;
+  font-size: 1.5rem;
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+.clear-all-btn {
+  font-size: 1.5em;
+  height: 3rem;
+  width: 9rem;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  color: white;
+}
+
+.clear-all-btn:hover {
+  background-color: rgb(175, 34, 227);
+}
+
+.remove-user-btn {
+  font-size: 1.5em;
+  height: 3rem;
+  width: 13rem;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  color: white;
+}
+
+.remove-user-btn:hover {
+  background-color: rgb(175, 34, 227);
+}
+
 @media screen and (max-width: 770px) {
   .hangmanPic > svg {
     width: 401px;
@@ -321,8 +385,8 @@ footer {
   visibility: hidden;
 }
 
-.scoreboard-container {
+/* .scoreboard-container {
   height: 400px;
   background-color: hotpink;
   margin-bottom: 100px;
-}
+} */
