@@ -491,6 +491,8 @@ scoreBoardBtn.addEventListener("click", () => {
   let scoreNameContainer = document.createElement("div");
   let scoreWrongGuessesContainer = document.createElement("div");
   let scoreWinLoseContainer = document.createElement("div");
+  let scoreBtnDiv = document.createElement("div")
+  scoreBtnDiv.classList.add("score-btn-div")
   let body = document.querySelector("body");
   let scoreHeadingName = document.createElement("h2");
   scoreHeadingName.innerText = "Namn";
@@ -508,6 +510,7 @@ scoreBoardBtn.addEventListener("click", () => {
   scorePopUp.append(scoreNameContainer);
   scorePopUp.append(scoreWrongGuessesContainer);
   scorePopUp.append(scoreWinLoseContainer);
+  scorePopUp.append(scoreBtnDiv)
 
   scoreNameContainer.append(scoreHeadingName);
   scoreWrongGuessesContainer.append(scoreHeadingWrongGuesses);
@@ -521,7 +524,7 @@ scoreBoardBtn.addEventListener("click", () => {
   const clearAllBtn = document.createElement("button");
   clearAllBtn.innerText = "Reset All";
   clearAllBtn.classList.add("clear-all-btn");
-  scorePopUp.append(clearAllBtn);
+  scoreBtnDiv.append(clearAllBtn);
 
   clearAllBtn.addEventListener("click", () => {
     localStorage.clear();
@@ -534,7 +537,7 @@ scoreBoardBtn.addEventListener("click", () => {
   const removeUserBtn = document.createElement("button");
   removeUserBtn.innerText = "Reset User";
   removeUserBtn.classList.add("remove-user-btn");
-  scorePopUp.append(removeUserBtn);
+  scoreBtnDiv.append(removeUserBtn);
 
   removeUserBtn.addEventListener("click", () => {
     // console.log(scores[0]);
