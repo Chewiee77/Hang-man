@@ -12,16 +12,17 @@ const playAgainButton = document.querySelector(".play-again-btn");
 const wrongLettersEl = document.querySelector(".wrong-letter");
 const wrongGuessesEl = document.querySelector(".wrong-guesses");
 const hangmanParts = document.querySelectorAll(".hangman-part");
-let letterBoxes = document.querySelector(".gamespace");
-let hardGameBtn = document.querySelector("#hardGameBtn");
-let mediumGameBtn = document.querySelector("#mediumGameBtn");
-let easyGameBtn = document.querySelector("#easyGameBtn");
-let gameButtons = document.querySelector(".game-buttons");
+const letterBoxes = document.querySelector(".gamespace");
+const hardGameBtn = document.querySelector("#hardGameBtn");
+const mediumGameBtn = document.querySelector("#mediumGameBtn");
+const easyGameBtn = document.querySelector("#easyGameBtn");
+const gameButtons = document.querySelector(".game-buttons");
 let randomWord;
 let selectedWord;
 
 let gameActive = false;
 let win = false;
+let sortKey = "Latest";
 
 let wrongLetter = [];
 let correctLetter = [];
@@ -68,15 +69,12 @@ const finalWordList = improvedWordList.filter((word) => !word.includes("-"));
 const easyList = finalWordList.filter((word) => {
   return word.length >= 10;
 });
-// console.log(easyList);
 const mediumList = finalWordList.filter((word) => {
   return word.length > 5 && word.length < 10;
 });
-// console.log(mediumList);
 const hardList = finalWordList.filter((word) => {
   return word.length <= 5;
 });
-// console.log(hardList);
 
 // Skapa tangentbord med eventlyssnare
 const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
@@ -117,12 +115,11 @@ playAgainButton.addEventListener("click", startGame);
 
 // -------- Användande av tangentbord ------------------------------
 function listenForKeys() {
-  // if (gameActive) {
   window.addEventListener("keypress", (e) => {
     if (gameActive) {
       let name = e.key.toUpperCase();
       console.log(name);
-      //Blockera knappen från att användas igen // TODO
+      //Blockera knappen från att användas igen
       lockButtonsUsingKeyboard(name);
 
       if (keyboardLetters.includes(name)) {
@@ -132,40 +129,34 @@ function listenForKeys() {
   });
 }
 
-function stopKey() {
-  // TODO Varför tar ej denna bort...
-  window.removeEventListener("keypress", listenForKeys);
-}
-
 function hardGame() {
+  gameActive = true;
   pickAWord(hardList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
-  gameActive = true;
   listenForKeys();
 }
 function mediumGame() {
+  gameActive = true;
   pickAWord(mediumList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
-  gameActive = true;
   listenForKeys();
 }
 function easyGame() {
+  gameActive = true;
   pickAWord(easyList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
-  gameActive = true;
   listenForKeys();
 }
 
 function startGame() {
   clear();
   lockButtons();
-  stopKey();
 }
 
 // Rensa gissningar och fel ord
@@ -183,7 +174,6 @@ function clear() {
   wrongGuessesEl.innerHTML = "";
 
   showHangman();
-  // displayHangman();
 }
 
 // Genererar ett random ord i listan
@@ -193,8 +183,6 @@ function pickAWord(list) {
   selectedWord = randomWord.toUpperCase();
 
   console.log(selectedWord);
-
-  // alert(selectedWord)
 }
 
 function resetButtons() {
@@ -237,16 +225,13 @@ function showWordOrBoxes() {
 
   const wordInLetterBoxes = letterBoxes.innerText.replace(/\s/g, "");
 
-  // console.log(letterBoxes.innerText, wordInLetterBoxes); // Log för att förstå sambandet
   // Om vinst anropa vinstfunktionen
 
   if (selectedWord === wordInLetterBoxes) {
-    // console.log("DU VANN!!! 😀🏆😀");
-    // stopKey();
     gameActive = false;
     win = true;
     saveHighScore(totalScore, scores);
-    endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
+    endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade ${guesses} gånger`;
     popup.style.display = "flex";
   }
 }
@@ -261,17 +246,12 @@ function displayHangman() {
     } else {
       part.style.display = "none";
     }
-    // console.log("index: " + index);
-    // console.log("errors: " + errors);
   });
 }
 // Function för att visa gubben igen när man väljer spela igen i popup
 function showHangman() {
   hangmanParts.forEach((part) => {
     part.style.display = "block";
-
-    // console.log("index: " + index);
-    // console.log("errors: " + errors);
   });
 }
 
@@ -280,7 +260,6 @@ function guessLetter(letter) {
 
   // "abc".search;
   let matchIndex = selectedWord.search(letter);
-  // console.log(matchIndex);
 
   if (matchIndex === -1) {
     // visar upp vilken bokstav du valt,
@@ -303,7 +282,6 @@ function guessLetter(letter) {
 
     if (wrongLetter.length === hangmanParts.length) {
       // Här kollar vi om vi torskar!!!
-      // stopKey();
       gameActive = false;
       win = false;
       saveHighScore(totalScore, scores);
@@ -312,74 +290,19 @@ function guessLetter(letter) {
       endMessage.innerText = `DU FÖRLORADE!!! \n 💩💩💩💩 \n Ordet var ${selectedWord}`;
       popup.style.display = "flex";
     }
-
-    // Lite olika loggar bara.............
-    // console.log(guesses);
-    // console.log("Ingen träff");
-    // console.log("FEL" + " " + wrongLetter);
-    // console.log("Längden på Array wrongLetter: " + wrongLetter.length);
-    // console.log("Längden på hangmanParts: " + hangmanParts.length);
   } else {
     // Om ja, sluta leta i listan och skriva ut bokstaven i rutan
     if (selectedWord.includes(letter)) {
       if (!correctLetter.includes(letter)) {
         // FÖRHINDRAR ARR ARRAY FYLLS PÅ MED SAMMA
         correctLetter.push(letter);
-        // console.log("RÄTT" + " " + correctLetter);
-        // console.log(correctLetter);
         showWordOrBoxes();
       }
     }
   }
 }
 
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// Nytt från malin --------------------------------------
-
-// - jag vill ta emot ett namn
-// - sätta namnet i h1 taggen
-// - spara namnet i local storage
-
-//  H1 och input
-// const remember = { // TODO Orginalkoden om det skiter sig
-
-//   heading: document.querySelector("#remember > h1"),
-//   input: document.querySelector("#remember > input"),
-// };
-// // Key för Localstorage
-// const LS_KEY = "hangman_Key_toLocalStorage";
-// // prata med gruppen om att byta namn på localStoragekey?
-
-// // För att lägga namnet ifrån input och i H1 meningen
-// remember.input.addEventListener("input", (event) => {
-//   const value = event.target.value;
-//   localStorage.setItem(LS_KEY, value);
-
-//   renderRememnerHeading(value);
-// });
-// function renderRememnerHeading(value) {
-//   remember.heading.innerText = `Välkommen ${value}!`;
-// }
-
-// // När webbsidan laddas hämtas det sparade namnent ifrån den lokala databasen
-// let savedName = localStorage.getItem(LS_KEY);
-// if (savedName !== "" && savedName !== null) {
-//   // remember.input.value = savedName;  // TODO Ska namnet stå kvar i inputfältet? Eller ska input vara borta då?
-//   savedName = savedName[0].toUpperCase() + savedName.slice(1).toLowerCase(); // Gör första bokstaven stor i namnet
-//   renderRememnerHeading(savedName);
-// }
-// ---------------------------------------------------------------
-// Till måndag: Vill att det händer något med input fältet efter man skrivit sitt namn (typ att den försvinner eller något)- fråga gruppen på skolan
-
-// TODO Poängsystem?
-// Gissa rätt ger X poäng
-// Varje felgissning drar av Y poäng ---
-// Svårighetsgrad ger multiplier x1 x2 x3
-
-// Spara antal drag
-// Spara poäng
-// Sortera resultat
+// Data OCH Localstorage💩💩💩💩💩💩💩
 
 const remember = {
   heading: document.querySelector("#remember > h1"),
@@ -408,6 +331,14 @@ if (savedName !== "" && savedName !== null) {
   renderRememnerHeading(savedName);
 }
 
+// TODO Poängsystem?
+// Gissa rätt ger X poäng
+// Varje felgissning drar av Y poäng ---
+// Svårighetsgrad ger multiplier x1 x2 x3
+
+// Spara antal drag
+// Spara poäng
+// Sortera resultat
 // Poäng och spara användaren
 const startScore = 100;
 const minusScore = guesses;
@@ -429,15 +360,6 @@ const HIGH_SCORES = "scores";
 const scoreString = localStorage.getItem(HIGH_SCORES);
 let scores = JSON.parse(scoreString) ?? [];
 
-// saveHighScore(totalScore, scores); // TODO
-// showHighScores(); // TODO
-
-// //TODO ADDERA NAMNET
-// const user = localStorage.getItem(LS_KEY);
-// console.log(user);
-
-// const newScore = { user, totalScore, win };
-
 function saveHighScore(_, scores) {
   const user = localStorage.getItem(LS_KEY);
   if (!user) {
@@ -446,14 +368,6 @@ function saveHighScore(_, scores) {
     const newScore = { user, guesses, win };
     scores.push(newScore);
   } else {
-    // totalScore = startScore - minusScore;
-    // console.log(user);
-    // console.log(guesses);
-    // console.log(scores);
-    // console.log(startScore);
-    // console.log(minusScore);
-    // console.log(totalScore);
-    // console.log(newScore);
     const newScore = { user, guesses, win }; // Addera vinst/förlust med win (true or false)
     scores.push(newScore);
   }
@@ -461,33 +375,10 @@ function saveHighScore(_, scores) {
   console.log(scores);
 }
 
-// const scoreBoard = document.querySelector(".scoreboard-container");
-// function showHighScores() {
-//   scoreBoard.innerHTML = scores
-//     .map((score) => `<li>${score.user} - ${score.guesses} - ${score.win}</li>`)
-//     .join("");
-
-//   // scorePopUp.append(scores);
-// }
-
-// showHighScores();
-
 // Scoreboard Popup
 
 scoreBoardBtn.addEventListener("click", () => {
   let scoreOverlay = document.createElement("div");
-  scoreOverlay.classList.add("scoreoverlay");
-  scoreOverlay.addEventListener("click", () => {
-    scoreOverlay.remove();
-    location.reload();
-  });
-
-  let scorePopUp = document.createElement("div");
-  scorePopUp.classList.add("scorepopup");
-  scorePopUp.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-
   let scoreNameContainer = document.createElement("div");
   let scoreWrongGuessesContainer = document.createElement("div");
   let scoreWinLoseContainer = document.createElement("div");
@@ -495,14 +386,17 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreBtnDiv.classList.add("score-btn-div");
   let body = document.querySelector("body");
   let scoreHeadingName = document.createElement("h2");
-  scoreHeadingName.innerText = "Namn";
+  scoreHeadingName.innerText = "Namn ↑↓";
   let scoreDisplayUserName = document.createElement("p");
   let scoreHeadingWrongGuesses = document.createElement("h2");
-  scoreHeadingWrongGuesses.innerText = "Felgissningar";
+  scoreHeadingWrongGuesses.innerText = "gissningar ↑↓";
   let scoreDisplayUserGuesses = document.createElement("p");
   let scoreHeadingWinLose = document.createElement("h2");
-  scoreHeadingWinLose.innerText = "Resultat";
+  scoreHeadingWinLose.innerText = "Resultat ↑↓";
   let scoreDisplayUserWin = document.createElement("p");
+  let scorePopUp = document.createElement("div");
+
+  showHighScores();
 
   body.append(scoreOverlay);
   scoreOverlay.append(scorePopUp);
@@ -520,6 +414,19 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreHeadingWrongGuesses.append(scoreDisplayUserGuesses);
   scoreHeadingWinLose.append(scoreDisplayUserWin);
 
+  scoreOverlay.classList.add("scoreoverlay");
+
+  scoreOverlay.addEventListener("click", () => {
+    scoreOverlay.remove();
+
+    // location.reload();
+  });
+
+  scorePopUp.classList.add("scorepopup");
+  scorePopUp.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
   // Resetknapp alldata
   const clearAllBtn = document.createElement("button");
   clearAllBtn.innerText = "Reset All";
@@ -527,10 +434,14 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreBtnDiv.append(clearAllBtn);
 
   clearAllBtn.addEventListener("click", () => {
-    localStorage.clear();
+    console.log("Clear all clicked");
+    // TODO, varför försvinner ej från listan utan att man behöver ladda om
     scoreDisplayUserName.remove();
     scoreDisplayUserGuesses.remove();
     scoreDisplayUserWin.remove();
+    localStorage.clear();
+    scores = [];
+    showHighScores();
   });
 
   // Rensa stats från enskild person
@@ -541,49 +452,54 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreBtnDiv.append(removeUserBtn);
 
   removeUserBtn.addEventListener("click", () => {
-    // console.log(scores[0]);
-    // console.log(...scores);
-    // console.log(...scores);
-    // console.log(JSON.parse(localStorage.getItem("scores")));
-    // console.log(JSON.parse(localStorage.getItem("scores")));
-    // scores.forEach((user) => {
-    //   console.log(user);
-    //   console.log(user.user);
-    //   console.log(localStorage.getItem(LS_KEY));
     const userCheck = localStorage.getItem(LS_KEY);
-    //   console.log(user.user === userCheck);
     const user = [...scores];
 
     for (let i = 0; i < user.length; i++) {
-      // console.log([i]);
-      // console.log(user);
-      // console.log(user[i].user);
-      // console.log(userCheck);
-      // console.log(test);
-      // console.log(user.user);
-      // console.log(typeof user.user);
-      // console.log(typeof userCheck);
       if (user[i].user === userCheck) {
-        // console.log(user[i].user === userCheck);
         scores.forEach(() => {
           scores.splice(i, 1);
           localStorage.setItem(HIGH_SCORES, JSON.stringify(scores));
-          console.log(user);
-          console.log(scores);
-          console.log(scores);
           showHighScores();
         });
-        // scores.splice(i, 1);
       }
     }
-    // });
-
-    // scoreDisplayUserName.remove();
-    // scoreDisplayUserGuesses.remove();
-    // scoreDisplayUserWin.remove();
   });
 
-  function showHighScores() {
+  // KNAPP SORTERA PÅ SENAST SPELADE
+
+  const sortLatestBtn = document.createElement("button");
+  sortLatestBtn.innerText = "Sort Latest";
+  sortLatestBtn.classList.add("sort-latest-btn");
+  scoreBtnDiv.append(sortLatestBtn);
+
+  sortLatestBtn.addEventListener("click", () => {
+    sortKey = "Latest";
+    showHighScores();
+  });
+
+  // Sortera namn i bokstavsordning
+
+  scoreHeadingName.addEventListener("click", () => {
+    sortKey = "Score Name";
+    showHighScores();
+  });
+
+  // Sortera Felgissningar i antal
+
+  scoreHeadingWrongGuesses.addEventListener("click", () => {
+    sortKey = "Score Guesses";
+    showHighScores();
+  });
+
+  // Sortera Vinster i true/false
+
+  scoreHeadingWinLose.addEventListener("click", () => {
+    sortKey = "Win Lose";
+    showHighScores();
+  });
+
+  function renderHighScore(scores) {
     scoreDisplayUserName.innerHTML = scores // TODO
       .map((score) => `<li class="score-list">${score.user}</li>`)
       .join("");
@@ -597,9 +513,29 @@ scoreBoardBtn.addEventListener("click", () => {
       )
       .join("");
   }
-  showHighScores();
-});
 
-// Sortera namn i bokstavsordning
-// Sortera Felgissningar i antal
-// Sortera Vinster i true/false
+  function showHighScores() {
+    let scores2 = [...scores];
+    if (sortKey === "Latest") {
+      scores2.reverse();
+    } else if (sortKey === "Score Name") {
+      scores2.sort((a, b) => {
+        if (a.user < b.user) {
+          return -1;
+        } else if (a.user > b.user) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else if (sortKey === "Score Guesses") {
+      scores2.sort((a, b) => a.guesses - b.guesses);
+    } else if (sortKey === "Win Lose") {
+      scores2.sort((a, b) => a.win - b.win);
+    } else {
+      console.log("FEL!!!!!!!!!!!!!! på sortering");
+    }
+    renderHighScore(scores2);
+  }
+  // showHighScores();
+});

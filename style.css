@@ -206,14 +206,18 @@ footer {
 .popup {
   background-color: #282323d6;
   color: rgb(246, 246, 246);
-  width: 50%;
-  height: 50%;
+  width: 80%;
+  height: 60%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .end-message {
   padding-top: 1.5rem;
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .play-again-btn {
@@ -251,13 +255,14 @@ footer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: max-content;
-  text-align: center;
+  text-align: center
 }
 
 .scorepopup h2 {
   padding: 1.5rem 0;
   font-size: 2rem;
   color: rgb(150, 0, 204);
+  flex-wrap: nowrap;
 }
 
 .score-list {
@@ -279,26 +284,25 @@ footer {
 
 .clear-all-btn {
   font-size: 1.5em;
-  height: 3rem;
-  width: 9rem;
   border-radius: 9px;
   cursor: pointer;
   background-color: rgb(150, 0, 204);
   color: white;
+  padding: 0.5rem;
 }
 
 .clear-all-btn:hover {
   background-color: rgb(175, 34, 227);
 }
 
-.remove-user-btn {
+.remove-user-btn,
+.sort-latest-btn {
   font-size: 1.5em;
-  height: 3rem;
-  width: 13rem;
   border-radius: 9px;
   cursor: pointer;
   background-color: rgb(150, 0, 204);
   color: white;
+  padding: 0.5rem;
 }
 
 .remove-user-btn:hover {
@@ -338,7 +342,7 @@ footer {
   .scoreboard,
   .nameH1Btn,
   .pvp {
-    font-size: 1em;
+    font-size: 1.3rem;
     border-radius: 9px;
     margin: 0 0.2em 0 0;
     padding: 0.3em;
@@ -363,16 +367,31 @@ footer {
   }
 
   header > h1 {
-    font-size: 15px;
+    font-size: 1.5rem;
   }
 
   header > p {
     margin-top: 1em;
-    font-size: 10px;
+    font-size: 1.3rem;
   }
   .end-message {
     padding-top: 1.5rem;
     font-size: 2rem;
+  }
+
+  .scorepopup h2 {
+    font-size: 1.3rem;
+  }
+
+  .score-list {
+    font-size: 1.3rem;
+  }
+
+  .clear-all-btn,
+  .remove-user-btn,
+  .sort-latest-btn {
+    font-size: 1.3rem;
+    margin: 0 0.5rem;
   }
 }
 
@@ -400,3 +419,9 @@ footer {
   background-color: hotpink;
   margin-bottom: 100px;
 } */
+
+@media screen and (max-width: 368px) {
+  .scorepopup h2 {
+    font-size: 1rem;
+  }
+}
