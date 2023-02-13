@@ -23,6 +23,7 @@ let selectedWord;
 let gameActive = false;
 let win = false;
 let sortKey = "Latest";
+const totalScore = 0;
 
 let wrongLetter = [];
 let correctLetter = [];
@@ -235,7 +236,6 @@ function showWordOrBoxes() {
     popup.style.display = "flex";
   }
 }
-
 // Funktion för att dölja och rita upp gubben
 function displayHangman() {
   hangmanParts.forEach((part, index) => {
@@ -340,9 +340,9 @@ if (savedName !== "" && savedName !== null) {
 // Spara poäng
 // Sortera resultat
 // Poäng och spara användaren
-const startScore = 100;
-const minusScore = guesses;
-const totalScore = 0;
+// const startScore = 100;
+// const minusScore = guesses;
+// const totalScore = 0;
 
 // Spara antal drag
 // Spara poäng

@@ -98,9 +98,6 @@ footer {
 .hangmanPic {
   grid-row: 1 / 3;
 }
-/* .hangman-container {
-  grid-row: 1 / 3;
-} */
 
 .startGameBtn {
   font-size: 1.5em;
@@ -108,7 +105,6 @@ footer {
   cursor: pointer;
   background-color: rgb(150, 0, 204);
   padding: 0.5em;
-  /* margin-bottom: 0.5em; */
   color: white;
 }
 .startGameBtn:hover,
@@ -123,14 +119,6 @@ footer {
 #hardGameBtn:hover {
   background-color: rgb(247, 0, 0);
 }
-
-/* #gameBoard {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  padding: 10px 0;
-  display: flex;
-  flex-wrap: wrap;
-} */
 
 .letterButton {
   font-size: 1.5em;
@@ -148,7 +136,6 @@ footer {
 
 .gamespace {
   width: 100%;
-  /* padding-top: 20px; */
   text-align: center;
   display: none;
   margin: 1rem 0;
@@ -171,18 +158,12 @@ footer {
 }
 
 .wrong-letter-container {
-  /* background-color: hotpink; */
-  /* border: 1px dotted rgb(250, 192, 255); */
   font-size: 1.6rem;
-  /* height: 100px; */
 }
 
 .wrong-guesses {
-  /* background-color: aqua; */
-  /* border: 1px dotted rgb(250, 192, 255); */
   border-top: none;
   font-size: 1.6rem;
-  /* height: 100px; */
 }
 
 .block {
@@ -255,7 +236,7 @@ footer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: max-content;
-  text-align: center
+  text-align: center;
 }
 
 .scorepopup h2 {
@@ -409,16 +390,6 @@ footer {
     font-size: 2rem;
   }
 }
-/* tilllagd med javascript */
-.invisible {
-  visibility: hidden;
-}
-
-/* .scoreboard-container {
-  height: 400px;
-  background-color: hotpink;
-  margin-bottom: 100px;
-} */
 
 @media screen and (max-width: 368px) {
   .scorepopup h2 {
