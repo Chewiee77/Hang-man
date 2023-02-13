@@ -93,7 +93,6 @@ pvpBtn.addEventListener("click", () => {
   pvpModal.append(askForWordCreator);
   pvpModal.append(askForWord);
   pvpModal.append(playPvpBtn);
-  pvpModal.append(clearAllBtn);
 
   let player1;
   let player2;
@@ -125,13 +124,18 @@ pvpBtn.addEventListener("click", () => {
 pvpScoreBoardBtn.addEventListener("click", () => {
   let pvpScores2 = [...pvpScores];
   let pvpScoreOverlay = document.createElement("div");
-  pvpScoreOverlay.classList.add("pvp-overlay");
+  pvpScoreOverlay.classList.add("pvp-score-overlay");
   let pvpScoreModal = document.createElement("div");
-  pvpScoreModal.classList.add("pvp-modal");
+  pvpScoreModal.classList.add("pvp-score-modal");
+  let pvpScoreBoardText = document.createElement("div");
+  pvpScoreBoardText.classList.add("pvp-text");
   body.append(pvpScoreOverlay);
   pvpScoreOverlay.append(pvpScoreModal);
+  pvpScoreModal.append(pvpScoreBoardText);
+  pvpScoreModal.append(clearAllBtn);
+  clearAllBtn.classList.add("clear-all-btn");
   showPvpScores();
-  pvpScoreModal.innerHTML = pvpScores2.map(
+  pvpScoreBoardText.innerText = pvpScores2.map(
     (score) =>
       `Gissare: ${score.guesser} Ordskapare: ${score.creator} Ordet var: ${
         score.selectedWord

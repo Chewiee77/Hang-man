@@ -400,7 +400,8 @@ footer {
 }
 
 /* PVP Syling */
-.pvp-overlay {
+.pvp-overlay,
+.pvp-score-overlay {
   background-color: rgba(0, 0, 0, 0.3);
   height: 100vh;
   width: 100vh;
@@ -410,10 +411,16 @@ footer {
   display: flex;
 }
 
-.pvp-modal {
+.pvp-modal,
+.pvp-score-modal {
   background-color: #fff;
   height: 500px;
   width: 500px;
+}
+
+.pvp-text {
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 
 .pvp-modal input {
