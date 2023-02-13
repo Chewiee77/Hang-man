@@ -22,7 +22,7 @@ let selectedWord;
 
 let gameActive = false;
 let win = false;
-let sorted = false;
+let sortKey = "Latest";
 
 let wrongLetter = [];
 let correctLetter = [];
@@ -119,7 +119,7 @@ function listenForKeys() {
     if (gameActive) {
       let name = e.key.toUpperCase();
       console.log(name);
-      //Blockera knappen från att användas igen // TODO
+      //Blockera knappen från att användas igen
       lockButtonsUsingKeyboard(name);
 
       if (keyboardLetters.includes(name)) {
@@ -130,34 +130,33 @@ function listenForKeys() {
 }
 
 function hardGame() {
+  gameActive = true;
   pickAWord(hardList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
-  gameActive = true;
   listenForKeys();
 }
 function mediumGame() {
+  gameActive = true;
   pickAWord(mediumList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
-  gameActive = true;
   listenForKeys();
 }
 function easyGame() {
+  gameActive = true;
   pickAWord(easyList);
   displayHangman();
   showWordOrBoxes();
   resetButtons();
-  gameActive = true;
   listenForKeys();
 }
 
 function startGame() {
   clear();
   lockButtons();
-  stopKey();
 }
 
 // Rensa gissningar och fel ord
@@ -361,15 +360,6 @@ const HIGH_SCORES = "scores";
 const scoreString = localStorage.getItem(HIGH_SCORES);
 let scores = JSON.parse(scoreString) ?? [];
 
-// saveHighScore(totalScore, scores); // TODO
-// showHighScores(); // TODO
-
-// //TODO ADDERA NAMNET
-// const user = localStorage.getItem(LS_KEY);
-// console.log(user);
-
-// const newScore = { user, totalScore, win };
-
 function saveHighScore(_, scores) {
   const user = localStorage.getItem(LS_KEY);
   if (!user) {
@@ -378,14 +368,6 @@ function saveHighScore(_, scores) {
     const newScore = { user, guesses, win };
     scores.push(newScore);
   } else {
-    // totalScore = startScore - minusScore;
-    // console.log(user);
-    // console.log(guesses);
-    // console.log(scores);
-    // console.log(startScore);
-    // console.log(minusScore);
-    // console.log(totalScore);
-    // console.log(newScore);
     const newScore = { user, guesses, win }; // Addera vinst/förlust med win (true or false)
     scores.push(newScore);
   }
@@ -393,35 +375,10 @@ function saveHighScore(_, scores) {
   console.log(scores);
 }
 
-// const scoreBoard = document.querySelector(".scoreboard-container");
-// function showHighScores() {
-//   scoreBoard.innerHTML = scores
-//     .map((score) => `<li>${score.user} - ${score.guesses} - ${score.win}</li>`)
-//     .join("");
-
-//   // scorePopUp.append(scores);
-// }
-
-// showHighScores();
-
 // Scoreboard Popup
 
 scoreBoardBtn.addEventListener("click", () => {
   let scoreOverlay = document.createElement("div");
-  scoreOverlay.classList.add("scoreoverlay");
-  // showHighScores();
-  scoreOverlay.addEventListener("click", () => {
-    scoreOverlay.remove();
-
-    // location.reload();
-  });
-
-  let scorePopUp = document.createElement("div");
-  scorePopUp.classList.add("scorepopup");
-  scorePopUp.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-
   let scoreNameContainer = document.createElement("div");
   let scoreWrongGuessesContainer = document.createElement("div");
   let scoreWinLoseContainer = document.createElement("div");
@@ -437,6 +394,9 @@ scoreBoardBtn.addEventListener("click", () => {
   let scoreHeadingWinLose = document.createElement("h2");
   scoreHeadingWinLose.innerText = "Resultat ↑↓";
   let scoreDisplayUserWin = document.createElement("p");
+  let scorePopUp = document.createElement("div");
+
+  showHighScores();
 
   body.append(scoreOverlay);
   scoreOverlay.append(scorePopUp);
@@ -454,6 +414,19 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreHeadingWrongGuesses.append(scoreDisplayUserGuesses);
   scoreHeadingWinLose.append(scoreDisplayUserWin);
 
+  scoreOverlay.classList.add("scoreoverlay");
+
+  scoreOverlay.addEventListener("click", () => {
+    scoreOverlay.remove();
+
+    // location.reload();
+  });
+
+  scorePopUp.classList.add("scorepopup");
+  scorePopUp.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
   // Resetknapp alldata
   const clearAllBtn = document.createElement("button");
   clearAllBtn.innerText = "Reset All";
@@ -461,10 +434,13 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreBtnDiv.append(clearAllBtn);
 
   clearAllBtn.addEventListener("click", () => {
-    localStorage.clear();
+    console.log("Clear all clicked");
+    // TODO, varför försvinner ej från listan utan att man behöver ladda om
     scoreDisplayUserName.remove();
     scoreDisplayUserGuesses.remove();
     scoreDisplayUserWin.remove();
+    localStorage.clear();
+    scores = [];
     showHighScores();
   });
 
@@ -476,104 +452,54 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreBtnDiv.append(removeUserBtn);
 
   removeUserBtn.addEventListener("click", () => {
-    // console.log(scores[0]);
-    // console.log(...scores);
-    // console.log(...scores);
-    // console.log(JSON.parse(localStorage.getItem("scores")));
-    // console.log(JSON.parse(localStorage.getItem("scores")));
-    // scores.forEach((user) => {
-    //   console.log(user);
-    //   console.log(user.user);
-    //   console.log(localStorage.getItem(LS_KEY));
     const userCheck = localStorage.getItem(LS_KEY);
-    //   console.log(user.user === userCheck);
     const user = [...scores];
 
     for (let i = 0; i < user.length; i++) {
-      // console.log([i]);
-      // console.log(user);
-      // console.log(user[i].user);
-      // console.log(userCheck);
-      // console.log(test);
-      // console.log(user.user);
-      // console.log(typeof user.user);
-      // console.log(typeof userCheck);
       if (user[i].user === userCheck) {
-        // console.log(user[i].user === userCheck);
         scores.forEach(() => {
           scores.splice(i, 1);
           localStorage.setItem(HIGH_SCORES, JSON.stringify(scores));
-          console.log(user);
-          console.log(scores);
-          console.log(scores);
           showHighScores();
         });
-        // scores.splice(i, 1);
       }
     }
-    // });
-
-    // scoreDisplayUserName.remove();
-    // scoreDisplayUserGuesses.remove();
-    // scoreDisplayUserWin.remove();
   });
+
+  // KNAPP SORTERA PÅ SENAST SPELADE
+
+  const sortLatestBtn = document.createElement("button");
+  sortLatestBtn.innerText = "Sort Latest";
+  sortLatestBtn.classList.add("sort-latest-btn");
+  scoreBtnDiv.append(sortLatestBtn);
+
+  sortLatestBtn.addEventListener("click", () => {
+    sortKey = "Latest";
+    showHighScores();
+  });
+
   // Sortera namn i bokstavsordning
 
   scoreHeadingName.addEventListener("click", () => {
-    if (!sorted) {
-      scoreDisplayUserName.innerHTML = scores // TODO
-        .map((score) => `<li class="score-list">${score.user}</li>`)
-        .sort()
-        .join("");
-      sorted = true;
-    } else {
-      scoreDisplayUserName.innerHTML = scores // TODO
-        .map((score) => `<li class="score-list">${score.user}</li>`)
-        .sort()
-        .reverse()
-        .join("");
-      sorted = false;
-    }
+    sortKey = "Score Name";
+    showHighScores();
   });
 
   // Sortera Felgissningar i antal
 
   scoreHeadingWrongGuesses.addEventListener("click", () => {
-    if (!sorted) {
-      scoreDisplayUserGuesses.innerHTML = scores // TODO
-        .map((score) => `<li class="score-list">${score.guesses}</li>`)
-        .sort()
-        .join("");
-      sorted = true;
-    } else {
-      scoreDisplayUserGuesses.innerHTML = scores // TODO
-        .map((score) => `<li class="score-list">${score.guesses}</li>`)
-        .sort()
-        .reverse()
-        .join("");
-      sorted = false;
-    }
+    sortKey = "Score Guesses";
+    showHighScores();
   });
 
   // Sortera Vinster i true/false
+
   scoreHeadingWinLose.addEventListener("click", () => {
-    if (!sorted) {
-      scoreDisplayUserWin.innerHTML = scores // TODO
-        .map((score) => `<li class="score-list">${score.win}</li>`)
-        .sort()
-        .join("");
-      sorted = true;
-    } else {
-      scoreDisplayUserWin.innerHTML = scores // TODO
-        .map((score) => `<li class="score-list">${score.win}</li>`)
-        .sort()
-        .reverse()
-        .join("");
-      sorted = false;
-    }
+    sortKey = "Win Lose";
+    showHighScores();
   });
 
-  function showHighScores() {
+  function renderHighScore(scores) {
     scoreDisplayUserName.innerHTML = scores // TODO
       .map((score) => `<li class="score-list">${score.user}</li>`)
       .join("");
@@ -587,5 +513,29 @@ scoreBoardBtn.addEventListener("click", () => {
       )
       .join("");
   }
-  showHighScores();
+
+  function showHighScores() {
+    let scores2 = [...scores];
+    if (sortKey === "Latest") {
+      scores2.reverse();
+    } else if (sortKey === "Score Name") {
+      scores2.sort((a, b) => {
+        if (a.user < b.user) {
+          return -1;
+        } else if (a.user > b.user) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    } else if (sortKey === "Score Guesses") {
+      scores2.sort((a, b) => a.guesses - b.guesses);
+    } else if (sortKey === "Win Lose") {
+      scores2.sort((a, b) => a.win - b.win);
+    } else {
+      console.log("FEL!!!!!!!!!!!!!! på sortering");
+    }
+    renderHighScore(scores2);
+  }
+  // showHighScores();
 });
