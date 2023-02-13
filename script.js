@@ -232,7 +232,7 @@ function showWordOrBoxes() {
     gameActive = false;
     win = true;
     saveHighScore(totalScore, scores);
-    endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade bara fel ${guesses} gånger`;
+    endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade ${guesses} gånger`;
     popup.style.display = "flex";
   }
 }
