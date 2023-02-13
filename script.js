@@ -12,16 +12,17 @@ const playAgainButton = document.querySelector(".play-again-btn");
 const wrongLettersEl = document.querySelector(".wrong-letter");
 const wrongGuessesEl = document.querySelector(".wrong-guesses");
 const hangmanParts = document.querySelectorAll(".hangman-part");
-let letterBoxes = document.querySelector(".gamespace");
-let hardGameBtn = document.querySelector("#hardGameBtn");
-let mediumGameBtn = document.querySelector("#mediumGameBtn");
-let easyGameBtn = document.querySelector("#easyGameBtn");
-let gameButtons = document.querySelector(".game-buttons");
+const letterBoxes = document.querySelector(".gamespace");
+const hardGameBtn = document.querySelector("#hardGameBtn");
+const mediumGameBtn = document.querySelector("#mediumGameBtn");
+const easyGameBtn = document.querySelector("#easyGameBtn");
+const gameButtons = document.querySelector(".game-buttons");
 let randomWord;
 let selectedWord;
 
 let gameActive = false;
 let win = false;
+let sorted = false;
 
 let wrongLetter = [];
 let correctLetter = [];
@@ -428,13 +429,13 @@ scoreBoardBtn.addEventListener("click", () => {
   scoreBtnDiv.classList.add("score-btn-div");
   let body = document.querySelector("body");
   let scoreHeadingName = document.createElement("h2");
-  scoreHeadingName.innerText = "Namn";
+  scoreHeadingName.innerText = "Namn ↑↓";
   let scoreDisplayUserName = document.createElement("p");
   let scoreHeadingWrongGuesses = document.createElement("h2");
-  scoreHeadingWrongGuesses.innerText = "Felgissningar";
+  scoreHeadingWrongGuesses.innerText = "Felgissningar ↑↓";
   let scoreDisplayUserGuesses = document.createElement("p");
   let scoreHeadingWinLose = document.createElement("h2");
-  scoreHeadingWinLose.innerText = "Resultat";
+  scoreHeadingWinLose.innerText = "Resultat ↑↓";
   let scoreDisplayUserWin = document.createElement("p");
 
   body.append(scoreOverlay);
@@ -519,30 +520,57 @@ scoreBoardBtn.addEventListener("click", () => {
   // Sortera namn i bokstavsordning
 
   scoreHeadingName.addEventListener("click", () => {
-    scoreDisplayUserName.innerHTML = scores // TODO
-      .map((score) => `<li class="score-list">${score.user}</li>`)
-      .sort()
-      .join("");
+    if (!sorted) {
+      scoreDisplayUserName.innerHTML = scores // TODO
+        .map((score) => `<li class="score-list">${score.user}</li>`)
+        .sort()
+        .join("");
+      sorted = true;
+    } else {
+      scoreDisplayUserName.innerHTML = scores // TODO
+        .map((score) => `<li class="score-list">${score.user}</li>`)
+        .sort()
+        .reverse()
+        .join("");
+      sorted = false;
+    }
   });
 
   // Sortera Felgissningar i antal
 
   scoreHeadingWrongGuesses.addEventListener("click", () => {
-    scoreDisplayUserGuesses.innerHTML = scores // TODO
-      .map((score) => `<li class="score-list">${score.guesses}</li>`)
-      .sort()
-      .join("");
+    if (!sorted) {
+      scoreDisplayUserGuesses.innerHTML = scores // TODO
+        .map((score) => `<li class="score-list">${score.guesses}</li>`)
+        .sort()
+        .join("");
+      sorted = true;
+    } else {
+      scoreDisplayUserGuesses.innerHTML = scores // TODO
+        .map((score) => `<li class="score-list">${score.guesses}</li>`)
+        .sort()
+        .reverse()
+        .join("");
+      sorted = false;
+    }
   });
 
   // Sortera Vinster i true/false
   scoreHeadingWinLose.addEventListener("click", () => {
-    scoreDisplayUserWin.innerHTML = scores // TODO
-      .map(
-        (score) =>
-          `<li class="score-list">${score.win ? "Vinst" : "Förlust"}</li>`
-      )
-      .sort()
-      .join("");
+    if (!sorted) {
+      scoreDisplayUserWin.innerHTML = scores // TODO
+        .map((score) => `<li class="score-list">${score.win}</li>`)
+        .sort()
+        .join("");
+      sorted = true;
+    } else {
+      scoreDisplayUserWin.innerHTML = scores // TODO
+        .map((score) => `<li class="score-list">${score.win}</li>`)
+        .sort()
+        .reverse()
+        .join("");
+      sorted = false;
+    }
   });
 
   function showHighScores() {
