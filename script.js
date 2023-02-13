@@ -4,6 +4,7 @@ import words from "/svenska-ord.json" assert { type: "json" };
 const body = document.querySelector("body");
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
+const pvpScoreBoardBtn = document.querySelector(".scoreboard-pvp");
 // const hangManPic = document.querySelector("#hang_man_pic"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
 // const letterButtons = document.querySelector(".letterButton"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
 const popup = document.querySelector(".popup-container");
@@ -24,6 +25,7 @@ let gameActive = false;
 let win = false;
 let sortKey = "Latest";
 const totalScore = 0;
+let pvpGameMode = false;
 
 let wrongLetter = [];
 let correctLetter = [];
@@ -60,7 +62,115 @@ const keyboardLetters = [
   "Ä",
   "Ö",
 ];
+///////////////////////////////////////////////////////
+// PVP MODE -----------------------------------------
+//////////////////////////////////////////////////////
 
+const player1_KEY = "PVP_player1";
+const player2_KEY = "PVP_player2";
+
+pvpBtn.addEventListener("click", () => {
+  let pvpOverlay = document.createElement("div");
+  pvpOverlay.classList.add("pvp-overlay");
+  let pvpModal = document.createElement("div");
+  pvpModal.classList.add("pvp-modal");
+  pvpModal.innerText =
+    "Välkommen till PVP \n Ange namn för den som Gissar\n samt den som väljer ord";
+  let askForGuesserInput = document.createElement("input");
+  askForGuesserInput.placeholder = "Ange namn för den som gissar";
+  let askForWordCreator = document.createElement("input");
+  askForWordCreator.placeholder = "Ange namn för den som hittar på ord";
+  let askForWord = document.createElement("input");
+  askForWord.placeholder = "Skriv in ord att gissa";
+  let playPvpBtn = document.createElement("button");
+  playPvpBtn.innerText = "STARTA SPELET";
+
+  // saveHighScorePvp();
+
+  body.append(pvpOverlay);
+  pvpOverlay.append(pvpModal);
+  pvpModal.append(askForGuesserInput);
+  pvpModal.append(askForWordCreator);
+  pvpModal.append(askForWord);
+  pvpModal.append(playPvpBtn);
+  pvpModal.append(clearAllBtn);
+
+  let player1;
+  let player2;
+
+  playPvpBtn.addEventListener("click", () => {
+    gameActive = true;
+    pvpGameMode = true;
+    selectedWord = askForWord.value.toUpperCase();
+    player1 = askForGuesserInput.value;
+    localStorage.setItem(player1_KEY, player1);
+    player2 = askForWordCreator.value;
+    localStorage.setItem(player2_KEY, player2);
+    console.log(selectedWord);
+    console.log(player1);
+    console.log(player2);
+    pvpOverlay.remove();
+    renderRememnerHeading(player1 + " & " + player2);
+    displayHangman();
+    showWordOrBoxes();
+    resetButtons();
+    listenForKeys();
+  });
+
+  pvpOverlay.addEventListener("click", () => pvpOverlay.remove());
+
+  pvpModal.addEventListener("click", (event) => event.stopPropagation());
+});
+
+pvpScoreBoardBtn.addEventListener("click", () => {
+  let pvpScores2 = [...pvpScores];
+  let pvpScoreOverlay = document.createElement("div");
+  pvpScoreOverlay.classList.add("pvp-overlay");
+  let pvpScoreModal = document.createElement("div");
+  pvpScoreModal.classList.add("pvp-modal");
+  body.append(pvpScoreOverlay);
+  pvpScoreOverlay.append(pvpScoreModal);
+  showPvpScores();
+  pvpScoreModal.innerHTML = pvpScores2.map(
+    (score) =>
+      `Gissare: ${score.guesser} Ordskapare: ${score.creator} Ordet var: ${
+        score.selectedWord
+      } Antal felgissningar: ${score.guesses} ${
+        score.win ? "VINST" : "FÖRLUST"
+      }`
+  );
+  console.log("klickade på pvp scoreboard");
+  console.log(pvpScores);
+  console.log(...pvpScores);
+  console.log(pvpScores.guesser);
+  console.log("klickade på pvp scoreboard");
+});
+
+function showPvpScores() {
+  let pvpScores2 = [...pvpScores];
+  if (sortKey === "Latest") {
+    pvpScores2.reverse();
+  } else if (sortKey === "Score Name") {
+    pvpScores2.sort((a, b) => {
+      if (a.guesser < b.guesser) {
+        return -1;
+      } else if (a.guesser > b.guesser) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else if (sortKey === "Score Guesses") {
+    pvpScores2.sort((a, b) => a.guesses - b.guesses);
+  } else if (sortKey === "Win Lose") {
+    pvpScores2.sort((a, b) => a.win - b.win);
+  } else {
+    console.log("FEL!!!!!!!!!!!!!! på sortering");
+  }
+  // renderHighScore(pvpScores2);
+}
+///////////////////////////////////////////////
+////////////////////////////////////////////////
 // Sorterar bort ord som innehåller mellanslag och - och 3 som skapar beroende på ordlängd
 
 const improvedWordList = words.filter((word) => !word.includes(" "));
@@ -180,9 +290,7 @@ function clear() {
 // Genererar ett random ord i listan
 function pickAWord(list) {
   randomWord = list[Math.floor(Math.random() * list.length)];
-
   selectedWord = randomWord.toUpperCase();
-
   console.log(selectedWord);
 }
 
@@ -231,7 +339,12 @@ function showWordOrBoxes() {
   if (selectedWord === wordInLetterBoxes) {
     gameActive = false;
     win = true;
-    saveHighScore(totalScore, scores);
+    if (pvpGameMode) {
+      saveHighScorePvp(totalScore, pvpScores);
+    } else {
+      saveHighScore(totalScore, scores);
+    }
+
     endMessage.innerText = `DU VANN!!! 😀🏆😀 \n Du gissade ${guesses} gånger`;
     popup.style.display = "flex";
   }
@@ -355,7 +468,9 @@ if (savedName !== "" && savedName !== null) {
 // i under rubrikerna ska det sparade datan visas.
 // en filtrerings knapp ska finnas där man kan filterera mellan kronologisk ordning (namn i alfabetiskordning) / bäst resultat
 // knapp [stäng]
-
+const PVP_HIGH_SCORES = "pvpScores";
+const pvpScoreString = localStorage.getItem(PVP_HIGH_SCORES);
+let pvpScores = JSON.parse(pvpScoreString) ?? [];
 const HIGH_SCORES = "scores";
 const scoreString = localStorage.getItem(HIGH_SCORES);
 let scores = JSON.parse(scoreString) ?? [];
@@ -375,27 +490,51 @@ function saveHighScore(_, scores) {
   console.log(scores);
 }
 
+let guesser;
+let creator;
+
+function saveHighScorePvp(_, scores) {
+  guesser = localStorage.getItem(player1_KEY);
+  creator = localStorage.getItem(player2_KEY);
+  // if (!user) {
+  //   const user = prompt("Enter Name:");
+  //   localStorage.setItem(LS_KEY, user);
+  //   const newScore = { user, guesses, win };
+  //   scores.push(newScore);
+  // } else {
+  const newPvpScore = { guesser, creator, selectedWord, guesses, win }; // Addera vinst/förlust med win (true or false)
+  scores.push(newPvpScore);
+  console.log(scores);
+  localStorage.setItem(PVP_HIGH_SCORES, JSON.stringify(pvpScores));
+  console.log(pvpScores);
+}
+// }
+
 // Scoreboard Popup
 
-scoreBoardBtn.addEventListener("click", () => {
-  let scoreOverlay = document.createElement("div");
-  let scoreNameContainer = document.createElement("div");
-  let scoreWrongGuessesContainer = document.createElement("div");
-  let scoreWinLoseContainer = document.createElement("div");
-  let scoreBtnDiv = document.createElement("div");
-  scoreBtnDiv.classList.add("score-btn-div");
-  let body = document.querySelector("body");
-  let scoreHeadingName = document.createElement("h2");
-  scoreHeadingName.innerText = "Namn ↑↓";
-  let scoreDisplayUserName = document.createElement("p");
-  let scoreHeadingWrongGuesses = document.createElement("h2");
-  scoreHeadingWrongGuesses.innerText = "gissningar ↑↓";
-  let scoreDisplayUserGuesses = document.createElement("p");
-  let scoreHeadingWinLose = document.createElement("h2");
-  scoreHeadingWinLose.innerText = "Resultat ↑↓";
-  let scoreDisplayUserWin = document.createElement("p");
-  let scorePopUp = document.createElement("div");
+let scoreOverlay = document.createElement("div");
+let scoreNameContainer = document.createElement("div");
+let scoreWrongGuessesContainer = document.createElement("div");
+let scoreWinLoseContainer = document.createElement("div");
+let scoreBtnDiv = document.createElement("div");
+scoreBtnDiv.classList.add("score-btn-div");
+// let body = document.querySelector("body");
+let scoreHeadingName = document.createElement("h2");
+scoreHeadingName.innerText = "Namn ↑↓";
+let scoreDisplayUserName = document.createElement("p");
+let scoreHeadingWrongGuesses = document.createElement("h2");
+scoreHeadingWrongGuesses.innerText = "gissningar ↑↓";
+let scoreDisplayUserGuesses = document.createElement("p");
+let scoreHeadingWinLose = document.createElement("h2");
+scoreHeadingWinLose.innerText = "Resultat ↑↓";
+let scoreDisplayUserWin = document.createElement("p");
+let scorePopUp = document.createElement("div");
 
+const clearAllBtn = document.createElement("button");
+clearAllBtn.innerText = "Reset All";
+clearAllBtn.classList.add("clear-all-btn");
+
+scoreBoardBtn.addEventListener("click", () => {
   showHighScores();
 
   body.append(scoreOverlay);
@@ -428,9 +567,7 @@ scoreBoardBtn.addEventListener("click", () => {
   });
 
   // Resetknapp alldata
-  const clearAllBtn = document.createElement("button");
-  clearAllBtn.innerText = "Reset All";
-  clearAllBtn.classList.add("clear-all-btn");
+
   scoreBtnDiv.append(clearAllBtn);
 
   clearAllBtn.addEventListener("click", () => {
@@ -537,5 +674,6 @@ scoreBoardBtn.addEventListener("click", () => {
     }
     renderHighScore(scores2);
   }
+
   // showHighScores();
 });
