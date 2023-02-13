@@ -284,26 +284,25 @@ footer {
 
 .clear-all-btn {
   font-size: 1.5em;
-  height: 3rem;
-  width: 9rem;
   border-radius: 9px;
   cursor: pointer;
   background-color: rgb(150, 0, 204);
   color: white;
+  padding: 0.5rem;
 }
 
 .clear-all-btn:hover {
   background-color: rgb(175, 34, 227);
 }
 
-.remove-user-btn {
+.remove-user-btn,
+.sort-latest-btn {
   font-size: 1.5em;
-  height: 3rem;
-  width: 13rem;
   border-radius: 9px;
   cursor: pointer;
   background-color: rgb(150, 0, 204);
   color: white;
+  padding: 0.5rem;
 }
 
 .remove-user-btn:hover {
@@ -389,8 +388,10 @@ footer {
   }
 
   .clear-all-btn,
-  .remove-user-btn {
+  .remove-user-btn,
+  .sort-latest-btn {
     font-size: 1.3rem;
+    margin: 0 0.5rem;
   }
 }
 
