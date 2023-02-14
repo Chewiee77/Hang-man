@@ -74,8 +74,7 @@ pvpBtn.addEventListener("click", () => {
   pvpOverlay.classList.add("pvp-overlay");
   let pvpModal = document.createElement("div");
   pvpModal.classList.add("pvp-modal");
-  pvpModal.innerText =
-    "Välkommen till PVP \n Ange namn för den som Gissar\n samt den som väljer ord";
+  // pvpModal.innerText = "Välkomen"
   let askForGuesserInput = document.createElement("input");
   askForGuesserInput.placeholder = "Ange namn för den som gissar";
   let askForWordCreator = document.createElement("input");
@@ -125,8 +124,15 @@ pvpScoreBoardBtn.addEventListener("click", () => {
   let pvpScores2 = [...pvpScores];
   let pvpScoreOverlay = document.createElement("div");
   pvpScoreOverlay.classList.add("pvp-score-overlay");
+  pvpScoreOverlay.addEventListener('click', event=>{
+    pvpScoreOverlay.remove();
+  })
   let pvpScoreModal = document.createElement("div");
   pvpScoreModal.classList.add("pvp-score-modal");
+  pvpScoreModal.addEventListener('click', event => {
+   event.stopPropagation()
+  })
+
   let pvpScoreBoardText = document.createElement("div");
   pvpScoreBoardText.classList.add("pvp-text");
   body.append(pvpScoreOverlay);
@@ -138,9 +144,9 @@ pvpScoreBoardBtn.addEventListener("click", () => {
   pvpScoreBoardText.innerText = pvpScores2.map(
     (score) =>
       `Gissare: ${score.guesser} Ordskapare: ${score.creator} Ordet var: ${
-        score.selectedWord
+        score.selectedWord 
       } Antal felgissningar: ${score.guesses} ${
-        score.win ? "VINST" : "FÖRLUST"
+        score.win ? "VINST" : "FÖRLUST" 
       }`
   );
   console.log("klickade på pvp scoreboard");

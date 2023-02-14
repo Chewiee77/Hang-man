@@ -404,27 +404,80 @@ footer {
 .pvp-score-overlay {
   background-color: rgba(0, 0, 0, 0.3);
   height: 100vh;
-  width: 100vh;
+  width: 100vw;
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pvp-modal,
 .pvp-score-modal {
-  background-color: #fff;
-  height: 500px;
-  width: 500px;
+  background-color: #ffffffe8;
+  color: rgb(0, 0, 0);
+  width: 80%;
+  height: 60%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
 }
+
+/* .pvp-modal,
+.pvp-score-modal {
+  background-color: #fffafa;
+  height: 450px;
+  width: 500px;
+  text-align:center;
+  margin-top: 10em;
+  position: absolute;
+  top: 0;
+  left: 0;
+} */
 
 .pvp-text {
   font-size: 1.6rem;
   font-weight: bold;
+  margin-bottom: 60px;
+  line-height: 3em;
 }
 
 .pvp-modal input {
   display: block;
   margin: 2rem;
-  width: 80%;
+  width: 50%;
+  padding: 0.5em; 
+  border-radius: 6px;
+  margin-top: 25px;
 }
+
+
+
+
+.pvp-modal input:first-of-type{
+  margin-top: 50px;
+}
+
+.pvp-modal > button {
+  font-size: 1.3em;
+  border-radius: 9px;
+  cursor: pointer;
+  background-color: rgb(150, 0, 204);
+  padding: 0.5em;
+  color: white;
+  margin-top: 45px;
+}
+
+
+/* background-color: #282323d6;
+color: rgb(246, 246, 246);
+width: 80%;
+height: 60%;
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center; */
