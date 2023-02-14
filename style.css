@@ -66,6 +66,7 @@ header > p {
 .nameH1Btn:focus {
   background-color: rgb(13, 250, 13);
   color: black;
+  border-radius: 5px;
 }
 input > checkbox {
   border-radius: 9px;
