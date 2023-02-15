@@ -124,14 +124,14 @@ pvpScoreBoardBtn.addEventListener("click", () => {
   let pvpScores2 = [...pvpScores];
   let pvpScoreOverlay = document.createElement("div");
   pvpScoreOverlay.classList.add("pvp-score-overlay");
-  pvpScoreOverlay.addEventListener('click', event=>{
+  pvpScoreOverlay.addEventListener("click", (event) => {
     pvpScoreOverlay.remove();
-  })
+  });
   let pvpScoreModal = document.createElement("div");
   pvpScoreModal.classList.add("pvp-score-modal");
-  pvpScoreModal.addEventListener('click', event => {
-   event.stopPropagation()
-  })
+  pvpScoreModal.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 
   let pvpScoreBoardText = document.createElement("div");
   pvpScoreBoardText.classList.add("pvp-text");
@@ -144,9 +144,9 @@ pvpScoreBoardBtn.addEventListener("click", () => {
   pvpScoreBoardText.innerText = pvpScores2.map(
     (score) =>
       `Gissare: ${score.guesser} Ordskapare: ${score.creator} Ordet var: ${
-        score.selectedWord 
+        score.selectedWord
       } Antal felgissningar: ${score.guesses} ${
-        score.win ? "VINST" : "FÖRLUST" 
+        score.win ? "VINST" : "FÖRLUST"
       }`
   );
   console.log("klickade på pvp scoreboard");
