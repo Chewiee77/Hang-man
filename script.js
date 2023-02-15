@@ -5,8 +5,6 @@ const body = document.querySelector("body");
 const scoreBoardBtn = document.querySelector(".scoreboard");
 const pvpBtn = document.querySelector(".pvp");
 const pvpScoreBoardBtn = document.querySelector(".scoreboard-pvp");
-// const hangManPic = document.querySelector("#hang_man_pic"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
-// const letterButtons = document.querySelector(".letterButton"); -----VAD GÖR DENNA, SPARA TILLS VIDARE
 const popup = document.querySelector(".popup-container");
 const endMessage = document.querySelector(".end-message");
 const playAgainButton = document.querySelector(".play-again-btn");
@@ -83,8 +81,6 @@ pvpBtn.addEventListener("click", () => {
   askForWord.placeholder = "Skriv in ord att gissa";
   let playPvpBtn = document.createElement("button");
   playPvpBtn.innerText = "STARTA SPELET";
-
-  // saveHighScorePvp();
 
   body.append(pvpOverlay);
   pvpOverlay.append(pvpModal);
@@ -207,7 +203,6 @@ const letterButton = "abcdefghijklmnopqrstuvwxyzåäö"
     const button = document.createElement("button");
     button.classList.add("letterButton");
     button.classList.add("block");
-    // lockButtons();
 
     button.addEventListener("click", () => {
       // använd loop-variabeln letter
@@ -381,9 +376,6 @@ function showHangman() {
 }
 
 function guessLetter(letter) {
-  // finns letter i selectedword?
-
-  // "abc".search;
   let matchIndex = selectedWord.search(letter);
 
   if (matchIndex === -1) {
@@ -456,30 +448,8 @@ if (savedName !== "" && savedName !== null) {
   renderRememnerHeading(savedName);
 }
 
-// TODO Poängsystem?
-// Gissa rätt ger X poäng
-// Varje felgissning drar av Y poäng ---
-// Svårighetsgrad ger multiplier x1 x2 x3
-
-// Spara antal drag
-// Spara poäng
-// Sortera resultat
-// Poäng och spara användaren
-// const startScore = 100;
-// const minusScore = guesses;
-// const totalScore = 0;
-
-// Spara antal drag
-// Spara poäng
-// Sortera resultat
-
 // -------------------------------scoreboard
 
-// när man trycker på scoreboard-knappen ska det komma upp en popup overlay.
-// i popupen ska det finna 3 rubriker: namn, antal fel gissningar och om man har vunnit eller förlorar.
-// i under rubrikerna ska det sparade datan visas.
-// en filtrerings knapp ska finnas där man kan filterera mellan kronologisk ordning (namn i alfabetiskordning) / bäst resultat
-// knapp [stäng]
 const PVP_HIGH_SCORES = "pvpScores";
 const pvpScoreString = localStorage.getItem(PVP_HIGH_SCORES);
 let pvpScores = JSON.parse(pvpScoreString) ?? [];
@@ -508,12 +478,6 @@ let creator;
 function saveHighScorePvp(_, scores) {
   guesser = localStorage.getItem(player1_KEY);
   creator = localStorage.getItem(player2_KEY);
-  // if (!user) {
-  //   const user = prompt("Enter Name:");
-  //   localStorage.setItem(LS_KEY, user);
-  //   const newScore = { user, guesses, win };
-  //   scores.push(newScore);
-  // } else {
   const newPvpScore = { guesser, creator, selectedWord, guesses, win }; // Addera vinst/förlust med win (true or false)
   scores.push(newPvpScore);
   console.log(scores);
@@ -530,7 +494,6 @@ let scoreWrongGuessesContainer = document.createElement("div");
 let scoreWinLoseContainer = document.createElement("div");
 let scoreBtnDiv = document.createElement("div");
 scoreBtnDiv.classList.add("score-btn-div");
-// let body = document.querySelector("body");
 let scoreHeadingName = document.createElement("h2");
 scoreHeadingName.innerText = "Namn ↑↓";
 let scoreDisplayUserName = document.createElement("p");
@@ -577,8 +540,6 @@ scoreBoardBtn.addEventListener("click", () => {
 
   scoreOverlay.addEventListener("click", () => {
     scoreOverlay.remove();
-
-    // location.reload();
   });
 
   scorePopUp.classList.add("scorepopup");
@@ -689,6 +650,4 @@ scoreBoardBtn.addEventListener("click", () => {
     }
     renderHighScore(scores2);
   }
-
-  // showHighScores();
 });
