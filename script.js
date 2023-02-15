@@ -544,6 +544,14 @@ const clearAllBtn = document.createElement("button");
 clearAllBtn.innerText = "Reset All";
 clearAllBtn.classList.add("clear-all-btn");
 
+const removeUserBtn = document.createElement("button");
+removeUserBtn.innerText = "Reset User";
+removeUserBtn.classList.add("remove-user-btn");
+
+const sortLatestBtn = document.createElement("button");
+sortLatestBtn.innerText = "Sort Latest";
+sortLatestBtn.classList.add("sort-latest-btn");
+
 scoreBoardBtn.addEventListener("click", () => {
   showHighScores();
 
@@ -593,9 +601,7 @@ scoreBoardBtn.addEventListener("click", () => {
 
   // Rensa stats från enskild person
   // Resetknapp aktuell användare
-  const removeUserBtn = document.createElement("button");
-  removeUserBtn.innerText = "Reset User";
-  removeUserBtn.classList.add("remove-user-btn");
+
   scoreBtnDiv.append(removeUserBtn);
 
   removeUserBtn.addEventListener("click", () => {
@@ -615,9 +621,6 @@ scoreBoardBtn.addEventListener("click", () => {
 
   // KNAPP SORTERA PÅ SENAST SPELADE
 
-  const sortLatestBtn = document.createElement("button");
-  sortLatestBtn.innerText = "Sort Latest";
-  sortLatestBtn.classList.add("sort-latest-btn");
   scoreBtnDiv.append(sortLatestBtn);
 
   sortLatestBtn.addEventListener("click", () => {
