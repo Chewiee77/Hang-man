@@ -141,14 +141,16 @@ pvpScoreBoardBtn.addEventListener("click", () => {
   pvpScoreModal.append(clearAllBtn);
   clearAllBtn.classList.add("clear-all-btn");
   showPvpScores();
-  pvpScoreBoardText.innerText = pvpScores2.map(
-    (score) =>
-      `Gissare: ${score.guesser} Ordskapare: ${score.creator} Ordet var: ${
-        score.selectedWord
-      } Antal felgissningar: ${score.guesses} ${
-        score.win ? "VINST" : "FÖRLUST"
-      }`
-  );
+  pvpScoreBoardText.innerText = pvpScores2
+    .map(
+      (score) =>
+        `\n Gissare: ${score.guesser} Ordskapare: ${score.creator} Ordet var: ${
+          score.selectedWord
+        } Antal felgissningar: ${score.guesses} ${
+          score.win ? "VINST" : "FÖRLUST"
+        }`
+    )
+    .join("");
   console.log("klickade på pvp scoreboard");
   console.log(pvpScores);
   console.log(...pvpScores);
